@@ -17,6 +17,7 @@ package org.xsystem.utils;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -107,5 +108,19 @@ public class Auxilary {
             }
         };
         return null;
+    }
+    
+    
+    public static InputStream loadResource(String path) {
+
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        InputStream stream = classLoader.getResourceAsStream(path);
+        return stream;
+    }
+
+    public static InputStream loadResource(String path,ClassLoader classLoader) {
+
+        InputStream stream = classLoader.getResourceAsStream(path);
+        return stream;
     }
 }
