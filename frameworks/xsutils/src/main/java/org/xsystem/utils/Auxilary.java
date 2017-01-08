@@ -15,13 +15,97 @@
  */
 package org.xsystem.utils;
 
+import java.io.Closeable;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  *
  * @author Andrey Timofeev
+ * Набор вспомогательных методов Многие из них просто перебивают стандартные 
+ * исключения
  */
 public class Auxilary {
     
+    /**
+     * Ничего не делает использцется исключительно в целях отладки
+     * @param o
+     */
     public static void XXX(Object o) {
         Object x = o;
+    }
+    
+    /**
+     * 
+     * @param content
+     * @return
+     */
+    public static String toUTF8String(byte[] content) {
+        try {
+            String ret = new String(content, "UTF-8");
+            return ret;
+        } catch (Exception ex) {
+            throw new Error(ex);
+        }
+    }
+    
+    
+    public static Connection close(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        };
+        return null;
+    }
+
+    public static ResultSet close(ResultSet rs) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        };
+        return null;
+    }
+
+    public static PreparedStatement close(PreparedStatement ps) {
+        if (ps != null) {
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        };
+        return null;
+    }
+
+    public static PreparedStatement close(Statement ps) {
+        if (ps != null) {
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        };
+        return null;
+    }
+
+    public static Closeable close(Closeable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
+        return null;
     }
 }
