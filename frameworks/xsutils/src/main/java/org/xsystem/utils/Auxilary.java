@@ -23,6 +23,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Base64;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  *
@@ -40,6 +44,21 @@ public class Auxilary {
         Object x = o;
     }
     
+    
+    public static Map newMap(Object... args) {
+        Map res = new LinkedHashMap();
+        if (args == null) {
+            return res;
+        }
+        int size = args.length / 2;
+        for (int i = 0; i < size; i++) {
+            int idx = 2 * i;
+            Object key = args[idx];
+            Object value = args[idx + 1];
+            res.put(key, value);
+        }
+        return res;
+    }
     /**
      * 
      * @param content
@@ -122,5 +141,34 @@ public class Auxilary {
 
         InputStream stream = classLoader.getResourceAsStream(path);
         return stream;
+    }
+    
+    public static Boolean isEmptyOrNull(String v) {
+        if (v == null) {
+            return true;
+        }
+        boolean ret = v.isEmpty();
+        return ret;
+    }
+
+    
+    public static Boolean isEmptyOrNull(Collection v) {
+        if (v == null) {
+            return true;
+        }
+        boolean ret = v.isEmpty();
+        return ret;
+    }
+    
+    public static byte[] decodeBase64(String src) {
+       byte[] ret=Base64.getDecoder().decode(src);
+       return ret;
+    }
+    
+    public static Map makeJsonThrowable(Throwable e) {
+        Map ret = new LinkedHashMap();
+        ret.put("success", new Boolean(false));
+        ret.put("error",e.getMessage());
+        return ret;
     }
 }
