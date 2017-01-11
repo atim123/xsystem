@@ -15,9 +15,14 @@
  */
 package org.xsystem.utils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,8 +30,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Base64;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import org.apache.commons.io.IOUtils;
 
 /**
  *
@@ -165,10 +174,149 @@ public class Auxilary {
        return ret;
     }
     
+    public static String throwableToString(Throwable t) {
+        OutputStream out = new ByteArrayOutputStream();
+        try {
+            PrintStream strm = new PrintStream(out);
+            try {
+                t.printStackTrace(strm);
+                String rez = out.toString();//strm.toString();
+                return rez;
+            } finally {
+                try {
+                    strm.close();
+                } catch (Exception ex) {
+                };
+            }
+        } finally {
+            try {
+                out.close();
+            } catch (Exception ex) {
+            };
+        }
+    }
+    
+    public static Map makeJsonSuccess() {
+        return makeJsonSuccess(null, null);
+    }
+
+    public static String makeJsonSuccessAsString(String resultName, String jsonRes) {
+        char q = '"';
+        String json = "{" + q + "success" + q + ":true,"
+                + q + resultName + q + ":" + jsonRes
+                + "}";
+        return json;
+    }
+
+    public static String makeJsonSuccessAsString() {
+        char q = '"';
+        String json = "{" + q + "success" + q + ":true}";
+        return json;
+    }
+
+    public static Map makeJsonSuccess(String resultName, Object result) {
+        Map ret = new LinkedHashMap();
+        ret.put("success", new Boolean(true));
+
+        if (resultName != null) {
+            ret.put(resultName, result);
+        }
+        return ret;
+    }
+
+    public static Map makeJsonSuccessMap(Map<String, Object> responce) {
+        Map ret = new LinkedHashMap();
+        ret.put("success", true);
+        Iterator<String> itr = responce.keySet().iterator();
+        while (itr.hasNext()) {
+            String key = itr.next();
+            ret.put(key, responce.get(key));
+        }
+        return ret;
+    }
+
+    public static Map makeJsonSuccess(Object result) {
+        Map ret = new LinkedHashMap();
+        ret.put("success", true);
+        if (result != null) {
+            ret.put("success", result);
+        } else {
+            ret.put("success", "true");
+        }
+        return ret;
+    }
+    
+    public static Map makeJsonError(String msg) {
+        Map ret = new LinkedHashMap();
+        ret.put("success", new Boolean(false));
+        ret.put("error", msg);
+        return ret;
+    }
+    
+    public static Map makeJsonError(String msg, Integer code) {
+        Map ret = new LinkedHashMap();
+        ret.put("success", new Boolean(false));
+        Map error = new LinkedHashMap();
+        error.put("message", msg);
+        error.put("code", code);
+        ret.put("error", error);
+        return ret;
+    }
+    
     public static Map makeJsonThrowable(Throwable e) {
         Map ret = new LinkedHashMap();
         ret.put("success", new Boolean(false));
         ret.put("error",e.getMessage());
         return ret;
+    }
+    
+    public static String getPathExtention(String filename) {
+        int pathPos = filename.lastIndexOf(".");
+        if (pathPos == -1) {
+            return filename;
+        }
+        String ret = filename.substring(0, pathPos);
+        return ret;
+    }
+
+    public static String getFileExtention(String filename) {
+        int dotPos = filename.lastIndexOf(".") + 1;
+        if (dotPos == 0) {
+            return "";
+        }
+        return filename.substring(dotPos);
+    }
+    
+    public static byte[] readBinaryFile(File f) throws IOException {
+        byte[] ret;
+        FileInputStream fs = new FileInputStream(f);
+        try {
+            ret = IOUtils.toByteArray(fs);
+
+        } finally {
+            Auxilary.close(fs);
+        }
+        return ret;
+    }
+    
+    public static <T> T getJndiResource(String path, Class<T> type) {
+        try {
+            InitialContext cxt = new InitialContext();
+
+            Object ret = cxt.lookup(path);
+
+            return (T) ret;
+        } catch (NamingException ex) {
+            throw new Error(ex);
+        }
+    }
+
+    public static java.sql.Connection getJndiJDBConnection(String path) {
+        try {
+            javax.sql.DataSource ds = getJndiResource(path, javax.sql.DataSource.class);
+            return ds.getConnection();
+        } catch (SQLException ex) {
+            throw new Error(ex);
+        }
     }
 }
