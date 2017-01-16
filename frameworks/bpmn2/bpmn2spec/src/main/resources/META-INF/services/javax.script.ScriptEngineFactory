@@ -1,0 +1,3 @@
+org.xsystem.scripting.el.ELScriptEngineFactory
+org.xsystem.scripting.mvel.MVELScriptEngineFactory
+org.xsystem.scripting.jxpath.JXPATHScriptEngineFactory
