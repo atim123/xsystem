@@ -8,4 +8,26 @@
     </parent>
     <artifactId>bpmn2spec</artifactId>
     <packaging>jar</packaging>
+    
+    <dependencies>
+        
+        
+        <dependency>
+            <groupId>org.xsystem</groupId>
+            <artifactId>xsutils</artifactId>
+            <version>G7.0</version>
+            <type>jar</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+    </dependencies>    
 </project>
