@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -318,5 +319,13 @@ public class Auxilary {
         } catch (SQLException ex) {
             throw new Error(ex);
         }
+    }
+    
+    public static String numberToString(Double dd) {
+        if (dd == null) {
+            return null;
+        }
+        String ret = new BigDecimal(dd).toPlainString();
+        return ret;
     }
 }
