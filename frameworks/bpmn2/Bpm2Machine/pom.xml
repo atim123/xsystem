@@ -3,13 +3,17 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.xsystem</groupId>
-        <artifactId>frameworks</artifactId>
+        <artifactId>bpmn2</artifactId>
         <version>G7.0</version>
     </parent>
-    <artifactId>bpmn2</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>bpmn2spec</module>
-        <module>Bpm2Machine</module>
-    </modules>
+    <artifactId>Bpm2Machine</artifactId>
+    <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>org.xsystem</groupId>
+            <artifactId>xsutils</artifactId>
+            <version>G7.0</version>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
 </project>
