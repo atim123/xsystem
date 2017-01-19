@@ -11,5 +11,6 @@
     <modules>
         <module>bpmn2spec</module>
         <module>Bpm2Machine</module>
+        <module>Bpm2MachineService</module>
     </modules>
 </project>
