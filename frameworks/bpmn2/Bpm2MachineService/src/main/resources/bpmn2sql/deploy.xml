@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+ Copyright 2017 Andrey Timofeev.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+-->
+
+
+<root>
+    
+    <updatedefinitions>
+        <parameter type="string" name="name" />
+        <parameter type="string" name="content" />
+        <parameter type="string" name="id" />
+        <sql>
+            update bpmn2.v_definitions set
+            name=?,
+            content=?
+            where id=? 
+        </sql>
+    </updatedefinitions>
+    <insertdefinitions>
+        <parameter type="string" name="name" />
+        <parameter type="string" name="content" />
+        <parameter type="string" name="id" />
+        <sql>
+            insert into bpmn2.v_definitions
+            (name,content,id)
+            values
+            (?,?,?)
+        </sql>
+    </insertdefinitions>    
+        
+    <deletedefinitions>
+         <parameter type="string" name="id" />
+        <sql>
+            delete from bpmn2.v_definitions
+            where id=?
+        </sql>
+    </deletedefinitions>
+    
+    <getprocesesdefinition>
+        <parameter type="string" name="definitionid" />
+        <sql>
+            select id,definitionid,name from bpmn2.v_processdefinition
+            where definitionid=?
+        </sql>
+    </getprocesesdefinition>
+    
+    <deleteprocessdefinition>
+        <parameter type="string" name="id" />
+        <sql>
+            delete from bpmn2.v_processdefinition
+            where id=? 
+        </sql>
+    </deleteprocessdefinition>
+    
+    <createprocessdefinition>
+        <parameter type="string" name="definitionid" />
+        <parameter type="string" name="id" />
+        <parameter type="string" name="name" />
+        <sql>
+            insert into bpmn2.v_processdefinition
+            (definitionid,id,name)
+            values
+            (?,?,?)
+        </sql>
+    </createprocessdefinition>
+    
+    <updateprocessdefinition>
+        <parameter type="string" name="name" />
+        <parameter type="string" name="id" />
+        <sql>
+            update bpmn2.v_processdefinition set
+            name=?
+            where id=?
+        </sql>
+    </updateprocessdefinition>
+    
+    <insertwaitingprocess>
+        <parameter type="string" name="message" />
+        <parameter type="string" name="activity"/>
+        <parameter type="string" name="id" />
+        <sql>
+            insert into bpmn2.v_waitingprocess
+            (mesage,activity,id)
+            values
+            (?,?,?)
+        </sql>
+    </insertwaitingprocess>    
+    
+    <deletewaitingprocess>
+        <parameter type="string" name="id" />
+        <sql>
+            delete from bpmn2.v_waitingprocess
+            where id=?
+        </sql>
+    </deletewaitingprocess>
+    
+    <deletesubscription>
+         <parameter type="string" name="id" />
+         <sql>
+            delete from bpmn2.v_process_subscription
+            where processdefinition=?
+        </sql>
+    </deletesubscription>
+    
+    <createsubscription>
+            <parameter type="string" name="message" />
+            <parameter type="string" name="process" />
+            <parameter type="json" name="value" />
+        
+        <sql>
+           insert into bpmn2.v_process_subscription
+           (message,processdefinition,value)
+            values
+            (?,?,?)  
+        </sql>
+    </createsubscription>
+</root>

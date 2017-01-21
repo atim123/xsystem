@@ -328,4 +328,14 @@ public class Auxilary {
         String ret = new BigDecimal(dd).toPlainString();
         return ret;
     }
+    
+    public static byte[] readStreamE(InputStream fs) {
+        byte[] ret;
+        try {
+            ret = IOUtils.toByteArray(fs);
+        } catch (IOException ex) {
+            throw new Error(ex);
+        }
+        return ret;
+    }
 }
