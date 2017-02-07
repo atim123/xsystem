@@ -28,7 +28,7 @@ public class ContextDefinition {
     boolean in;
     boolean out;
     
-    
+    // -------
     public String getName() {
         return name;
     }
