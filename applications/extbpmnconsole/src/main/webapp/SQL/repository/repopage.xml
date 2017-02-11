@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  /rest/db/repo/downloaddef/(.+)
+-->
+
+<page>
+   <location>file:///SQL/repository/reposql2.xml</location>
+   <prefix>^\/repo\/</prefix>
+   
+   <action type="LoadDefinitions" >
+        <patern>loaddef/(.+)$</patern>
+        <context>
+            <path>groups[1]</path>
+        </context>
+   </action>   
+   
+      
+   <action type="mbeaninvoke" name="BPManager" operation="unDeployDefinitions">
+       <patern>undeploydefinitions/(.+)$</patern>
+       <context>
+            <id>groups[1]</id>
+        </context>
+   </action>
+   
+   
+   <action type="DownloadDef">
+       <patern>downloaddef/(.+)$</patern>
+       <context>
+            <id>groups[1]</id>
+        </context>
+   </action>
+      
+   <action type="DefList" >
+        <patern>deflist</patern>
+        <context>
+            
+        </context>
+   </action>
+   
+   
+   <action type="GetDefinitions" >
+        <patern>definitions/list</patern>
+        <context/>
+   </action>
+   
+  
+   
+   
+   
+   
+   <action type="ProcessInstanses" >
+        <patern>processinstanses/list</patern>
+        <context/>
+   </action>
+
+   
+
+   <action type="TaskList" >
+        <patern>task/list</patern>
+        <context/>
+   </action>
+   
+   <action type="query">
+       <patern>timer/list</patern>
+       <path>timerlist</path>
+   </action>
+   
+   
+   
+   <action type="mbeaninvoke" name="BPManager" operation="startProcess">    
+        <patern>start/(.+)$</patern>
+        <context>
+            <processDefId>groups[1]</processDefId>
+            <context>json</context>
+        </context>
+   </action>
+   
+   <action type="mbeaninvoke" name="BPManager" operation="stopProcess">    
+        <patern>stop/(.+)$</patern>
+        <context>
+            <id>groups[1]</id>
+        </context>
+   </action>
+   
+   
+   <action type="mbeaninvoke" name="BPManager" operation="getProcessContext">    
+        <patern>processinstanses/context/(.+)$</patern>
+        <context>
+            <id>groups[1]</id>
+        </context>
+   </action>
+   
+   <action type="mbeaninvoke" name="BPManager" operation="pushTimer">
+       <patern>timer/push/(.+)$</patern>
+       <context>
+            <id>groups[1]</id>
+         </context>
+   </action>
+   
+   
+   <action type="mbeaninvoke" name="BPManager" operation="timerStart">    
+       <patern>timer/start</patern>
+       <context>
+        </context>
+   </action>
+   
+  
+   <action type="mbeaninvoke" name="BPManager" operation="timerStop">    
+       <patern>timer/stop</patern>
+       <context>
+        </context>
+   </action>
+  
+   <action type="mbeaninvoke" name="BPManager" operation="isTimerWorking">
+      <patern>timer/isworking</patern> 
+   </action>
+       
+    <action type="mbeaninvoke" name="BPManager" operation="isTimerWorking">
+       <patern>bpmn/(.+)</patern>
+       <context>
+           <operation>groups[1]</operation>
+        </context>
+   </action>
+   
+   <action type="mbeaninvoke" name="BPManager" operation="takeTask">
+       <patern>task/take/(.+)$</patern>
+       <context>
+            <id>groups[1]</id>
+        </context>
+   </action>
+   
+   
+   <action type="mbeaninvoke" name="BPManager" operation="compliteUserTask">
+       <patern>task/complite/(.+)$</patern>
+       <context>
+            <id>groups[1]</id>
+            <context>json</context>
+        </context>
+   </action>
+   
+   <action type="mbeaninfo" >
+       <patern>mbeaninfo/(.+)$</patern>
+       <context>
+            <name>groups[1]</name>
+        </context>
+   </action>
+   
+</page>   

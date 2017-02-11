@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <definitions>
+        <sql>
+            SELECT 
+            id,
+            'definitions' as type,
+            name
+            FROM bpmn2.v_definitions
+        </sql>
+    </definitions>
+    <processDefinition>
+        <parameter type="string" name="definitionid" />
+        <sql>
+            SELECT id, 
+            name, 
+            definitionid,
+            'process' as type,
+            true as leaf
+            FROM bpmn2.v_processdefinition
+            where definitionid=?
+        </sql>   
+    </processDefinition> 
+    
+    <activeprocessinstanses>
+        <sql>
+            SELECT A.id, 
+            A.processdefinition,
+            B.name as procname,
+            C.name as defname
+            FROM bpmn2.v_process A,
+            bpmn2.v_processdefinition B,
+            bpmn2.v_definitions C
+            where A.processdefinition = B.id
+            and   B.definitionid=C.id
+            and exists(SELECT * from bpmn2.v_token D where A.id=D.process) 
+        </sql>
+    </activeprocessinstanses>
+    
+    <activetask>
+        <sql>
+            SELECT A.id                 as id,
+            A.name               as taskname , 
+            A.formkey               as formkey,           
+            A.actualowner           as owner,
+            A.process    as processinstance, 
+            D.name                   as processname,
+            D.definitionid           as definitionid,
+            E.name                   as definitionname,
+            (select activity from bpmn2.v_token S1 where S1.id=A.token) as activityid
+            from   bpmn2.v_task A,
+            bpmn2.v_process C,
+            bpmn2.v_processdefinition D,
+            bpmn2.v_definitions E
+            where A.process=C.id       
+            and   C.processdefinition =D.id
+            and   D.definitionid=E.id 
+            and  A.token is not null
+        </sql>
+    </activetask>
+    
+    <timerlist>
+        <sql>
+            SELECT A.id, 
+            A.token, 
+            A.created, 
+            A.responsetime, 
+            D.definitionid,
+            C.processdefinition,
+            B.process,
+            B.activity as srcactivty,
+            A.targetactivity
+            FROM bpmn2.v_boundarytimerevents A,
+            bpmn2.v_token B,
+            bpmn2.v_process C,
+            bpmn2.v_processdefinition D
+            where A.token=B.id  
+            and   B.process=C.id
+            and   D.id= C.processdefinition
+        </sql>    
+    </timerlist>
+</root>
