@@ -13,6 +13,7 @@
         <module>sql2.2</module>
         <module>system</module>
         <module>bpmn2</module>
+        <module>frameworkdemo</module>
     </modules>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
