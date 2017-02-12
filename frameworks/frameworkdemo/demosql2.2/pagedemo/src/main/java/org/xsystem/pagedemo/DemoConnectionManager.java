@@ -21,8 +21,8 @@ public class DemoConnectionManager implements ConnectionManager{
 
     @Override
     public Connection create(String name) {
-       // String url="jdbc:postgresql:////127.0.0.1:5432//postgres";
-       String url="jdbc:postgresql://217.150.203.49:4554/postgres";
+       String url="jdbc:postgresql:////127.0.0.1:5432//postgres";
+       
         String username="fhir";
         String password="fhir";
         Properties props = new Properties();
