@@ -6,3 +6,5 @@
 /frameworks/bpmn2/Bpm2Machine/target/
 /frameworks/bpmn2/Bpm2MachineService/target/
 /applications/extbpmnconsole/target/
+/frameworks/frameworkdemo/demosql2.2/sqlnotworkingdemo/target/
+/applications/extbpmneditor/target/

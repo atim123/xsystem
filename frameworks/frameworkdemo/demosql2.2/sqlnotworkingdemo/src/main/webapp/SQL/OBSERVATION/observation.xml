@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <observation_mdc_dev_spec_list>
+        <![CDATA[
+            select 
+               v_ob_all.id,
+               v_ob_all.typeid,
+               v_ob_all.status,
+               v_ob_all.reliability,
+               v_ob_all.comments,
+               v_ob_all.patientid,
+               v_ob_all.device,
+               v_ob_all.organization,
+               v_ob_all.practitioner,
+               v_ob_all.appliesdatetime,
+               v_ob_all.sys_quantity,
+               v_ob_all.dia_quantity,
+               v_ob_all.inv_quantity
+            from mis.v_clinical_observation_mdc_dev_spec_all v_ob_all
+        ]]>
+    </observation_mdc_dev_spec_list>
+    <getobservation_mdc_dev_spec_bypatient>
+        <parameter type="string" name="id" />
+      <![CDATA[
+        select 
+               v_ob_all.id,
+               v_ob_all.typeid,
+               v_ob_all.status,
+               v_ob_all.reliability,
+               v_ob_all.comments,
+               v_ob_all.patientid,
+               v_ob_all.appliesdatetime,
+               v_ob_all.sys_quantity,
+               v_ob_all.dia_quantity,
+               v_ob_all.inv_quantity
+               from (
+                      SELECT *, ROW_NUMBER() OVER (PARTITION BY 
+                      patientid order by appliesdatetime DESC) AS Row_ID FROM mis.v_clinical_observation_mdc_dev_spec_all 
+                    ) AS v_ob_all 
+        where v_ob_all.patientid=? and Row_ID<5
+
+        ]]>
+    </getobservation_mdc_dev_spec_bypatient>
+    <getobservation_mdc_dev_spec_bydevice>
+        <parameter type="string" name="id" />
+      <![CDATA[
+        select 
+               v_ob_all.id,
+               v_ob_all.typeid,
+               v_ob_all.status,
+               v_ob_all.reliability,
+               v_ob_all.comments,
+               v_ob_all.device,
+               v_ob_all.appliesdatetime,
+               v_ob_all.sys_quantity,
+               v_ob_all.dia_quantity,
+               v_ob_all.inv_quantity
+            from (
+                      SELECT *, ROW_NUMBER() OVER (PARTITION BY 
+                      device order by appliesdatetime DESC) AS Row_ID FROM mis.v_clinical_observation_mdc_dev_spec_all 
+                  ) AS v_ob_all 
+        where v_ob_all.device=? and Row_ID<5
+        ]]>
+    </getobservation_mdc_dev_spec_bydevice>
+    <getobservation_mdc_dev_spec_bypractitioner>
+        <parameter type="string" name="id" />
+      <![CDATA[
+         select 
+               v_ob_all.id,
+               v_ob_all.typeid,
+               v_ob_all.status,
+               v_ob_all.reliability,
+               v_ob_all.comments,
+               v_ob_all.practitioner,
+               v_ob_all.appliesdatetime,
+               v_ob_all.sys_quantity,
+               v_ob_all.dia_quantity,
+               v_ob_all.inv_quantity
+             from (
+                      SELECT *, ROW_NUMBER() OVER (PARTITION BY 
+                      practitioner order by appliesdatetime DESC) AS Row_ID FROM mis.v_clinical_observation_mdc_dev_spec_all 
+                  ) AS v_ob_all 
+        where v_ob_all.practitioner=? and Row_ID<5
+        ]]>
+    </getobservation_mdc_dev_spec_bypractitioner>
+    <getobservation_mdc_dev_spec_byorganization>
+        <parameter type="string" name="id" />
+      <![CDATA[
+        select 
+               v_ob_all.id,
+               v_ob_all.typeid,
+               v_ob_all.status,
+               v_ob_all.reliability,
+               v_ob_all.comments,
+               v_ob_all.organization,
+               v_ob_all.appliesdatetime,
+               v_ob_all.sys_quantity,
+               v_ob_all.dia_quantity,
+               v_ob_all.inv_quantity
+            from (
+                      SELECT *, ROW_NUMBER() OVER (PARTITION BY 
+                      organization order by appliesdatetime DESC) AS Row_ID FROM mis.v_clinical_observation_mdc_dev_spec_all 
+                  ) AS v_ob_all 
+        where v_ob_all.organization=? and Row_ID<5
+        ]]>
+    </getobservation_mdc_dev_spec_byorganization>
+</root>

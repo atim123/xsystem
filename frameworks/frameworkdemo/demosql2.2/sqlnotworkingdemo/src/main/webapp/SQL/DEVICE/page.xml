@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<page>    
+    <location>file:///SQL/DEVICE/device.xml</location>
+    <action type="qurey"> 
+        <patern>^\/device\/list</patern>
+        <path>//list</path>
+    </action>
+    <action type="qurey"> 
+        <patern>^\/device\/get/(.+)</patern>
+        <path>//get</path>
+        <context>
+                <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>^\/device\/create$</patern>
+        <path>//create</path>
+        <context>
+            <manufacturer>json/manufacturer</manufacturer>
+            <model>json/model</model>
+            <version>json/version</version>
+            <udi>json/udi</udi>
+            <lotnumber>json/lotnumber</lotnumber>
+            <patientid>json/patientid</patientid>
+        </context>
+    </action>
+    <action type="dml">
+        <patern>^\/device\/update/(.+)</patern>
+        <path>//update</path>
+        <context>
+            <id>groups[1]</id>
+            <manufacturer>json/manufacturer</manufacturer>
+            <model>json/model</model>
+            <version>json/version</version>
+            <udi>json/udi</udi>
+            <lotnumber>json/lotnumber</lotnumber>
+            <patientid>json/patientid</patientid>
+            <ownerid>json/ownerid</ownerid>
+        </context>
+    </action>
+    <action type="dml">
+        <patern>^\/device/delete\/(.+)</patern>
+        <path>//delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>^\/device\/identifierlist</patern>
+        <path>//identifierlist</path>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>^\/device\/getidentifier/(.+)</patern>
+        <path>//getidentifier</path>
+        <context>
+                <deviceid>groups[1]</deviceid>
+        </context>
+    </action>
+    <action type="qurey"> 
+        <patern>^\/device\/createidentifier/(.+)$</patern>
+        <path>//createidentifier</path>
+        <context>
+                <device>groups[1]</device>
+                <system>json/system</system>
+                <value>json/value</value>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="qurey"> 
+        <patern>^\/device\/deleteidentifier</patern>
+        <path>//deleteidentifier</path>
+        <context>
+                <system>json/system</system>
+                <value>json/value</value>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <!-- Search <DEVICE> by serial number -->
+    <action type="qurey"> 
+        <patern>^\/device\/search_serial_number/(.+)</patern>
+        <path>//device_search_serial_number</path>
+        <context>
+                <value>groups[1]</value>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+</page>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<page>    
+    <location>file:///SQL/PROFILE/profile.xml</location>
+    <prefix>^\/profile\/</prefix>
+    <action type="qurey"> 
+        <patern>list</patern>
+        <path>//profilelist</path>
+    </action>
+  
+    <action type="qurey">
+            <patern>get\/(.+)</patern>
+            <path>//getprofile</path>
+            <context>
+                <id>groups[1]</id>
+            </context>
+            <singlerow>true</singlerow>
+    </action>    
+    <action type="qurey">
+            <patern>getprofilebypractandrole</patern>
+            <path>//getprofilebypractandrole</path>
+            <context>
+                <practitioner_id>json/practitioner_id</practitioner_id>
+                <role_name>json/role_name</role_name>
+            </context>
+    </action>    
+    
+    <action type="qurey">
+            <patern>getprofilebypractitioner\/(.+)</patern>
+            <path>//getprofilebypractitioner</path>
+            <context>
+                <id>groups[1]</id>
+            </context>
+    </action>    
+    <action type="qurey">
+            <patern>profilelistpractitioner</patern>
+            <path>//profilelistpractitioner</path>
+    </action>    
+    
+    <action type="qurey">
+            <patern>getprofilebyorganization\/(.+)</patern>
+            <path>//getprofilebyorganization</path>
+            <context>
+                <id>groups[1]</id>
+            </context>
+    </action>    
+    <action type="qurey">
+            <patern>getprofilewithlink\/(.+)</patern>
+            <path>//getprofilewithlink</path>
+            <context>
+                <id>groups[1]</id>
+            </context>
+    </action>    
+    
+    <!--action type="dml"> 
+        <patern>insert</patern>
+        <path>//insertProf</path>
+        <context>
+           <context>json</context>
+        </context>
+    </action-->
+   
+    <!--action type="dml"> 
+        <patern>update\/(.+)</patern>
+        <path>//updateProf</path>
+        <context>
+            <id>groups[1]</id>
+            <context>json</context>
+        </context>
+    </action-->         
+    
+    <action type="dml">
+        <patern>delete\/(.+)</patern>
+        <path>//deleteprofile</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    <action type="dml"> 
+        <patern>createlinkprofiletorole</patern>
+        <path>//createlinkprofiletorole</path>
+        <context>
+            <profileid>json/profileid</profileid>
+            <roleid>json/roleid</roleid>
+        </context>
+    </action>             
+    
+    <action type="dml"> 
+        <patern>createlinkorgtoprofile</patern>
+        <path>//createlinkorgtoprofile</path>
+        <context>
+            <organizationid>json/orgid</organizationid>
+            <profileid>json/profileid</profileid>
+        </context>
+    </action>
+    
+    <action type="insertProfWithLink">
+        <patern>insert</patern>
+        <context>
+            <context>json</context>
+        </context>
+    </action>
+       
+    <action type="updateProfWithLink">
+        <patern>update\/(.+)</patern>
+        <context>
+            <id>groups[1]</id>
+            <context>json</context>
+        </context>
+    </action>
+</page>

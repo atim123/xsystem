@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<page>
+    <location>file:///SQL/OBSERVATION/SEARCH/observation.xml</location>
+    <prefix>^\/observation\/</prefix>
+
+    <action type="qurey"> 
+        <patern>concentration_glucose\/search</patern>
+        <path>//concentration_glucose</path>
+        <context>
+            <code>json/data/code</code>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <orderBy>json/orderBy</orderBy>
+        </context>
+    </action>
+    
+    <action type="qurey">
+        <patern>concentration_glucose\/count</patern>
+        <path>//concentration_glucose_count</path>
+        <context>
+            <code>json/data/code</code>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    
+    
+    <action type="qurey"> 
+        <patern>measurement_fruit\/search</patern>
+        <path>//measurement_fruit</path>
+        <context>
+            <code>json/data/code</code>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <orderBy>json/orderBy</orderBy>
+        </context>
+    </action>
+    
+    
+    <action type="qurey">
+        <patern>measurement_fruit\/count</patern>
+        <path>//measurement_fruit_count</path>
+        <context>
+            <code>json/data/code</code>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>mdc_temperature\/search</patern>
+        <path>//mdc_temperature</path>
+        <context>
+            <code>json/data/code</code>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <orderBy>json/orderBy</orderBy>
+        </context>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>mdc_temperature\/count</patern>
+        <path>//mdc_temperature_count</path>
+        <context>
+            <code>json/data/code</code>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+         </context>
+         <singlerow>true</singlerow>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>measurement_of_water_balance\/search</patern>
+        <path>//measurement_of_water_balance</path>
+        <context>
+            <code>json/data/code</code>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <orderBy>json/orderBy</orderBy>
+        </context>
+    </action>
+    
+    <action type="qurey">
+        <patern>measurement_of_water_balance\/count</patern>
+        <path>//measurement_of_water_balance_count</path>
+        <context>
+            <code>json/data/code</code>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+         </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>note\/search</patern>
+        <path>//note</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <orderBy>json/orderBy</orderBy>
+        </context>
+    </action>      
+        
+        
+    <action type="qurey"> 
+        <patern>note\/count</patern>
+        <path>//note_count</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+        
+    <action type="qurey"> 
+        <patern>mdc_len_body_actual\/search</patern>
+        <path>//mdc_len_body_actual</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <orderBy>json/orderBy</orderBy>
+        </context>
+    </action> 
+    
+    <action type="qurey"> 
+        <patern>mdc_len_body_actual\/count</patern>
+        <path>//mdc_len_body_actual_count</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action> 
+         
+    <action type="qurey"> 
+        <patern>mdc_mass_body_actual\/search</patern>
+        <path>//mdc_mass_body_actual</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <orderBy>json/orderBy</orderBy>
+        </context>
+    </action>               
+     
+    <action type="qurey"> 
+        <patern>mdc_mass_body_actual\/count</patern>
+        <path>//mdc_mass_body_actual_count</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action> 
+     
+         
+    <action type="qurey"> 
+        <patern>alcohol_intake\/search</patern>
+        <path>//alcohol_intake</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <orderBy>json/orderBy</orderBy>
+        </context>
+  
+    </action>     
+  
+      <action type="qurey"> 
+        <patern>alcohol_intake\/count</patern>
+        <path>//alcohol_intake_count</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+         </context>
+         <singlerow>true</singlerow>
+    </action>       
+       
+                       
+    <action type="qurey"> 
+        <patern>physicalactivity\/search</patern>
+        <path>//physicalactivity</path>
+        <context>
+            <code>json/data/code</code>
+            <patientid>json/data/patientid</patientid>
+            <orderBy>json/orderBy</orderBy>
+        </context>
+    </action>            
+             
+    <action type="qurey"> 
+        <patern>physicalactivity\/count</patern>
+        <path>//physicalactivity_count</path>
+        <context>
+            <code>json/data/code</code>
+            <patientid>json/data/patientid</patientid>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+                      
+    <action type="qurey"> 
+        <patern>maintaining_food_diary\/search</patern>
+        <path>//maintaining_food_diary</path>
+         <context>
+            <code>json/data/code</code>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <orderBy>json/orderBy</orderBy>
+        </context>
+    </action>                     
+    
+
+    <action type="qurey"> 
+        <patern>maintaining_food_diary\/count</patern>
+        <path>//maintaining_food_diary_count</path>
+         <context>
+            <code>json/data/code</code>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>                     
+
+            
+    <action type="qurey"> 
+        <patern>health\/search</patern>
+        <path>//health</path>
+        <context>
+            <code>json/data/code</code>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <orderBy>json/orderBy</orderBy>
+        </context>
+    </action>                                             
+    
+    <action type="qurey"> 
+        <patern>health\/count</patern>
+        <path>//health_count</path>
+        <context>
+            <code>json/data/code</code>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>press_bld_and_heart_rate\/search</patern>
+        <path>//press_bld_and_heart_rate</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <orderBy>json/orderBy</orderBy>
+        </context>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>press_bld_and_heart_rate\/count</patern>
+        <path>//press_bld_and_heart_rate_count</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action> 
+    
+    <action type="qurey"> 
+        <patern>multiple_pregnancy\/count</patern>
+        <path>//multiple_pregnancy_count</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>multiple_pregnancy\/search</patern>
+        <path>//multiple_pregnancy</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <orderBy>json/orderBy</orderBy>
+        </context>
+    </action>
+     
+    <action type="qurey"> 
+        <patern>duration_of_pregnancy\/count</patern>
+        <path>//duration_of_pregnancy_coun</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <startvaluedate>json/data/startvaluedate</startvaluedate>
+            <endvaluedate>json/data/endvaluedate</endvaluedate>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>duration_of_pregnancy\/search</patern>
+        <path>//duration_of_pregnancy</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <startvaluedate>json/data/startvaluedate</startvaluedate>
+            <endvaluedate>json/data/endvaluedate</endvaluedate>
+        </context>
+    </action>
+    
+     <action type="qurey"> 
+        <patern>pregnancy_date_of_birth_count\/count</patern>
+        <path>//pregnancy_date_of_birth_count</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <startvaluedate>json/data/startvaluedate</startvaluedate>
+            <endvaluedate>json/data/endvaluedate</endvaluedate>
+         </context>
+         <singlerow>true</singlerow>
+    </action> 
+           
+    <action type="qurey"> 
+        <patern>pregnancy_date_of_birth\/search</patern>
+        <path>//pregnancy_date_of_birth</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <startvaluedate>json/data/startvaluedate</startvaluedate>
+            <endvaluedate>json/data/endvaluedate</endvaluedate>
+            <orderBy>json/orderBy</orderBy>
+        </context>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>attachment\/search</patern>
+        <path>//attachment</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <startvaluedate>json/data/startvaluedate</startvaluedate>
+            <endvaluedate>json/data/endvaluedate</endvaluedate>
+            <code>json/data/code</code>
+            <orderBy>json/orderBy</orderBy>
+        </context>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>attachment\/count</patern>
+        <path>//attachment_count</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <startvaluedate>json/data/startvaluedate</startvaluedate>
+            <endvaluedate>json/data/endvaluedate</endvaluedate>
+         </context>
+         <singlerow>true</singlerow>
+    </action> 
+    
+    <action type="qurey"> 
+        <patern>type_absorption_liquid\/search</patern>
+        <path>//type_absorption_liquid</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+            <orderBy>json/orderBy</orderBy>
+        </context>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>type_absorption_liquid\/count</patern>
+        <path>//type_absorption_liquid_count</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <startappliesdatetime>json/data/startappliesdatetime</startappliesdatetime>
+            <endappliesdatetime>json/data/endappliesdatetime</endappliesdatetime>
+         </context>
+    </action>
+    
+</page>

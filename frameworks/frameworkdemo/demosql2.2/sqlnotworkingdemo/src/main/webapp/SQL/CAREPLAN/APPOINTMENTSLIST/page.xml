@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<page>
+   <location>file:///SQL/CAREPLAN/APPOINTMENTSLIST/sql.xml</location>
+   <prefix>^\/careplan/appointmentslist\/</prefix> 
+    
+    
+   <action type="query"> 
+        <patern>search$</patern>
+        <path>//search</path>
+        <context>
+            <patientid>json/data/patientid</patientid> 
+            <status>json/data/status</status>
+            <startcreated>json/data/startcreated</startcreated>
+            <endcreated>json/data/endcreated</endcreated>
+            <orderBy>json/orderBy</orderBy>
+        </context>        
+    </action>
+    <action type="qurey">
+        <patern>count$</patern>
+        <path>//count</path>
+        <context>
+            <patientid>json/data/patientid</patientid> 
+            <status>json/data/status</status>
+            <startperiodstart>json/data/startperiodstart</startperiodstart>
+            <endperiodstart>json/data/endperiodstart</endperiodstart>
+            <startperiodend>json/data/startperiodend</startperiodend>
+            <endperiodend>json/data/endperiodend</endperiodend>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+     <action type="appointmentsList" action="read"> 
+        <patern>read\/(.+)$</patern>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+     
+     <action type="appointmentsList" action="create"> 
+        <patern>create$</patern>
+        <context>
+            <status>json/data/status</status>
+            <periodstart>json/data/periodstart</periodstart>
+            <periodend>json/data/periodend</periodend>
+            <modified>json/data/modified</modified>
+            <patient>json/data/patient</patient>
+            <participantpractitioner>json/data/participantpractitioner</participantpractitioner>
+            <participantorganization>json/data/participantorganization</participantorganization>
+            <name>json/data/name</name>
+            <created>json/data/created</created>
+        </context>
+    </action>
+    <action type="appointmentsList" action="update"> 
+        <patern>update\/(.+)$</patern>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <periodstart>json/data/periodstart</periodstart>
+            <periodend>json/data/periodend</periodend>
+            <modified>json/data/modified</modified>
+            <patient>json/data/patient</patient>
+            <participantpractitioner>json/data/participantpractitioner</participantpractitioner>
+            <participantorganization>json/data/participantorganization</participantorganization>
+            <name>json/data/name</name>
+            <created>json/data/created</created>
+        </context>
+    </action>
+    
+     <action type="dml">
+        <patern>delete\/(.+)$</patern>
+        <path>//delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action> 
+    
+    <action type="query">
+        <patern>prescriptionslist\/(.+)$</patern>
+        <path>//prescriptionslist</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <date>json/data/date</date>
+        </context>
+    </action>
+    <action type="query">
+        <patern>observation\/read\/(.+)$</patern>
+        <path>//observation/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>observation\/update\/(.+)$</patern>
+        <path>//observation/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <prohibited>json/data/prohibited</prohibited>
+            <careplan>json/data/careplan</careplan>
+            <notes>json/data/notes</notes>  
+            <periodstart>json/data/periodstart</periodstart>  
+            <periodend>json/data/periodend</periodend> 
+            <observationtype>json/data/observationtype</observationtype> 
+            <timingschedulestart>json/data/timingschedulestart</timingschedulestart> 
+            <timingscheduleend>json/data/timingscheduleend</timingscheduleend> 
+            <timingschedulefrequency>json/data/timingschedulefrequency</timingschedulefrequency>
+            <timingscheduleduration>json/data/timingscheduleduration</timingscheduleduration>
+            <timingscheduleunits>json/data/timingscheduleunits</timingscheduleunits>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>observation\/create$</patern>
+        <path>//observation/create</path>
+        <context>
+            <status>json/data/status</status>
+            <prohibited>json/data/prohibited</prohibited>
+            <careplan>json/data/careplan</careplan>
+            <notes>json/data/notes</notes>  
+            <periodstart>json/data/periodstart</periodstart>  
+            <periodend>json/data/periodend</periodend> 
+            <observationtype>json/data/observationtype</observationtype> 
+            <timingschedulestart>json/data/timingschedulestart</timingschedulestart> 
+            <timingscheduleend>json/data/timingscheduleend</timingscheduleend> 
+            <timingschedulefrequency>json/data/timingschedulefrequency</timingschedulefrequency>
+            <timingscheduleduration>json/data/timingscheduleduration</timingscheduleduration>
+            <timingscheduleunits>json/data/timingscheduleunits</timingscheduleunits>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>observation/delete\/(.+)$</patern>
+        <path>//observation/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="query">
+        <patern>drug\/read\/(.+)$</patern>
+        <path>//drug/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="dml">
+        <patern>drug\/update\/(.+)$</patern>
+        <path>//drug/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <prohibited>json/data/prohibited</prohibited>
+            <careplan>json/data/careplan</careplan>
+            <notes>json/data/notes</notes>  
+            <periodstart>json/data/periodstart</periodstart>  
+            <periodend>json/data/periodend</periodend>
+            <text>json/data/text</text> 
+            <timingschedulestart>json/data/timingschedulestart</timingschedulestart> 
+            <timingscheduleend>json/data/timingscheduleend</timingscheduleend> 
+            <timingschedulefrequency>json/data/timingschedulefrequency</timingschedulefrequency>
+            <timingscheduleduration>json/data/timingscheduleduration</timingscheduleduration>
+            <timingscheduleunits>json/data/timingscheduleunits</timingscheduleunits>
+            <quantityvalue>json/data/quantityvalue</quantityvalue> 
+            <quantityunits>json/data/quantityunits</quantityunits>
+        </context>
+         <singlerow>true</singlerow>    
+    </action>
+    <action type="dml">
+        <patern>drug\/create$</patern>
+        <path>//drug/create</path>
+        <context>
+            <status>json/data/status</status>
+            <prohibited>json/data/prohibited</prohibited>
+            <careplan>json/data/careplan</careplan>
+            <notes>json/data/notes</notes>  
+            <periodstart>json/data/periodstart</periodstart>  
+            <periodend>json/data/periodend</periodend>
+            <text>json/data/text</text> 
+            <timingschedulestart>json/data/timingschedulestart</timingschedulestart> 
+            <timingscheduleend>json/data/timingscheduleend</timingscheduleend> 
+            <timingschedulefrequency>json/data/timingschedulefrequency</timingschedulefrequency>
+            <timingscheduleduration>json/data/timingscheduleduration</timingscheduleduration>
+            <timingscheduleunits>json/data/timingscheduleunits</timingscheduleunits>
+            <quantityvalue>json/data/quantityvalue</quantityvalue> 
+            <quantityunits>json/data/quantityunits</quantityunits>
+        </context>
+    </action>
+    
+    <action type="dml">
+        <patern>drug/delete\/(.+)$</patern>
+        <path>//drug/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>        
+    
+    
+    <!--  -->
+    <action type="query">
+        <patern>diet\/read\/(.+)$</patern>
+        <path>//diet/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="dml">
+        <patern>diet\/update\/(.+)$</patern>
+        <path>//diet/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <prohibited>json/data/prohibited</prohibited>
+            <careplan>json/data/careplan</careplan>
+            <notes>json/data/notes</notes>  
+            <periodstart>json/data/periodstart</periodstart>  
+            <periodend>json/data/periodend</periodend>
+            <code>json/data/code</code> 
+         </context>
+         <singlerow>true</singlerow>    
+    </action>
+    <action type="dml">
+        <patern>diet\/create$</patern>
+        <path>//diet/create</path>
+        <context>
+            <status>json/data/status</status>
+            <prohibited>json/data/prohibited</prohibited>
+            <careplan>json/data/careplan</careplan>
+            <notes>json/data/notes</notes>  
+            <periodstart>json/data/periodstart</periodstart>  
+            <periodend>json/data/periodend</periodend>
+            <code>json/data/code</code>
+        </context>
+    </action>
+    
+    <action type="dml">
+        <patern>diet/delete\/(.+)$</patern>
+        <path>//diet/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    
+     <action type="dml"> 
+        <patern>drug/completed$</patern>
+        <path>//drug/completed</path>
+        <context>
+            <patient>json/data/patient</patient>
+        </context>
+    </action> 
+</page>

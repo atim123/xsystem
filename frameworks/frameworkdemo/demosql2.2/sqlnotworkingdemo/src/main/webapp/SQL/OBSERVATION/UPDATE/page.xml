@@ -1,0 +1,961 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<page>
+    <location>file:///SQL/OBSERVATION/UPDATE/observation.xml</location>
+    <prefix>^\/observation\/</prefix>
+    <action type="qurey"> 
+        <patern>multiple_pregnancy\/read\/(.+)</patern>
+        <path>//multiple_pregnancy/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>multiple_pregnancy\/create</patern>
+        <path>//multiple_pregnancy/create</path>
+        <context>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <quantity>json/data/quantity</quantity>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>multiple_pregnancy\/update\/(.+)</patern>
+        <path>//multiple_pregnancy/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <quantity>json/data/quantity</quantity>
+            <appliesdatetime>json/data/authorpatient</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>//multiple_pregnancy/delete\/(.+)</patern>
+        <path>//multiple_pregnancy/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    <action type="qurey"> 
+        <patern>duration_of_pregnancy\/read\/(.+)</patern>
+        <path>//duration_of_pregnancy/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>duration_of_pregnancy\/create</patern>
+        <path>//duration_of_pregnancy/create</path>
+        <context>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <valuedate>json/data/valuedate</valuedate>
+            <code>json/data/code</code>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>duration_of_pregnancy\/update\/(.+)</patern>
+        <path>//duration_of_pregnancy/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <valuedate>json/data/valuedate</valuedate>
+            <code>json/data/code</code>
+            <appliesdatetime>json/data/authorpatient</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>//duration_of_pregnancy/delete\/(.+)</patern>
+        <path>//duration_of_pregnancy/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    <action type="qurey"> 
+        <patern>pregnancy_date_of_birth\/read\/(.+)</patern>
+        <path>//pregnancy_date_of_birth/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>pregnancy_date_of_birth\/create</patern>
+        <path>//pregnancy_date_of_birth/create</path>
+        <context>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <valuedate>json/data/valuedate</valuedate>
+            <code>json/data/code</code>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>pregnancy_date_of_birth\/update\/(.+)</patern>
+        <path>//pregnancy_date_of_birth/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <valuedate>json/data/valuedate</valuedate>
+            <code>json/data/code</code>
+            <appliesdatetime>json/data/authorpatient</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>//pregnancy_date_of_birth/delete\/(.+)</patern>
+        <path>//pregnancy_date_of_birth/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    <action type="qurey"> 
+        <patern>press_bld_and_heart_rate\/read\/(.+)</patern>
+        <path>//press_bld_and_heart_rate/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>press_bld_and_heart_rate\/create</patern>
+        <path>//press_bld_and_heart_rate/create</path>
+        <context>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <dia>json/data/dia</dia>
+            <sys>json/data/sys</sys>
+            <puls>json/data/puls</puls>
+            <entrymethod>json/data/entrymethod</entrymethod>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>press_bld_and_heart_rate\/update\/(.+)</patern>
+        <path>//press_bld_and_heart_rate/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <dia>json/data/dia</dia>
+            <sys>json/data/sys</sys>
+            <puls>json/data/puls</puls>
+            <entrymethod>json/data/entrymethod</entrymethod>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>press_bld_and_heart_rate/delete\/(.+)</patern>
+        <path>//press_bld_and_heart_rate/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    <action type="qurey"> 
+        <patern>health\/read\/(.+)</patern>
+        <path>//health/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>health\/create</patern>
+        <path>//health/create</path>
+        <context>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <code>json/data/code</code>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>health\/update\/(.+)</patern>
+        <path>//health/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <code>json/data/code</code>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>//health/delete\/(.+)</patern>
+        <path>//health/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    <action type="qurey"> 
+        <patern>maintaining_food_diary\/read\/(.+)</patern>
+        <path>//maintaining_food_diary/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>maintaining_food_diary\/create</patern>
+        <path>//maintaining_food_diary/create</path>
+        <context>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <code>json/data/code</code>
+            <quantity>json/data/quantity</quantity>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>maintaining_food_diary\/update\/(.+)</patern>
+        <path>//maintaining_food_diary/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <code>json/data/code</code>
+            <quantity>json/data/quantity</quantity>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>//maintaining_food_diary/delete\/(.+)</patern>
+        <path>//maintaining_food_diary/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    <action type="qurey"> 
+        <patern>physicalactivity\/read\/(.+)</patern>
+        <path>//physicalactivity/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>physicalactivity\/create</patern>
+        <path>//physicalactivity/create</path>
+        <context>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <code>json/data/code</code>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>physicalactivity\/update\/(.+)</patern>
+        <path>//physicalactivity/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <code>json/data/code</code>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>//physicalactivity/delete\/(.+)</patern>
+        <path>//physicalactivity/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    <action type="qurey"> 
+        <patern>alcohol_intake/read\/(.+)</patern>
+        <path>//alcohol_intake/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>alcohol_intake\/create</patern>
+        <path>//alcohol_intake/create</path>
+        <context>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <code>json/data/quantity</code>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>alcohol_intake\/update\/(.+)</patern>
+        <path>//alcohol_intake/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <code>json/data/quantity</code>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>//alcohol_intake/delete\/(.+)</patern>
+        <path>//alcohol_intake/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>mdc_mass_body_actual/read\/(.+)</patern>
+        <path>//mdc_mass_body_actual/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>mdc_mass_body_actual\/create</patern>
+        <path>//mdc_mass_body_actual/create</path>
+        <context>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <quantity>json/data/quantity</quantity>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>mdc_mass_body_actual\/update\/(.+)</patern>
+        <path>//mdc_mass_body_actual/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <quantity>json/data/quantity</quantity>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>mdc_mass_body_actual/delete\/(.+)</patern>
+        <path>//mdc_mass_body_actual/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>mdc_len_body_actual/read\/(.+)</patern>
+        <path>//mdc_len_body_actual/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>mdc_len_body_actual\/create</patern>
+        <path>//mdc_len_body_actual/create</path>
+        <context>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <quantity>json/data/quantity</quantity>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>mdc_len_body_actual\/update\/(.+)</patern>
+        <path>//mdc_len_body_actual/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <quantity>json/data/quantity</quantity>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>mdc_len_body_actual/delete\/(.+)</patern>
+        <path>//mdc_len_body_actual/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>note/read\/(.+)</patern>
+        <path>//note/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>note\/create</patern>
+        <path>//note/create</path>
+        <context>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <string>json/data/string</string>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>note\/update\/(.+)</patern>
+        <path>//note/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <string>json/data/string</string>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>note/delete\/(.+)</patern>
+        <path>//note/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>mdc_temperature/read\/(.+)</patern>
+        <path>//mdc_temperature/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>mdc_temperature\/create</patern>
+        <path>//mdc_temperature/create</path>
+        <context>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <quantity>json/data/quantity</quantity>
+            <code>json/data/code</code>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>mdc_temperature\/update\/(.+)</patern>
+        <path>//mdc_temperature/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <quantity>json/data/quantity</quantity>
+            <code>json/data/code</code>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>mdc_temperature/delete\/(.+)</patern>
+        <path>//mdc_temperature/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    
+    <action type="qurey"> 
+        <patern>measurement_of_water_balance/read\/(.+)</patern>
+        <path>//measurement_of_water_balance/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>measurement_of_water_balance\/create</patern>
+        <path>//measurement_of_water_balance/create</path>
+        <context>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <quantity>json/data/quantity</quantity>
+            <code>json/data/code</code>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>measurement_of_water_balance\/update\/(.+)</patern>
+        <path>//measurement_of_water_balance/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <quantity>json/data/quantity</quantity>
+            <code>json/data/code</code>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>measurement_of_water_balance/delete\/(.+)</patern>
+        <path>//measurement_of_water_balance/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+   
+    
+    <action type="qurey"> 
+        <patern>measurement_fruit/read\/(.+)</patern>
+        <path>//measurement_fruit/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>measurement_fruit\/create</patern>
+        <path>//measurement_fruit/create</path>
+        <context>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <quantity>json/data/quantity</quantity>
+            <code>json/data/code</code>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>measurement_fruit\/update\/(.+)</patern>
+        <path>//measurement_fruit/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <quantity>json/data/quantity</quantity>
+            <code>json/data/code</code>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>measurement_fruit/delete\/(.+)</patern>
+        <path>//measurement_fruit/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    
+    <action type="qurey"> 
+        <patern>concentration_glucose/read\/(.+)</patern>
+        <path>//concentration_glucose/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>concentration_glucose\/create</patern>
+        <path>//concentration_glucose/create</path>
+        <context>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <quantity>json/data/quantity</quantity>
+            <code>json/data/code</code>
+            <bodysite>json/data/bodysite</bodysite>
+            <foodintake>json/data/foodintake</foodintake>
+            <entrymethod>json/data/entrymethod</entrymethod>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <!--   fILE -->   
+    
+    <action type="dml">
+        <patern>concentration_glucose\/update\/(.+)</patern>
+        <path>//concentration_glucose/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <quantity>json/data/quantity</quantity>
+            <code>json/data/code</code>
+            <bodysite>json/data/bodysite</bodysite>
+            <foodintake>json/data/foodintake</foodintake>
+            <entrymethod>json/data/entrymethod</entrymethod>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>concentration_glucose/delete\/(.+)</patern>
+        <path>//concentration_glucose/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    <!-- Upload FILE <concentration_glucose> from device (AccuChek) by class <fileAccuChekAction>-->
+    <!--action type="dml"-->
+    <action type="fileAccuChekAction">
+        <patern>concentration_glucose\/accuchek\/upload</patern>
+        <path>//concentration_glucose/accuchek/upload</path>
+        <context form="true">
+            <userid>request/remoteUser</userid>
+            <file>params/file</file>
+            <code>params/code</code>
+            <bodysite>params/bodysite</bodysite>
+            <entrymethod>params/entrymethod</entrymethod>
+            <foodintake>params/foodintake</foodintake>
+            <timezone>params/timezone</timezone>
+            <comments>params/comments</comments>
+            
+        </context>
+    </action>
+    <!-- FILE AAAAA -->
+     
+    <action type="qurey"> 
+        <patern>attachment/read\/(.+)</patern>
+        <path>//attachment/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>attachment\/create</patern>
+        <path>//attachment/create</path>
+        <context form="true">
+            <status>params/status</status>
+            <reliability>params/reliability</reliability>
+            <comments>params/comments</comments>  
+            <patientid>params/patientid</patientid>
+            <device>params/deviceid</device>
+            <organization>params/organizationid</organization>
+            <practitioner>params/practitionerid</practitioner>
+            <appliesdatetime>params/appliesdatetime</appliesdatetime>
+            <code>params/code</code>
+            <contenttype>params/file/contentType</contenttype>
+            <format>params/file/fileType</format>
+            <filename>params/file/fileName</filename>
+            <content>params/file/data</content>
+            <size>params/file/size</size>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>attachment\/update\/(.+)</patern>
+        <path>//attachment/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>attachment\/delete\/(.+)</patern>
+        <path>//attachment/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>attachment\/preview\/(.+)</patern>
+        <path>//attachment/download</path>
+        <context>
+            <id>groups[1]</id>
+        </context> 
+        <singlerow>true</singlerow>
+        <file download="false" preview="params/thumb"> 
+            <contenttype>contenttype</contenttype> 
+            <context>content</context>
+            <format>format</format>
+            <filename>filename</filename>
+        </file>          
+    </action>
+    
+    <action type="qurey"> 
+        <patern>attachment\/download\/(.+)</patern>
+        <path>//attachment/download</path>
+        <context>
+            <id>groups[1]</id>
+        </context> 
+        <singlerow>true</singlerow>
+        <file download="true" > 
+            <contenttype>contenttype</contenttype> 
+            <context>content</context> 
+            <format>format</format>
+            <filename>filename</filename>
+        </file>          
+    </action>
+    
+    
+    <action type="qurey"> 
+        <patern>type_absorption_liquid\/read\/(.+)</patern>
+        <path>//type_absorption_liquid/read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+     
+    <action type="dml">
+        <patern>type_absorption_liquid\/create</patern>
+        <path>//type_absorption_liquid/create</path>
+        <context>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <string>json/data/string</string>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="dml">
+        <patern>type_absorption_liquid\/update\/(.+)</patern>
+        <path>//type_absorption_liquid/update</path>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <reliability>json/data/reliability</reliability>
+            <comments>json/data/comments</comments>
+            <patientid>json/data/patientid</patientid>
+            <device>json/data/deviceid</device>
+            <organization>json/data/organizationid</organization>
+            <practitioner>json/data/practitionerid</practitioner>
+            <string>json/data/string</string>
+            <appliesdatetime>json/data/appliesdatetime</appliesdatetime>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="dml">
+        <patern>type_absorption_liquid\/delete\/(.+)</patern>
+        <path>//type_absorption_liquid/delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    
+    <!-- Search <USER> by serial number -->
+    <action type="qurey">
+        <patern>//getauthuser\/(.+)</patern>
+        <path>//getauthuser</path>
+        <context>
+            <userid>groups[1]</userid>
+        </context>
+        <singlerow>true</singlerow>
+    </action>    
+    
+    <!-- Search <DEVICE> by serial number -->
+    <action type="qurey"> 
+        <patern>^\/device\/search_serial_number/(.+)</patern>
+        <path>//device_search_serial_number</path>
+        <context>
+            <value>groups[1]</value>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>device_concentration_glucose\/search</patern>
+        <path>//device_concentration_glucose_search</path>
+        <context>
+            <code>code</code>
+            <patientid>patientid</patientid>
+            <bodysite>bodysite</bodysite>
+            <entrymethod>entrymethod</entrymethod>    
+            <appliesdatetime>appliesdatetime</appliesdatetime>
+            <deviceid>deviceid</deviceid>
+            <quantity>quantity</quantity>
+        </context>
+    </action>
+    
+    
+</page>

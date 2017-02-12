@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <!-- list>
+        <![CDATA[
+            select d.id as id, d.system as system, d.code as code, d.manufacturer as manufacturer, d.model as model, d.version as version, 
+            d.udi as udi, d.lotnumber as lotnumber, d.patientid
+            from mis.v_administrative_device d
+        ]]>
+    </list-->
+    <list>
+        <![CDATA[
+            select d.id, d.manufacturer, d.model, d.version, 
+            d.udi, d.lotnumber, d.patientid, d.ownerid
+            from mis.v_administrative_device d
+        ]]>
+    </list>
+    <get>
+        <parameter type="string" name="id" />
+        <![CDATA[
+            select d.id, d.manufacturer, d.model, d.version, 
+            d.udi, d.lotnumber, d.patientid, d.ownerid
+            from mis.v_administrative_device d
+            where d.id=?
+        ]]>
+    </get>
+    <create>       
+        <parameter type="string" name="manufacturer" order="1"/>
+        <parameter type="string" name="model" order="1"/>
+        <parameter type="string" name="version" order="1"/>
+        <parameter type="string" name="udi" order="1"/>
+        <parameter type="string" name="lotnumber" order="1"/>
+        <parameter type="string" name="patientid" order="1"/>
+        <parameter type="string" name="ownerid" order="1"/>
+        <![CDATA[
+        insert into mis.v_administrative_device(manufacturer,model,version,udi,lotnumber,patientid,ownerid)
+        values (?,?,?,?,?,?,?)  returning  id
+        ]]>
+    </create>
+    <update>
+        <parameter type="string" name="manufacturer" order="1"/>
+        <parameter type="string" name="model" order="1"/>
+        <parameter type="string" name="version" order="1"/>
+        <parameter type="string" name="udi" order="1"/>
+        <parameter type="string" name="lotnumber" order="1"/>
+        <parameter type="string" name="patientid" order="1"/>
+        <parameter type="string" name="ownerid" order="1"/>
+        <parameter type="string" name="id" order="1"/>
+        <![CDATA[
+        update mis.v_administrative_device set
+            manufacturer=?,
+            model=?,
+            version=?,
+            udi=?,
+            lotnumber=?,
+            patientid=?,
+            ownerid=?
+        where id=?    
+        returning  id
+        ]]>
+    </update>
+    
+    <delete>
+        <parameter type="string" name="id" order="1"/>
+       <![CDATA[
+          delete from  mis.v_administrative_device where id=?
+        ]]> 
+    </delete>
+    
+    <identifierlist>
+         <![CDATA[
+           select system, value, device as deviceid
+           from mis.v_administrative_device_identifier
+        ]]> 
+        
+    </identifierlist>
+    
+    <getidentifier>
+        <parameter type="string" name="deviceid" />
+         <![CDATA[
+           select system, value, device as deviceid
+           from mis.v_administrative_device_identifier
+           where device=?
+        ]]> 
+        
+    </getidentifier>
+    <createidentifier>
+        <parameter type="string" name="system" />
+        <parameter type="string" name="value" />
+        <parameter type="string" name="device" />
+        <![CDATA[
+        insert into mis.v_administrative_device_identifier(system,value,device)
+        values (?,?,?)  returning device
+        ]]> 
+ 
+    </createidentifier>
+    <deleteidentifier>
+        <parameter type="string" name="system" />
+        <parameter type="string" name="value" />
+        <![CDATA[
+        delete from mis.v_administrative_device_identifier
+        where system = ?
+        and   value  = ?
+        ]]>
+    </deleteidentifier>
+    <device_search_serial_number>
+        <parameter type="string" name="value" />
+        <![CDATA[
+            select d.id, d.manufacturer, d.model, d.version, 
+            d.udi, d.lotnumber, d.patientid, d.ownerid
+            from mis.v_administrative_device_identifier ident_d
+            inner join mis.v_administrative_device d on ident_d.device=d.id
+            where ident_d.value=?
+        ]]>
+    </device_search_serial_number>
+    
+</root>

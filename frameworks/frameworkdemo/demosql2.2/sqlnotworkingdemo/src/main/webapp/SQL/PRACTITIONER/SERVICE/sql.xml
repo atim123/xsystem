@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <gatherbypractitioner>
+        <parameter type="string" name="practitionerid"/>
+            <![CDATA[
+            SELECT v_p.id, 
+                   a_p.fileid,
+                   v_p.firstname, 
+                   v_p.patname, 
+                   v_p.surname, 
+                   v_p.birthdate, 
+                   v_p.gender, 
+                   v_p.avatar,
+                   mis.get_patient_login(v_p.id) as login,
+                   mis.get_telecom_patient(v_p.id,'phone') as telecom_phone, mis.get_telecom_patient(v_p.id,'email') as telecom_mail, 
+                   mis.get_observation(v_p.id,'SYS/DIA') as sysdia, 
+                   mis.get_encounter(v_p.id,'SYS/DIA') as sysdia_rangetype, 
+                   mis.get_encounter_datetime(v_p.id,'SYS/DIA') as sysdia_datetime,
+                   mis.get_observation(v_p.id,'PULS') as puls, 
+                   mis.get_encounter(v_p.id,'PULS') as puls_rangetype, 
+                   mis.get_encounter_datetime(v_p.id,'PULS') as puls_datetime,
+                   mis.get_observation(v_p.id,'GLU') as glu, 
+                   mis.get_encounter(v_p.id,'GLU') as glu_rangetype, 
+                   mis.get_encounter_datetime(v_p.id,'GLU') as glu_datetime,
+                   mis.get_rangetype_encounter(v_p.id,'in progress') as rangetype, 
+                   mis.get_alert(v_p.id,'6') as alerts  
+            FROM mis.v_administrative_patient as v_p
+                   LEFT OUTER JOIN mis.v_avatar_patient a_p ON v_p.id=a_p.patientid
+                   where v_p.id = any(mis.get_patient_list(?))
+            ]]> 
+    </gatherbypractitioner>
+    <getpractitionerbypatient>
+        <parameter type="string" name="id" />
+        <![CDATA[
+            select 
+               P.id as id,
+               P.fname as firstname,
+               P.mname as patname,
+               P.sname as surname,
+               P.gender as gender,
+               P.birthdate as birthdate,
+               P.organizationid as organizationid,
+               mis.get_practitioner_speciality(P.id) as speciality,
+               COALESCE(P.avatar,'') as avatar,
+               mis.get_telecom_practitioner(P.id,'phone') as telecom_phone, mis.get_telecom_practitioner(P.id,'email') as telecom_mail, 
+               mis.get_practitioner_organization(P.id) as organization,
+               mis.get_practitioner_chatid(P.id) as chatid
+            from mis.v_link_patient_practitioner as Link
+            inner join mis.v_administrative_practitioner as P on P.id = Link.practitionerid
+            where Link.patientid=?
+        ]]>
+    </getpractitionerbypatient>
+    
+    <createnotify>
+        <parameter type="string"  name="subject"/>
+        <parameter type="boolean" name="nominations"/>
+        <parameter type="boolean" name="nominationssms"/>
+        <parameter type="boolean" name="nominationsmail"/>
+        <parameter type="string" name="nomsmstelecomid"/>
+        <parameter type="string" name="nommailtelecomid"/>
+        <parameter type="boolean" name="isnotify"/>
+        
+        <![CDATA[
+        insert into mis.v_infrastructure_notification_practitioner(subject, nominations, nominationssms, nominationsmail, nomsmstelecomid, nommailtelecomid)
+        values (?,?,?,?,?,?)  returning subject
+        ]]>
+    </createnotify> 
+    
+    <createspecnotify>
+        <parameter type="string" name="patientid"/>
+        <parameter type="string" name="practitionerid"/>
+        <parameter type="string" name="eventcode"/>
+        <![CDATA[
+        insert into mis.v_link_events_patient_practitioner(patientid, practitionerid, eventcode)
+        values (?,?,?)  returning practitionerid
+        ]]>
+    </createspecnotify> 
+    <deletespecnotify>
+        <parameter type="string" name="subject"/>
+        <![CDATA[
+        delete from mis.v_link_events_patient_practitioner where practitionerid=?
+        ]]>
+    </deletespecnotify> 
+    
+    <readpractitionernotify>
+        <parameter type="string" name="practitionerid" />
+        <![CDATA[
+        select v_i.subject, COALESCE(v_p.fname,'') as fname, COALESCE(v_p.mname,'') as mname, COALESCE(v_p.sname,'') as sname, v_i.nominations, v_i.nominationssms, v_i.nominationsmail, 
+            v_i.nomsmstelecomid, COALESCE(v_p_t_sms.contactvalue,'') as smsvalue, 
+            v_i.nommailtelecomid, COALESCE(v_p_t_mail.contactvalue,'') as mailvalue
+            from mis.v_infrastructure_notification_practitioner as v_i 
+            left outer join mis.v_administrative_practitioner as v_p on v_i.subject=v_p.id
+            left outer join mis.v_administrative_practitioner_telecom as v_p_t_sms on v_i.nomsmstelecomid=v_p_t_sms.id
+            left outer join mis.v_administrative_practitioner_telecom as v_p_t_mail on v_i.nommailtelecomid=v_p_t_mail.id
+        where v_i.subject = ?
+        ]]>
+    </readpractitionernotify>  
+    <readpatientnotify>
+        <parameter type="string" name="practitionerid" />
+        <![CDATA[
+        select v_l.patientid, 
+               COALESCE(v_p.firstname,'') as firstname, 
+               COALESCE(v_p.patname,'') as patname, 
+               COALESCE(v_p.surname,'') as surname
+        from mis.v_link_events_patient_practitioner as v_l
+        left outer join mis.v_administrative_patient as v_p on v_l.patientid=v_p.id
+        where v_l.practitionerid = ?
+        ]]>
+    </readpatientnotify>  
+</root>

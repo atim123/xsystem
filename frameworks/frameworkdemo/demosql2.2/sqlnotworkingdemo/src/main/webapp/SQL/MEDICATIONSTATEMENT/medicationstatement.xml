@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <search>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="medicationtext" if="${PAGE.exist('medicationtext')}"/>
+        <parameter type="boolean" name="wasnotgiven"  if="${PAGE.exist('wasnotgiven')}"/>
+        
+        
+        <define type="string" name="wpatientid" if="${PAGE.exist('patientid')}">
+            and patientid=?
+        </define>
+        <define type="string" name="wmedicationtext" if="${PAGE.exist('medicationtext')}">
+            and medicationtext ilike ?
+        </define>
+        <define type="string" name="wwasnotgiven" if="${PAGE.exist('wasnotgiven')}">
+            and wasnotgiven=?
+        </define>
+        
+        <define    type="string" name="orderBy" if="${PAGE.exist('orderBy')}">
+            order by ${orderBy}   
+        </define>
+        <![CDATA[
+        select 
+            id,
+            patientid,
+            whengivenstart,
+            whengivenend,
+            medicationtext,
+            wasnotgiven,
+            medicationtext
+        from mis.v_clinical_medicationstatement
+        where 1=1
+        ${wpatientid}
+        ${wmedicationtext}
+        ${wwasnotgiven}
+        ${orderBy}
+        ]]>
+    </search>
+    <count>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="medicationtext" if="${PAGE.exist('medicationtext')}"/>
+        <parameter type="boolean" name="wasnotgiven"  if="${PAGE.exist('wasnotgiven')}"/>
+        
+        
+        <define type="string" name="wpatientid" if="${PAGE.exist('patientid')}">
+            and patientid=?
+        </define>
+        <define type="string" name="wmedicationtext" if="${PAGE.exist('medicationtext')}">
+            and medicationtext ilike ?
+        </define>
+        <define type="string" name="wwasnotgiven" if="${PAGE.exist('wasnotgiven')}">
+            and wasnotgiven=?
+        </define>
+        
+        <define    type="string" name="orderBy" if="${PAGE.exist('orderBy')}">
+            order by ${orderBy}   
+        </define>
+        select 
+        count(*) as count     
+        from mis.v_clinical_medicationstatement
+        where 1=1
+        ${wpatientid}
+        ${wmedicationtext}
+        ${wwasnotgiven}
+    </count>
+   
+    <read>
+        <parameter type="string" name="id" />
+        select id,
+        patientid,
+        wasnotgiven,
+        medicationtext,
+        whengivenstart,
+        whengivenend
+        from mis.v_clinical_medicationstatement
+        where id=? 
+    </read>
+    <create>
+        <parameter name="patientid" />
+        <parameter name="wasnotgiven" type="boolean"/>
+        <parameter name="medicationtext" />
+        <parameter name="whengivenstart" />
+        <parameter name="whengivenend" />
+        <parameter name="id" value="${PAGE.guid()}"/>  
+           <![CDATA[
+        insert into mis.v_clinical_medicationstatement
+        (patientid,wasnotgiven,medicationtext,whengivenstart,whengivenend,id)
+        values
+        (${PAGE.strRepeat("?",",",6)})
+        returning  id as id
+        ]]>
+    </create>
+    <update>
+        <parameter name="patientid" />
+        <parameter name="wasnotgiven" type="boolean"/>
+        <parameter name="medicationtext" />
+        <parameter name="whengivenstart" />
+        <parameter name="whengivenend" />
+        <parameter name="id"/>
+                     <![CDATA[
+            update mis.v_clinical_medicationstatement set
+                  patientid=?,
+                  wasnotgiven=?,
+                  medicationtext=?,
+                  whengivenstart=?,
+                  whengivenend=?                   
+            where id=?
+            returning  id as id       
+                        ]]>
+    </update>
+    
+    <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_medicationstatement
+             where id=?
+           ]]>
+    </delete>
+</root>

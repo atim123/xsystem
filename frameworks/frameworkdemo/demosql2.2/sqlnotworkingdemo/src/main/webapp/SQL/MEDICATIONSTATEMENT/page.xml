@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<page>
+    <location>file:///SQL/MEDICATIONSTATEMENT/medicationstatement.xml</location>
+    <prefix>^\/medicationstatement\/</prefix>
+    
+    
+    <action type="qurey"> 
+        <patern>search</patern>
+        <path>//search</path>
+        <context> 
+            <patientid>json/data/patientid</patientid>
+            <medicationtext>json/data/medicationtext</medicationtext>
+            <wasnotgiven>json/data/wasnotgiven</wasnotgiven>
+            <orderBy>json/orderBy</orderBy>
+        </context>
+    </action>  
+    
+      
+    <action type="qurey"> 
+        <patern>read\/(.+)</patern>
+        <path>//read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="dml">
+        <patern>create</patern>
+        <path>//create</path>
+        <context>
+            <patientid>json/data/patientid</patientid>
+            <wasnotgiven>json/data/wasnotgiven</wasnotgiven>
+            <medicationtext>json/data/medicationtext</medicationtext>
+            <whengivenstart>json/data/whengivenstart</whengivenstart>
+            <whengivenend>json/data/whengivenend</whengivenend>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="dml">
+        <patern>update\/(.+)</patern>
+        <path>//update</path>
+        <context>
+            <id>groups[1]</id>
+            <patientid>json/data/patientid</patientid>
+            <wasnotgiven>json/data/wasnotgiven</wasnotgiven>
+            <medicationtext>json/data/medicationtext</medicationtext>
+            <whengivenstart>json/data/whengivenstart</whengivenstart>
+            <whengivenend>json/data/whengivenend</whengivenend>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="dml">
+        <patern>delete\/(.+)</patern>
+        <path>//delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+</page>
+

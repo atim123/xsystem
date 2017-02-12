@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<page>
+    <location>file:///SQL/USERS/users.xml</location>
+    <prefix>^\/user\/</prefix>   
+    <action type="qurey"> 
+        <patern>userlist</patern>
+        <path>//userlist</path>
+    </action>
+    <action type="qurey"> 
+        <patern>rolelist</patern>
+        <path>//rolelist</path>
+    </action>
+    <action type="qurey">
+        <patern>userrolelist</patern>
+        <path>//userrolelist</path>
+        <context>
+            <user>params/user</user>
+        </context>
+    </action>
+                
+    <action type="qurey">
+        <patern>availablerolelist</patern>
+        <path>//availablerolelist</path>
+        <context>
+            <user>params/user</user>
+        </context>
+    </action>
+        
+        
+    <action type="qurey">
+        <patern>roleuserlist</patern>
+        <path>//roleuserlist</path>
+        <context>
+            <role>params/role</role>
+        </context>
+    </action>
+        
+    <action type="qurey">
+        <patern>availableuserlist</patern>
+        <path>//availableuserlist</path>
+        <context>
+            <user>params/role</user>
+        </context>
+    </action>
+
+    <action type="qurey">
+        <patern>getuser\/(.+)</patern>
+        <path>//getuser</path>
+        <context>
+            <dbid>groups[1]</dbid>
+        </context>
+    </action>
+        
+    <action type="dml">
+        <patern>deleteuser\/(.+)</patern>
+        <path>//deleteuser</path>
+        <context>
+            <dbid>groups[1]</dbid>
+        </context>
+    </action>
+        
+
+    <action type="dml">
+        <patern>createuser</patern>
+        <path>//createuser</path>
+        <context>
+            <userid>json/userid</userid>
+            <password>json/password</password>
+        </context>
+    </action>
+        
+    <action type="dml">
+        <patern>updateuser</patern>
+        <path>//updateuser</path>
+        <context>
+            <userid>json/userid</userid>
+            <password>json/password</password>
+        </context>
+    </action>
+        
+    <action type="dml">
+        <patern>setroletouser\/(.+)\/(.+)</patern>
+        <path>//setroletouser</path>
+        <context>
+            <user>groups[1]</user>
+            <role>groups[2]</role>
+        </context>
+    </action>
+    <action type="qurey">
+        <patern>getuserinfo</patern>
+        <path>//getuserinfo</path>
+        <context>
+            <userid>request/remoteUser</userid>
+        </context>
+    </action>    
+    <action type="qurey">
+        <patern>getinfobyid\/(.+)\/(.+)</patern>
+        <path>//getinfobyid</path>
+        <context>
+            <role>groups[1]</role>
+            <id>groups[2]</id>
+        </context>
+    </action>      
+</page>
+

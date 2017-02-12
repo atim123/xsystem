@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <simple>
+        <define    type="string" name="table" if="${PAGE.in('type','Gender')}"> 
+           mis.v_glossary_gender
+        </define>
+        <define    type="string" name="table" if="${PAGE.in('type','Speciality')}"> 
+           mis.v_glossary_speciality
+        </define>
+        <define    type="string" name="table" if="${PAGE.in('type','Position')}"> 
+           mis.v_glossary_position
+        </define>
+        <define    type="string" name="table" if="${PAGE.in('type','OrganizationType')}"> 
+           mis.v_glossary_organization_type
+        </define>
+        <define    type="string" name="table" if="${PAGE.in('type','types_measurement_concentration_glucose')}"> 
+           mis.v_glossary_types_measurement_concentration_glucose
+        </define>
+        <define    type="string" name="table" if="${PAGE.in('type','concentration_glucose_food_intake')}"> 
+           mis.v_glossary_concentration_glucose_food_intake
+        </define>
+        <define    type="string" name="table" if="${PAGE.in('type','types_alert')}"> 
+           mis.v_glossary_types_alert
+        </define>
+        <define    type="string" name="table" if="${PAGE.in('type','measurement_of_water_balance')}"> 
+           mis.v_glossary_measurement_of_water_balance
+        </define>
+        <define    type="string" name="table" if="${PAGE.in('type','categories_of_meal')}"> 
+           mis.v_glossary_categories_of_meal
+        </define>
+        <define    type="string" name="table" if="${PAGE.in('type','health')}"> 
+           mis.v_glossary_health
+        </define>
+        <define    type="string" name="table" if="${PAGE.in('type','documentreference_type')}"> 
+           mis.v_glossary_documentreference_type
+        </define>
+        <define    type="string" name="table" if="${PAGE.in('type','documentreference_class')}"> 
+           mis.v_glossary_documentreference_class
+        </define>
+        <define    type="string" name="table" if="${PAGE.in('type','documentreference_docstatus')}"> 
+           mis.v_glossary_documentreference_docstatus
+        </define>
+        <define    type="string" name="table" if="${PAGE.in('type','glossary_patient_contact_relationship')}"> 
+            mis.v_glossary_patient_contact_relationship
+        </define>
+       <define    type="string" name="table" if="${PAGE.in('type','measurement_place_temperature')}"> 
+            mis.v_glossary_measurement_place_temperature
+        </define>
+        <define    type="string" name="table" if="${PAGE.in('type','diet_type')}"> 
+           mis.v_glossary_diet_type
+        </define>    
+        <![CDATA[
+          SELECT * FROM ${table}
+        ]]>
+    </simple>
+
+</root>

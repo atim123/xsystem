@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<page>
+    <location>file:///SQL/PATIENT/patient.xml</location>
+    <action type="qurey"> 
+        <patern>^\/patient\/list</patern>
+        <path>//patientlist</path>
+    </action>
+        
+    <action type="dml">
+        <patern>^\/patient\/createpatient$</patern>
+        <path>//createpatient</path>
+        <context>
+            <firstname>json/firstname</firstname>
+            <patname>json/patname</patname>
+            <surname>json/surname</surname>
+            <gender>json/gender</gender>
+            <birthdate>json/birthdate</birthdate>
+        </context>
+    </action>
+        
+    <action type="qurey"> 
+        <patern>^\/patient\/getpatient\/(.+)$</patern>
+        <path>//getpatient</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+	
+    <action type="qurey"> 
+        <patern>^\/patient\/chatlist\/(.+)</patern>
+        <path>//patientchatlist</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+        
+    <action type="dml">
+        <patern>^\/patient\/updatepatient\/(.+)</patern>
+        <path>//updatepatient</path>
+        <context>
+            <firstname>json/firstname</firstname>
+            <patname>json/patname</patname>
+            <surname>json/surname</surname>
+            <gender>json/gender</gender>
+            <birthdate>json/birthdate</birthdate>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    <action type="dml">
+        <patern>^\/patient\/deletepatient\/(.+)</patern>
+        <path>//deletepatient</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    <action type="dml">
+        <patern>^\/patient\/createlinkpractitioner$</patern>
+        <path>//createlinkpractitioner</path>
+        <context>
+            <patientid>json/patientid</patientid>
+            <practitionerid>json/practitionerid</practitionerid>
+        </context>
+    </action>
+    <action type="dml">
+        <patern>^\/patient\/deletelinkpractitioner$</patern>
+        <path>//deletelinkpractitioner</path>
+        <context>
+            <patientid>json/patientid</patientid>
+            <practitionerid>json/practitionerid</practitionerid>
+        </context>
+    </action>
+     <action type="dml">
+        <patern>^\/patient\/createavatar\/(.+)$</patern>
+        <path>//createavatar</path>
+        <context>
+            <patientid>groups[1]</patientid>
+            <filename>params/file/fileName</filename>
+            <contenttype>params/file/contentType</contenttype>
+            <format>params/file/fileType</format>
+            <authorid>request/remoteUser</authorid>
+            <subjectid>json/subjectid</subjectid>
+            <description>json/description</description>
+            <content>params/file/data</content>
+        </context>
+        <singlerow>true</singlerow>
+    </action>    
+    <!--action type="fileUploadAvatar">
+        <patern>^\/patient\/createavatar\/(.+)$</patern>
+        <path>//createavatar</path>
+        <context form="true">
+            <patientid>groups[1]</patientid>
+            <file>params/file</file>
+            <authorid>request/remoteUser</authorid>
+        </context>
+        <singlerow>true</singlerow>
+    </action-->    
+    <action type="dml">
+        <patern>^\/patient\/upload_file$</patern>
+        <path>//upload_file</path>
+        <context>
+            <filename>json/fileName</filename>
+            <contenttype>json/contentType</contenttype>
+            <format>json/fileType</format>
+            <authorid>request/remoteUser</authorid>
+            <subjectid>json/subjectid</subjectid>
+            <description>json/description</description>
+            <content>json/data</content>
+            <contentshort>json/shortdata</contentshort>
+        </context>
+        <singlerow>true</singlerow>
+    </action>    
+    <action type="dml">
+        <patern>^\/patient\/link_avatar$</patern>
+        <path>//link_avatar</path>
+        <context>
+            <patientid>json/patinetid</patientid>
+            <fileid>json/fileid</fileid>
+        </context>
+        <singlerow>true</singlerow>
+    </action>    
+    <action type="qurey">
+        <patern>^\/patient\/getavatar\/(.+)</patern>
+        <path>//getavatar</path>
+        <context>
+            <patientid>groups[1]</patientid>
+        </context>
+        <singlerow>true</singlerow>
+    </action>                     
+    <action type="qurey">
+        <patern>^\/patient\/identifierlist\/(.+)</patern>
+        <path>//identifierlist</path>
+        <context>
+            <patientid>groups[1]</patientid>
+        </context>
+    </action>
+       
+    <action type="dml">
+        <patern>^\/patient\/createidentifier\/(.+)$</patern>
+        <path>//createidentifier</path>
+        <context>
+            <patientid>groups[1]</patientid>
+            <system>json/system</system>
+            <value>json/value</value>
+        </context>
+    </action>
+        
+    <action type="dml">
+        <patern>^\/patient\/deleteidentifier$</patern>
+        <path>//deleteidentifier</path>
+        <context>
+            <system>json/system</system>
+            <value>json/value</value>
+        </context>    
+    </action>
+    <!-- Create INFO PATIENT  -->
+    
+    <action type="qurey"> 
+        <patern>^\/patient\/readtelecom\/(.+)</patern>
+        <path>//readtelecom</path>
+        <context>
+            <patientid>groups[1]</patientid>
+        </context>
+    </action>
+    <action type="dml">
+        <patern>^\/patient\/deletetelecom\/(.+)</patern>
+        <path>//deletetelecom</path>
+        <context>
+            <id>groups[1]</id>
+        </context>    
+    </action>
+    
+    <action type="dml">
+        <patern>^\/patient\/createtelecom$</patern>
+        <path>//createtelecom</path>
+        <context>
+            <patientid>json/patientid</patientid>
+            <usetype>json/usetype</usetype>
+            <systemtype>json/systemtype</systemtype>
+            <contactvalue>json/contactvalue</contactvalue>
+            <periodstart>json/periodstart</periodstart>
+            <periodend>json/periodend</periodend>
+        </context>    
+    </action>
+    <action type="dml">
+        <patern>^\/patient\/gettelecom\/(.+)</patern>
+        <path>//gettelecom</path>
+        <context>
+            <telecomid>groups[1]</telecomid>
+        </context>    
+    </action>
+    <action type="dml">
+        <patern>^\/patient\/updatetelecom\/(.+)</patern>
+        <path>//updatetelecom</path>
+        <context>
+            <usetype>json/usetype</usetype>
+            <systemtype>json/systemtype</systemtype>
+            <contactvalue>json/contactvalue</contactvalue>
+            <periodstart>json/periodstart</periodstart>
+            <periodend>json/periodend</periodend>
+            <patientid>json/patientid</patientid>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>^\/patient\/readaddress\/(.+)</patern>
+        <path>//readaddress</path>
+        <context>
+            <patientid>groups[1]</patientid>
+        </context>
+    </action>
+    
+    <action type="dml">
+        <patern>^\/patient\/deleteaddress\/(.+)</patern>
+        <path>//deleteaddress</path>
+        <context>
+            <id>groups[1]</id>
+        </context>    
+    </action>
+    
+    <action type="dml">
+        <patern>^\/patient\/createaddress$</patern>
+        <path>//createaddress</path>
+        <context>
+            <patientid>json/patientid</patientid>
+            <usetype>json/usetype</usetype>
+            <fulltext>json/fulltext</fulltext>
+            <line>json/line</line>
+            <city>json/city</city>
+            <state>json/state</state>
+            <zip>json/zip</zip>
+            <country>json/country</country>
+            <periodstart>json/periodstart</periodstart>
+            <periodend>json/periodend</periodend>
+        </context>    
+    </action>
+    <action type="dml">
+        <patern>^\/patient\/getaddress\/(.+)</patern>
+        <path>//getaddress</path>
+        <context>
+            <addressid>groups[1]</addressid>
+        </context>    
+    </action>
+    <action type="dml">
+        <patern>^\/patient\/updateaddress\/(.+)</patern>
+        <path>//updateaddress</path>
+        <context>
+            <usetype>json/usetype</usetype>
+            <fulltext>json/fulltext</fulltext>
+            <line>json/line</line>
+            <city>json/city</city>
+            <state>json/state</state>
+            <zip>json/zip</zip>
+            <country>json/country</country>
+            <periodstart>json/periodstart</periodstart>
+            <periodend>json/periodend</periodend>
+            <patientid>json/patientid</patientid>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    <action type="listContact" action="list" > 
+        <patern>^\/patient\/collectcontact\/(.+)</patern>
+        <path>//patientcollectcontact</path>
+        <context>
+            <patientid>groups[1]</patientid>
+        </context>
+    </action>
+    <action type="qurey"> 
+        <patern>^\/patient\/readcontact\/(.+)</patern>
+        <path>//readcontact</path>
+        <context>
+            <patientid>groups[1]</patientid>
+        </context>
+    </action>
+    <action type="qurey"> 
+        <patern>^\/patient\/readspeccontact\/(.+)</patern>
+        <path>//readspeccontact</path>
+        <context>
+            <patientid>groups[1]</patientid>
+        </context>
+    </action>
+    
+    <action type="listContact" action="create" > 
+        <patern>^\/patient\/contact\/create$</patern>
+        <path>//patientcreatecontact</path>
+        <context>
+            <patientid>json/patientid</patientid>
+            <relationshipcode>json/relationshipcode</relationshipcode>
+            <surname>json/surname</surname>
+            <firstname>json/firstname</firstname>
+            <patname>json/patname</patname>
+            <usetype>json/usetype</usetype>
+            <periodstart>json/periodstart</periodstart>
+            <periodend>json/periodend</periodend>
+            <contactspec>json/contactspec</contactspec>
+        </context>
+    </action>
+    <action type="dml">
+        <patern>^\/patient\/createcontact\$</patern>
+        <path>//createcontact</path>
+        <context>
+            <patientid>json/patientid</patientid>
+            <relationshipcode>json/relationshipcode</relationshipcode>
+            <surname>json/surname</surname>
+            <firstname>json/firstname</firstname>
+            <patname>json/patname</patname>
+            <usetype>json/usetype</usetype>
+            <periodstart>json/periodstart</periodstart>
+            <periodend>json/periodend</periodend>
+        </context>    
+    </action>
+    <action type="dml">
+        <patern>^\/patient\/updatecontact\/(.+)$</patern>
+        <path>//updatecontact</path>
+        <context>
+            <patientid>json/patientid</patientid>
+            <relationshipcode>json/relationshipcode</relationshipcode>
+            <surname>json/surname</surname>
+            <firstname>json/firstname</firstname>
+            <patname>json/patname</patname>
+            <usetype>json/usetype</usetype>
+            <periodstart>json/periodstart</periodstart>
+            <periodend>json/periodend</periodend>
+            <periodend>json/periodend</periodend>
+            <contactid>groups[1]</contactid>
+        </context>    
+    </action>
+    <action type="dml">
+        <patern>^\/patient\/deletecontact\/(.+)$</patern>
+        <path>//deletecontact</path>
+        <context>
+            <contactid>groups[1]</contactid>
+        </context>    
+    </action>
+    <action type="dml">
+        <patern>^\/patient\/createspeccontact$</patern>
+        <path>//createspeccontact</path>
+        <context>
+            <contactid>json/contactid</contactid>
+            <usetype>json/usetype</usetype>
+            <systemtype>json/systemtype</systemtype>
+            <contactvalue>json/contactvalue</contactvalue>
+            <notifycode>json/notifycode</notifycode>
+            <periodstart>json/periodstart</periodstart>
+            <periodend>json/periodend</periodend>
+        </context>    
+    </action>
+    <action type="dml">
+        <patern>^\/patient\/deletespeccontact\/(.+)$</patern>
+        <path>//deletespeccontact</path>
+        <context>
+            <contactid>groups[1]</contactid>
+        </context>    
+    </action>
+</page>
+
+ 

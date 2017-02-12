@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<page>
+    <location>file:///SQL/CAREPLAN/MONITORGLUCOSE/sql.xml</location>
+    <prefix>^\/careplan/monitorglucose\/</prefix>
+    
+    <action type="monitorGlucose" action="read"> 
+        <patern>read\/(.+)$</patern>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    <action type="monitorGlucose" action="create"> 
+        <patern>create$</patern>
+        <context>
+            <status>json/data/status</status>
+            <periodstart>json/data/periodstart</periodstart>
+            <periodend>json/data/periodend</periodend>
+            <modified>json/data/modified</modified>
+            <patient>json/data/patient</patient>
+            <participantpractitioner>json/data/participantpractitioner</participantpractitioner>
+            <participantorganization>json/data/participantorganization</participantorganization>
+            <ranges>json/data/ranges</ranges>
+        </context>
+    </action>
+
+    <action type="monitorGlucose" action="update"> 
+        <patern>update\/(.+)$</patern>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <periodstart>json/data/periodstart</periodstart>
+            <periodend>json/data/periodend</periodend>
+            <modified>json/data/modified</modified>
+            <patient>json/data/patient</patient>
+            <participantpractitioner>json/data/participantpractitioner</participantpractitioner>
+            <participantorganization>json/data/participantorganization</participantorganization>
+            <ranges>json/data/ranges</ranges>
+        </context>
+    </action>
+    
+    <action type="dml">
+        <patern>delete\/(.+)$</patern>
+        <path>//delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    <action type="template">
+        <patern>template$</patern>
+        <template>
+       <![CDATA[
+          {"success":true,
+  "data":{
+      "status":"active",
+      "periodstart":null,
+      "periodend":null,
+      "modified":null,
+      "patient":null,
+      "participantpractitioner":null,
+      "participantorganization":null,
+      "ranges":[
+         {"code":"160184",
+          "foodintake":"8417868",
+          "bodysite":null,
+          "range":[
+                    {"rangetype":"2","low":7.0,"high":null},
+                    {"rangetype":"3","low":5.6,"high":7},
+                    {"rangetype":"3","low":2.8,"high":3.8},
+                    {"rangetype":"2","low":null,"high":2.8}
+                  ]
+         },
+         {"code":"160184",
+          "foodintake":"8417872",
+          "bodysite":null,
+          "range":[
+               {"rangetype":"2","low":10.0,"high":null},
+               {"rangetype":"3","low":7.8,"high":10},
+               {"rangetype":"3","low":3.5,"high":3.8},
+               {"rangetype":"2","low":null,"high":3.5}
+               ]
+         },
+        {"code":"160184",
+         "foodintake":null,
+         "bodysite":null,
+         "range":[
+               {"rangetype":"2","low":11.2,"high":null},
+               {"rangetype":"3","low":5.6,"high":11.2},
+               {"rangetype":"3","low":2.8,"high":3.8},
+               {"rangetype":"2","low":null,"high":2.8}
+              ]
+        }
+      ]
+  }
+}
+        ]]>
+        </template>
+    </action>
+    
+    <action type="query"> 
+        <patern>search$</patern>
+        <path>//search</path>
+        <context>
+            <patient>json/data/patient</patient> 
+            <status>json/data/status</status>
+            <startperiodstart>json/data/startperiodstart</startperiodstart>
+            <endperiodstart>json/data/endperiodstart</endperiodstart>
+            <startperiodend>json/data/startperiodend</startperiodend>
+            <endperiodend>json/data/endperiodend</endperiodend>
+            <orderBy>json/orderBy</orderBy>
+        </context>        
+    </action>
+    
+    <action type="qurey">
+        <patern>count$</patern>
+        <path>//count</path>
+        <context>
+            <patient>json/data/patient</patient> 
+            <status>json/data/status</status>
+            <startperiodstart>json/data/startperiodstart</startperiodstart>
+            <endperiodstart>json/data/endperiodstart</endperiodstart>
+            <startperiodend>json/data/startperiodend</startperiodend>
+            <endperiodend>json/data/endperiodend</endperiodend>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml"> 
+        <patern>completed</patern>
+        <context>
+        </context>
+    </action> 
+</page>

@@ -1,0 +1,1403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    
+    <multiple_pregnancy>
+        <read>
+            <parameter name="id"/>
+              <![CDATA[
+   select A.id,
+    A.typeid,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.quantity ,
+    A.appliesdatetime
+   from  mis.v_clinical_observation_multiple_pregnancy A
+   where A.id=?
+  
+   ]]> 
+          
+        </read> 
+        
+        <create>
+            <parameter name="status" />
+            <parameter name="reliability" />
+            <parameter name="comments" />
+            <parameter name="patientid" />
+            <parameter name="device" />
+            <parameter name="organization" />
+            <parameter name="practitioner" />
+            <parameter name="quantity" />
+            <parameter name="appliesdatetime" />
+            <parameter name="id" value="${PAGE.guid()}"/>  
+           <![CDATA[
+        insert into mis.v_clinical_observation_multiple_pregnancy
+        (status,reliability,comments,patientid,device,organization,practitioner,quantity,appliesdatetime,id)
+        values
+        (${PAGE.strRepeat("?",",",10)})
+        returning  id as id
+        ]]>
+        </create>  
+      
+        <update>
+            <parameter name="status" />
+            <parameter name="reliability" />
+            <parameter name="comments" />
+            <parameter name="patientid" />
+            <parameter name="device" />
+            <parameter name="organization" />
+            <parameter name="practitioner" />
+            <parameter name="quantity" />
+            <parameter name="appliesdatetime" />
+            <parameter name="id"/>
+          
+           <![CDATA[
+            update mis.v_clinical_observation_multiple_pregnancy set
+               status =?,
+               reliability=?,
+               comments=?,
+               patientid=?,
+               device=?,
+               organization=?,
+               practitioner=?,
+               quantity=?,
+               appliesdatetime=?
+            where id=?
+            returning  id as id
+          ]]>  
+        </update>
+      
+        <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_observation_multiple_pregnancy
+             where id=?
+           ]]>
+        </delete>
+    </multiple_pregnancy>
+    
+    <duration_of_pregnancy>
+        <read>
+            <parameter name="id"/>
+              <![CDATA[
+    select A.id,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.valuedate,
+    A.code,
+    A.appliesdatetime
+  from mis.v_clinical_observation_duration_of_pregnancy A          
+  where A.id=?
+     ]]> 
+        </read>
+        
+        <create>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="valuedate"/>
+            <parameter name="code"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="id" value="${PAGE.guid()}"/>
+            <![CDATA[
+  insert into mis.v_clinical_observation_duration_of_pregnancy
+  (status,reliability,comments,patientid,device,organization,practitioner,valuedate,code,appliesdatetime,id)
+  values
+  (${PAGE.strRepeat("?",",",11)})
+  returning  id as id
+            ]]> 
+        </create>
+        
+        <update>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="valuedate"/>
+            <parameter name="code"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="id"/>
+            <![CDATA[
+               update mis.v_clinical_observation_duration_of_pregnancy set
+               status =?,
+               reliability=?,
+               comments=?,
+               patientid=?,
+               device=?,
+               organization=?,
+               practitioner=?,
+               valuedate=?,
+               code=?,
+               appliesdatetime=?
+            where id=?
+            returning  id as id    
+            ]]> 
+        </update>
+        
+        <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_observation_duration_of_pregnancy
+             where id=?
+           ]]>
+        </delete>
+    </duration_of_pregnancy>
+    
+    <pregnancy_date_of_birth>
+        <read>
+            <parameter name="id"/>
+              <![CDATA[
+    select A.id,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.valuedate,
+    A.code,
+    A.appliesdatetime
+  from mis.v_clinical_observation_date_of_birth A          
+  where A.id=?
+     ]]> 
+        </read>
+        
+        <create>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="valuedate"/>
+            <parameter name="code"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="id" value="${PAGE.guid()}"/>
+            <![CDATA[
+  insert into mis.v_clinical_observation_date_of_birth
+  (status,reliability,comments,patientid,device,organization,practitioner,valuedate,code,appliesdatetime,id)
+  values
+  (${PAGE.strRepeat("?",",",11)})
+  returning  id as id
+            ]]> 
+        </create>
+        
+        <update>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="valuedate"/>
+            <parameter name="code"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="id"/>
+            <![CDATA[
+               update mis.v_clinical_observation_date_of_birth set
+               status =?,
+               reliability=?,
+               comments=?,
+               patientid=?,
+               device=?,
+               organization=?,
+               practitioner=?,
+               valuedate=?,
+               code=?,
+               appliesdatetime=?
+            where id=?
+            returning  id as id    
+            ]]> 
+        </update>
+        
+        <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_observation_date_of_birth
+             where id=?
+           ]]>
+        </delete>
+    </pregnancy_date_of_birth>
+    
+    
+    <press_bld_and_heart_rate>
+        <read>
+            <parameter name="id"/>
+              <![CDATA[
+   select 
+    A.id, 
+    A.typeid,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.appliesdatetime,
+    A.dia,
+    A.sys,
+    A.puls,
+    A.entrymethod
+   from  mis.v_clinical_observation_press_bld_and_heart_rate A
+   where A.id=?
+   ]]>
+        </read>
+        <create>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="dia"  type="bigdecimal"/>
+            <parameter name="sys" type="bigdecimal"/>
+            <parameter name="puls"  type="bigdecimal"/>
+            <parameter name="entrymethod"/>
+            <parameter name="id" value="${PAGE.guid()}"/>
+            <![CDATA[
+  insert into mis.v_clinical_observation_press_bld_and_heart_rate
+  (status,reliability,comments,patientid,device,organization,practitioner,appliesdatetime,dia,sys,puls,entrymethod,id)
+  values
+  (${PAGE.strRepeat("?",",",13)})
+  returning  id as id
+            ]]> 
+        </create>  
+        <update>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="dia"  type="bigdecimal"/>
+            <parameter name="sys" type="bigdecimal"/>
+            <parameter name="puls"  type="bigdecimal"/>
+            <parameter name="entrymethod"/>
+            <parameter name="id" />
+                        <![CDATA[
+            update mis.v_clinical_observation_press_bld_and_heart_rate set
+                   status =?,
+                   reliability=?,
+                   comments=?, 
+                   patientid=?,
+                   device=?,
+                   organization=?,
+                   practitioner=?,
+                   appliesdatetime=?,
+                   dia=?,
+                   sys=?,
+                   puls=?,
+                   entrymethod=?
+            where id=?
+            returning  id as id       
+                        ]]>
+        </update>
+        <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_observation_press_bld_and_heart_rate
+             where id=?
+           ]]>
+        </delete>     
+    </press_bld_and_heart_rate>
+    
+    <health>
+        <read>
+            <parameter name="id"/>
+              <![CDATA[
+select  
+    A.id,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.code,
+    A.appliesdatetime           
+from mis.v_clinical_observation_HEALTH A
+where A.id=?
+              ]]>
+        </read>
+        <create>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="code"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="id" value="${PAGE.guid()}"/>
+            <![CDATA[
+     insert into mis.v_clinical_observation_HEALTH
+     (status,reliability,comments,patientid,device,organization,practitioner,code,appliesdatetime)
+     values
+     (${PAGE.strRepeat("?",",",9)})
+      returning  id as id
+            ]]>
+        </create>
+        <update>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="code"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="id" />
+            <![CDATA[
+     update mis.v_clinical_observation_HEALTH set
+      status=?,
+      reliability=?,
+      comments=?,
+      patientid=?,
+      device=?,
+      organization=?,
+      practitioner=?,
+      code=?,
+      appliesdatetime=?
+     from mis.v_clinical_observation_HEALTH
+     where A.id=?
+     returning  id as id
+            ]]>
+        </update>
+        <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_observation_HEALTH
+             where id=?
+           ]]>
+        </delete>
+    </health> 
+    
+    <maintaining_food_diary>
+        <read>
+            <parameter name="id"/>
+          <![CDATA[ 
+ select  
+    A.id,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.quantity,
+    A.code,
+    A.appliesdatetime           
+from mis.v_clinical_observation_MAINTAINING_FOOD_DIARY A
+     where A.id=?
+       ]]>
+        </read>
+        <create>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="quantity"  type="bigdecimal"/>
+            <parameter name="code" />
+            <parameter name="id" value="${PAGE.guid()}"/>
+            <![CDATA[
+  insert into mis.v_clinical_observation_MAINTAINING_FOOD_DIARY
+  (status,reliability,comments,patientid,device,organization,practitioner,appliesdatetime,quantity,code,id)
+  values
+  (${PAGE.strRepeat("?",",",11)})
+  returning  id as id
+            ]]> 
+        </create> 
+        <update>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="quantity"  type="bigdecimal"/>
+            <parameter name="code" />
+            <parameter name="id" />
+             <![CDATA[
+     update mis.v_clinical_observation_MAINTAINING_FOOD_DIARY set
+      status=?,
+      reliability=?,
+      comments=?,
+      patientid=?,
+      device=?,
+      organization=?,
+      practitioner=?,
+      appliesdatetime=?,
+      quantity=?,
+      code=?
+     where A.id=?
+     returning  id as id
+            ]]>
+        </update>
+        <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_observation_MAINTAINING_FOOD_DIARY
+             where id=?
+           ]]>
+        </delete>
+    </maintaining_food_diary>
+
+    <physicalactivity>
+        <read>
+            <parameter name="id"/>
+        <![CDATA[
+select  
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.code,
+    A.appliesdatetime
+from mis.v_clinical_observation_PHYSICALACTIVITY A
+where A.id=?
+    ]]>
+        </read>
+        <create>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="code" />
+            <parameter name="id" value="${PAGE.guid()}"/>
+            <![CDATA[
+  insert into mis.v_clinical_observation_PHYSICALACTIVITY
+  (status,reliability,comments,patientid,device,organization,practitioner,appliesdatetime,code,id)
+  values
+  (${PAGE.strRepeat("?",",",10)})
+  returning  id as id
+            ]]> 
+        </create>
+        <update>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="code" />
+            <parameter name="id" />
+             <![CDATA[
+     update mis.v_clinical_observation_PHYSICALACTIVITY set
+      status=?,
+      reliability=?,
+      comments=?,
+      patientid=?,
+      device=?,
+      organization=?,
+      practitioner=?,
+      appliesdatetime=?,
+      code=?
+     where A.id=?
+     returning  id as id
+            ]]>
+        </update>
+        <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_observation_PHYSICALACTIVITY
+             where id=?
+           ]]>
+        </delete>
+
+    </physicalactivity>
+    
+    <alcohol_intake>
+        <read>
+            <parameter name="id"/>
+        <![CDATA[
+    select 
+      a.id,
+      a.typeid,
+      a.status,
+      a.reliability,
+      a.comments,
+      a.patientid,
+      a.device as deviceid,
+      a.organization as organizationid,
+      a.practitioner as practitionerid,
+      a.quantity,
+      a.appliesdatetime 
+    from mis.v_clinical_observation_ALCOHOL_INTAKE a
+    where a.id=?
+       ]]>
+        </read>
+        <create>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="quantity"  type="bigdecimal"/>
+            <parameter name="id" value="${PAGE.guid()}"/>
+            <![CDATA[
+  insert into mis.v_clinical_observation_ALCOHOL_INTAKE
+  (status,reliability,comments,patientid,device,organization,practitioner,appliesdatetime,quantity,id)
+  values
+  (${PAGE.strRepeat("?",",",10)})
+  returning  id as id
+            ]]> 
+        </create>
+        <update>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="quantity"  type="bigdecimal"/>
+            <parameter name="id" />
+             <![CDATA[
+     update mis.v_clinical_observation_ALCOHOL_INTAKE set
+      status=?,
+      reliability=?,
+      comments=?,
+      patientid=?,
+      device=?,
+      organization=?,
+      practitioner=?,
+      appliesdatetime=?,
+      quantity=?
+     where A.id=?
+     returning  id as id
+            ]]>
+        </update>
+        <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_observation_PHYSICALACTIVITY
+             where id=?
+           ]]>
+        </delete>
+    </alcohol_intake>    
+    
+    <mdc_mass_body_actual>
+        <read>
+            <parameter name="id"/>  
+        <![CDATA[
+    select 
+       a.id,
+       a.typeid,
+       a.status,
+       a.reliability,
+       a.comments,
+       a.patientid,
+       a.device as deviceid,
+       a.organization as organizationid,
+       a.practitioner as practitionerid,
+       a.quantity,
+       a.appliesdatetime  
+    from mis.v_clinical_observation_MDC_MASS_BODY_ACTUAL a
+    where A.id=?
+        ]]>
+        </read>
+        <create>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="quantity"  type="bigdecimal"/>
+            <parameter name="id" value="${PAGE.guid()}"/>
+            <![CDATA[
+  insert into mis.v_clinical_observation_MDC_MASS_BODY_ACTUAL
+  (status,reliability,comments,patientid,device,organization,practitioner,appliesdatetime,quantity,id)
+  values
+  (${PAGE.strRepeat("?",",",10)})
+  returning  id as id
+            ]]> 
+        </create>
+        <update>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="quantity"  type="bigdecimal"/>
+            <parameter name="id" />
+             <![CDATA[
+     update mis.v_clinical_observation_MDC_MASS_BODY_ACTUAL set
+      status=?,
+      reliability=?,
+      comments=?,
+      patientid=?,
+      device=?,
+      organization=?,
+      practitioner=?,
+      appliesdatetime=?,
+      quantity=?
+     where id=?
+     returning  id as id
+            ]]>
+        </update>
+        <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_observation_MDC_MASS_BODY_ACTUAL
+             where id=?
+           ]]>
+        </delete>
+    </mdc_mass_body_actual>
+    <mdc_len_body_actual>
+        <read>
+            <parameter name="id"/>  
+        <![CDATA[
+    select 
+       a.id,
+       a.typeid,
+       a.status,
+       a.reliability,
+       a.comments,
+       a.patientid,
+       a.device as deviceid,
+       a.organization as organizationid,
+       a.practitioner as practitionerid,
+       a.quantity,
+       a.appliesdatetime  
+    from mis.v_clinical_observation_MDC_LEN_BODY_ACTUAL a
+    where A.id=?
+        ]]>
+        </read>
+        <create>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="quantity"  type="bigdecimal"/>
+            <parameter name="id" value="${PAGE.guid()}"/>
+            <![CDATA[
+  insert into mis.v_clinical_observation_MDC_LEN_BODY_ACTUAL
+  (status,reliability,comments,patientid,device,organization,practitioner,appliesdatetime,quantity,id)
+  values
+  (${PAGE.strRepeat("?",",",10)})
+  returning  id as id
+            ]]> 
+        </create>
+        <update>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="quantity"  type="bigdecimal"/>
+            <parameter name="id" />
+             <![CDATA[
+     update mis.v_clinical_observation_MDC_LEN_BODY_ACTUAL set
+      status=?,
+      reliability=?,
+      comments=?,
+      patientid=?,
+      device=?,
+      organization=?,
+      practitioner=?,
+      appliesdatetime=?,
+      quantity=?
+     where id=?
+     returning  id as id
+            ]]>
+        </update>
+        <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_observation_MDC_LEN_BODY_ACTUAL
+             where id=?
+           ]]>
+        </delete>
+    </mdc_len_body_actual> 
+    <note>
+        <read>
+            <parameter name="id"/>
+        <![CDATA[ 
+    select 
+       a.id,
+       a.status,
+       a.reliability,
+       a.comments,
+       a.patientid,
+       a.device as deviceid,
+       a.organization as organizationid,
+       a.practitioner as practitionerid,
+       a.string,
+       a.appliesdatetime 
+    from mis.v_clinical_observation_NOTE a
+    where a.id=?
+        ]]>
+        </read>
+        <create>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="string"  />
+            <parameter name="id" value="${PAGE.guid()}"/>
+            <![CDATA[
+  insert into mis.v_clinical_observation_NOTE
+  (status,reliability,comments,patientid,device,organization,practitioner,appliesdatetime,string,id)
+  values
+  (${PAGE.strRepeat("?",",",10)})
+  returning  id as id
+            ]]> 
+        </create>
+        <update>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="string"  />
+            <parameter name="appliesdatetime"  />
+            <parameter name="id" />
+             <![CDATA[
+     update mis.v_clinical_observation_NOTE set
+      status=?,    
+      reliability=?,
+      comments=?, 
+      patientid=?,
+      device=?, 
+      organization=?,
+      practitioner=?,
+      string=?,  
+      appliesdatetime=? 
+     where id=?
+     returning  id as id 
+            ]]>
+        </update>
+        <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_observation_NOTE
+             where id=?
+           ]]>
+        </delete>
+    </note>
+    <mdc_temperature>
+        <read>
+            <parameter name="id"/>
+        <![CDATA[    
+select 
+    A.id,
+    A.typeid,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.quantity,
+    A.code,
+    A.appliesdatetime
+from mis.v_clinical_observation_MDC_TEMPERATURE A
+where A.id=?
+        ]]>
+        </read>
+        <create>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="quantity"  type="bigdecimal"/>
+            <parameter name="code" />
+            <parameter name="id" value="${PAGE.guid()}"/>
+            <![CDATA[
+  insert into mis.v_clinical_observation_MDC_TEMPERATURE
+  (status,reliability,comments,patientid,device,organization,practitioner,appliesdatetime,quantity,code,id)
+  values
+  (${PAGE.strRepeat("?",",",11)})
+  returning  id as id
+            ]]> 
+        </create>
+        <update>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="quantity"  type="bigdecimal"/>
+            <parameter name="code" />
+            <parameter name="id" />
+             <![CDATA[
+     update mis.v_clinical_observation_MDC_TEMPERATURE set
+      status=?,
+      reliability=?,
+      comments=?,
+      patientid=?,
+      device=?,
+      organization=?,
+      practitioner=?,
+      appliesdatetime=?,
+      quantity=?,
+      code=?
+     where id=?
+     returning  id as id
+            ]]>
+        </update>
+        <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_observation_MDC_TEMPERATURE
+             where id=?
+           ]]>
+        </delete>
+    </mdc_temperature>
+    
+       
+    <measurement_of_water_balance>
+        <read>
+            <parameter name="id"/>
+        <![CDATA[
+select  
+    A.id,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.quantity,
+    A.code,
+    A.appliesdatetime
+from mis.v_clinical_observation_MEASUREMENT_OF_WATER_BALANCE A
+where A.id=?
+     ]]>
+        </read>
+        <create>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="quantity"  type="bigdecimal"/>
+            <parameter name="code" />
+            <parameter name="id" value="${PAGE.guid()}"/>
+            <![CDATA[
+  insert into mis.v_clinical_observation_MEASUREMENT_OF_WATER_BALANCE
+  (status,reliability,comments,patientid,device,organization,practitioner,appliesdatetime,quantity,code,id)
+  values
+  (${PAGE.strRepeat("?",",",11)})
+  returning  id as id
+            ]]> 
+        </create>
+        <update>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="quantity"  type="bigdecimal"/>
+            <parameter name="code" />
+            <parameter name="id" />
+             <![CDATA[
+     update mis.v_clinical_observation_MEASUREMENT_OF_WATER_BALANCE set
+      status=?,
+      reliability=?,
+      comments=?,
+      patientid=?,
+      device=?,
+      organization=?,
+      practitioner=?,
+      appliesdatetime=?,
+      quantity=?,
+      code=?
+     where id=?
+     returning  id as id
+            ]]>
+        </update>
+        <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_observation_MEASUREMENT_OF_WATER_BALANCE
+             where id=?
+           ]]>
+        </delete>
+    </measurement_of_water_balance>
+    
+    <measurement_fruit>
+        <read>
+            <parameter name="id"/>
+            <![CDATA[
+ select 
+    A.id,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.quantity,
+    A.code,
+    A.appliesdatetime 
+from mis.v_clinical_observation_MEASUREMENT_FRUIT A
+where A.id=?
+     ]]>    
+        </read>
+        <create>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="quantity"  type="bigdecimal"/>
+            <parameter name="code" />
+            <parameter name="id" value="${PAGE.guid()}"/>
+            <![CDATA[
+  insert into mis.v_clinical_observation_MEASUREMENT_FRUIT
+  (status,reliability,comments,patientid,device,organization,practitioner,appliesdatetime,quantity,code,id)
+  values
+  (${PAGE.strRepeat("?",",",11)})
+  returning  id as id
+            ]]> 
+        </create>
+        <update>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="quantity"  type="bigdecimal"/>
+            <parameter name="code" />
+            <parameter name="id" />
+             <![CDATA[
+     update mis.v_clinical_observation_MEASUREMENT_FRUIT set
+      status=?,
+      reliability=?,
+      comments=?,
+      patientid=?,
+      device=?,
+      organization=?,
+      practitioner=?,
+      appliesdatetime=?,
+      quantity=?,
+      code=?
+     where id=?
+     returning  id as id
+            ]]>
+        </update>
+        <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_observation_MEASUREMENT_FRUIT
+             where id=?
+           ]]>
+        </delete>
+    </measurement_fruit>
+    
+    <concentration_glucose>
+        <read>
+            <parameter name="id"/>
+      <![CDATA[
+ select 
+    A.id,
+    A.typeid,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.quantity,
+    A.code,
+    A.bodysite,
+    A.foodintake,
+    A.entrymethod,
+    A.appliesdatetime
+from mis.v_clinical_observation_concentration_glucose A
+where A.id=?  
+        ]]>
+        </read>
+        <create>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="quantity"  type="bigdecimal"/>
+            <parameter name="code" />
+            <parameter name="bodysite" />
+            <parameter name="foodintake" />
+            <parameter name="entrymethod" />
+            <parameter name="id" value="${PAGE.guid()}"/>
+   <![CDATA[       
+   insert into mis.v_clinical_observation_concentration_glucose
+  (status,reliability,comments,patientid,device,organization,practitioner,appliesdatetime,quantity,code,bodysite,foodintake,entrymethod,id)
+  values
+  (${PAGE.strRepeat("?",",",14)})
+  returning  id as id
+  ]]>
+        </create>
+        <update>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="quantity"  type="bigdecimal"/>
+            <parameter name="code" />
+            <parameter name="bodysite" />
+            <parameter name="foodintake" />
+            <parameter name="entrymethod"/>
+            <parameter name="id" />
+             <![CDATA[
+     update mis.v_clinical_observation_concentration_glucose set
+      status=?,
+      reliability=?,
+      comments=?,
+      patientid=?,
+      device=?,
+      organization=?,
+      practitioner=?,
+      appliesdatetime=?,
+      quantity=?,
+      code=?,
+      bodysite=?,
+      foodintake=?,
+      entrymethod=?
+     where id=?
+     returning  id as id
+            ]]>
+        </update>
+        <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_observation_concentration_glucose
+             where id=?
+           ]]>
+        </delete>
+        
+        <accuchek>
+            <upload>
+                <parameter name="userid"/>
+                <parameter name="time"/>
+                <parameter name="filename" />
+                <parameter name="contenttype" />
+                <parameter name="format" />
+                <parameter name="size" type="integer"/>
+                <parameter name="content" type="arraybyte"/>
+            </upload>
+        </accuchek>
+        <!-- FILE AAA? -->   
+    </concentration_glucose>
+    
+    <attachment>
+        <read>
+            <parameter name="id"/>
+<![CDATA[
+ SELECT 
+    A.id,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.code,
+    A.appliesdatetime,
+    A.filename,
+    A.contenttype,
+    A.format,
+    A.size
+    FROM mis.v_clinical_observation_attachment A
+   where A.id=?
+   ]]>
+        </read>
+        <create>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="code" />
+            <parameter name="filename" />
+            <parameter name="contenttype" />
+            <parameter name="format" />
+            <parameter name="size" type="integer"/>
+            <parameter name="content" type="arraybyte"/>
+            <parameter name="id" value="${PAGE.guid()}"/>
+       <![CDATA[       
+   insert into mis.v_clinical_observation_attachment
+  (status,reliability,comments,patientid,device,organization,practitioner,appliesdatetime,code,filename,contenttype,format,size,content,id)
+  values
+  (${PAGE.strRepeat("?",",",15)})
+  returning  id as id
+  ]]>
+        </create>
+        <update>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="id" />
+             <![CDATA[
+     update mis.v_clinical_observation_attachment set
+      status=?,
+      reliability=?,
+      comments=?,
+      patientid=?,
+      device=?,
+      organization=?,
+      practitioner=?,
+      appliesdatetime=?
+     where id=?
+     returning  id as id
+            ]]>
+        </update>
+        <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_observation_attachment
+             where id=?
+           ]]>
+        </delete>
+        <download>
+            <parameter type="string" name="id" />
+        <![CDATA[
+           select 
+              A.filename,A.contenttype,A.format,A.content 
+           from mis.v_clinical_observation_attachment A
+           where A.id=?
+        ]]>
+        </download>
+    
+    </attachment>
+    
+    <type_absorption_liquid>
+        <read>
+            <parameter name="id"/>
+<![CDATA[
+ SELECT
+      id,
+      status,
+      reliability,
+      comments,
+      patientid,
+      device as deviceid,
+      organization as organizationid,
+      practitioner as practitionerid,
+      string,
+      appliesdatetime
+    from mis.v_clinical_observation_type_absorption_liquid
+   where id=?
+   ]]>
+        </read>
+        <create>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="string"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="id" value="${PAGE.guid()}"/>
+ <![CDATA[       
+   insert into mis.v_clinical_observation_type_absorption_liquid
+   (status,reliability,comments,patientid,device,organization,practitioner,string,appliesdatetime,id)
+    values
+  (${PAGE.strRepeat("?",",",10)})
+  returning  id as id
+  ]]>
+        </create>
+        <update>
+            <parameter name="status"/>
+            <parameter name="reliability"/>
+            <parameter name="comments"/> 
+            <parameter name="patientid"/>
+            <parameter name="device" />
+            <parameter name="organization"/>
+            <parameter name="practitioner"/>
+            <parameter name="string"/>
+            <parameter name="appliesdatetime"/>
+            <parameter name="id" />
+<![CDATA[                   
+            update mis.v_clinical_observation_type_absorption_liquid set
+                status=?,
+                reliability=?,
+                comments=?,
+                patientid=?,
+                device=?,
+                organization=?,
+                practitioner=?,
+                string=?,
+                appliesdatetime=?
+            where id=?
+            returning  id as id
+  ]]>          
+        </update>
+        <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_observation_type_absorption_liquid
+             where id=?
+           ]]>
+        </delete>
+
+    </type_absorption_liquid>
+    
+    <getauthuser>
+        <parameter type="string" name="userid" />
+       <![CDATA[
+          select patient as patient_id from  mis.v_administrative_patient_identifier where value=?
+        ]]> 
+    </getauthuser>
+    
+    <device_search_serial_number>
+        <parameter type="string" name="value" />
+        <![CDATA[
+            select d.id, d.manufacturer, d.model, d.version, 
+            d.udi, d.lotnumber, d.patientid
+            from mis.v_administrative_device_identifier ident_d
+            inner join mis.v_administrative_device d on ident_d.device=d.id
+            where ident_d.value=?
+        ]]>
+    </device_search_serial_number>
+    
+    <device_concentration_glucose_search>
+        <parameter type="string" name="code" />
+        <parameter type="string" name="bodysite" />
+        <parameter type="string" name="entrymethod" />      
+        <parameter type="string" name="patientid" />
+        <parameter type="string" name="appliesdatetime" />
+        <parameter type="string" name="deviceid" />
+        <parameter type="bigdecimal" name="quantity" />
+        <![CDATA[
+            select 
+                A.id,
+                A.typeid,
+                A.status,
+                A.reliability,
+                A.comments,
+                A.patientid,
+                A.device as deviceid,
+                A.organization as organizationid,
+                A.practitioner as practitionerid,
+                A.quantity,
+                A.code,
+                B.name as codename,
+                A.bodysite,
+                (select name from mis.v_glossary_concentration_glucose_bodysite D where A.bodysite=D.code) as bodysitename,
+                A.foodintake,
+                (select name from mis.v_glossary_concentration_glucose_food_intake C where A.foodintake=C.code) as foodintakename,
+                A.entrymethod,
+                A.appliesdatetime
+            from mis.v_clinical_observation_concentration_glucose A,
+                mis.v_glossary_types_measurement_concentration_glucose B
+             where A.code=B.code and A.code = ? and A.bodysite = ? and A.entrymethod = ? 
+                and A.patientid = ? and A.appliesdatetime = ? and A.device = ? and A.quantity = ?
+        ]]>
+    </device_concentration_glucose_search>
+</root>

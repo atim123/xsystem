@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<page>
+    <location>file:///SQL/PRACTITIONER/practitioner.xml</location>
+    <action type="qurey"> 
+        <patern>^\/practitioner\/list$</patern>
+        <path>//practitionerlist</path>
+    </action>
+        
+        
+    <action type="qurey"> 
+        <patern>^\/practitioner\/getpractitioner\/(.+)$</patern>
+        <path>//getpractitioner</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>^\/practitioner\/chatlist\/(.+)$</patern>
+        <path>//practitionerchatlist</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>^\/practitioner\/getpractitionerbypatient\/(.+)$</patern>
+        <path>//getpractitionerbypatient</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>    
+        
+        
+    <action type="dml">
+        <patern>^\/practitioner\/createpractitioner$</patern>
+        <path>//createpractitioner</path>
+        <context>
+            <firstname>json/firstname</firstname>
+            <patname>json/patname</patname>
+            <surname>json/surname</surname>
+            <gender>json/gender</gender>
+            <birthdate>json/birthdate</birthdate>
+        </context>
+    </action>
+      
+        
+    <action type="dml">
+        <patern>^\/practitioner\/updatepractitioner\/(.+)$</patern>
+        <path>//updatepractitioner</path>
+        <context>
+            <firstname>json/firstname</firstname>
+            <patname>json/patname</patname>
+            <surname>json/surname</surname>
+            <gender>json/gender</gender>
+            <birthdate>json/birthdate</birthdate>
+            <id>groups[1]</id>
+        </context>
+    </action>
+        
+    <action type="dml">
+        <patern>^\/practitioner\/deletepractitioner\/(.+)$</patern>
+        <path>//deletepractitioner</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    <action type="dml">
+        <patern>^\/practitioner\/createlinkorganization$</patern>
+        <path>//createlinkorganization</path>
+        <context>
+            <practitionerid>json/practitionerid</practitionerid>
+            <organizationid>json/organizationid</organizationid>
+        </context>
+    </action>
+    <action type="dml">
+        <patern>^\/practitioner\/deletelinkorganization$</patern>
+        <path>//deletelinkorganization</path>
+        <context>
+            <practitionerid>json/practitionerid</practitionerid>
+            <organizationid>json/organizationid</organizationid>
+        </context>
+    </action>
+    <action type="dml">
+        <patern>^\/practitioner\/createavatar\/(.+)$</patern>
+        <path>//createavatar</path>
+        <context>
+            <practitionerid>groups[1]</practitionerid>
+            <filename>params/file/fileName</filename>
+            <contenttype>params/file/contentType</contenttype>
+            <format>params/file/fileType</format>
+            <authorid>request/remoteUser</authorid>
+            <subjectid>json/subjectid</subjectid>
+            <description>json/description</description>
+            <content>params/file/data</content>
+        </context>
+        <singlerow>true</singlerow>
+    </action>    
+    
+    <action type="qurey">
+        <patern>^\/practitioner\/getavatar\/(.+)$</patern>
+        <path>//getavatar</path>
+        <context>
+            <practitionerid>groups[1]</practitionerid>
+        </context>
+        <singlerow>true</singlerow>
+    </action>    
+    
+    <action type="qurey">
+        <patern>^\/practitioner\/identifierlist\/(.+)$</patern>
+        <path>//identifierlist</path>
+        <context>
+            <practitionerid>groups[1]</practitionerid>
+        </context>
+    </action>
+       
+    <action type="dml">
+        <patern>^\/practitioner\/createidentifier\/(.+)$</patern>
+        <path>//createidentifier</path>
+        <context>
+            <practitionerid>groups[1]</practitionerid>
+            <system>json/system</system>
+            <value>json/value</value>
+        </context>
+    </action>
+        
+    <action type="dml">
+        <patern>^\/practitioner\/deleteidentifier$</patern>
+        <path>//deleteidentifier</path>
+        <context>
+            <system>json/system</system>
+            <value>json/value</value>
+        </context>    
+    </action>
+    
+    <!-- Create INFO PRACTITIONER  -->
+    
+    <action type="qurey"> 
+        <patern>^\/practitioner\/readtelecom\/(.+)$</patern>
+        <path>//readtelecom</path>
+        <context>
+            <practitionerid>groups[1]</practitionerid>
+        </context>
+    </action>   
+    
+    <action type="dml">
+        <patern>^\/practitioner\/deletetelecom\/(.+)$</patern>
+        <path>//deletetelecom</path>
+        <context>
+            <id>groups[1]</id>
+        </context>    
+    </action>    
+    <action type="dml">
+        <patern>^\/practitioner\/createtelecom$</patern>
+        <path>//createtelecom</path>
+        <context>
+            <practitionerid>json/practitionerid</practitionerid>
+            <usetype>json/usetype</usetype>
+            <systemtype>json/systemtype</systemtype>
+            <contactvalue>json/contactvalue</contactvalue>
+            <periodstart>json/periodstart</periodstart>
+            <periodend>json/periodend</periodend>
+        </context>    
+    </action>
+    <action type="dml">
+        <patern>^\/practitioner\/gettelecom\/(.+)$</patern>
+        <path>//gettelecom</path>
+        <context>
+            <telecomid>groups[1]</telecomid>
+        </context>    
+    </action>
+    <action type="dml">
+        <patern>^\/practitioner\/updatetelecom\/(.+)$</patern>
+        <path>//updatetelecom</path>
+        <context>
+            <usetype>json/usetype</usetype>
+            <systemtype>json/systemtype</systemtype>
+            <contactvalue>json/contactvalue</contactvalue>
+            <periodstart>json/periodstart</periodstart>
+            <periodend>json/periodend</periodend>
+            <practitionerid>json/practitionerid</practitionerid>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>^\/practitioner\/readspeciality\/(.+)$</patern>
+        <path>//readspeciality</path>
+        <context>
+            <practitionerid>groups[1]</practitionerid>
+        </context>
+    </action>
+    <action type="dml">
+        <patern>^\/practitioner\/deletespeciality\/(.+)$</patern>
+        <path>//deletespeciality</path>
+        <context>
+            <id>groups[1]</id>
+        </context>    
+    </action>    
+     <action type="dml">
+        <patern>^\/practitioner\/createspeciality$</patern>
+        <path>//createspeciality</path>
+        <context>
+            <practitionerid>json/practitionerid</practitionerid>
+            <specialityid>json/specialityid</specialityid>
+            <periodstart>json/periodstart</periodstart>
+            <periodend>json/periodend</periodend>
+        </context>    
+    </action>   
+    <action type="dml">
+        <patern>^\/practitioner\/updatespeciality\/(.+)$</patern>
+        <path>//updatespeciality</path>
+        <context>
+            <specialityid>json/specialityid</specialityid>
+            <periodstart>json/periodstart</periodstart>
+            <periodend>json/periodend</periodend>
+            <practitionerid>json/practitionerid</practitionerid>
+            <id>groups[1]</id>
+        </context>
+    </action> 
+    
+    <action type="qurey"> 
+        <patern>^\/practitioner\/readposition\/(.+)$</patern>
+        <path>//readposition</path>
+        <context>
+            <practitionerid>groups[1]</practitionerid>
+        </context>
+    </action>
+    <action type="dml">
+        <patern>^\/practitioner\/deleteposition\/(.+)$</patern>
+        <path>//deleteposition</path>
+        <context>
+            <id>groups[1]</id>
+        </context>    
+    </action>    
+     <action type="dml">
+        <patern>^\/practitioner\/createposition$</patern>
+        <path>//createposition</path>
+        <context>
+            <practitionerid>json/practitionerid</practitionerid>
+            <positionid>json/positionid</positionid>
+            <periodstart>json/periodstart</periodstart>
+            <periodend>json/periodend</periodend>
+        </context>    
+    </action>   
+    <action type="dml">
+        <patern>^\/practitioner\/updateposition\/(.+)$</patern>
+        <path>//updateposition</path>
+        <context>
+            <positionid>json/positionid</positionid>
+            <periodstart>json/periodstart</periodstart>
+            <periodend>json/periodend</periodend>
+            <practitionerid>json/practitionerid</practitionerid>
+            <id>groups[1]</id>
+        </context>
+    </action> 
+</page>

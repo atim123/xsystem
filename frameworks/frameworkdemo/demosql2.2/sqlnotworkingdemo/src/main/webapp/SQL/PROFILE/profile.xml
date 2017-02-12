@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <profilelist>
+    <![CDATA[
+    SELECT id      as prof_id,
+           name    as prof_name,
+           conf    as conf
+    FROM mis.v_profile
+    ]]>
+    </profilelist> 
+    
+    
+    <getprofile>
+        <parameter type="string" name="id" />
+        <![CDATA[
+            SELECT id      as prof_id,
+                   name    as prof_name,
+                   conf    as conf
+            FROM mis.v_profile
+            where id=?
+        ]]>
+    </getprofile>
+    
+    <getprofilebypractandrole>
+        <parameter type="string" name="practitioner_id" />
+        <parameter type="string" name="role_name" />
+        <![CDATA[
+              SELECT v_prof.practitionerid as practitioner_id,
+              v_prof.orgid as org_id,
+              v_prof.orgname as org_name,
+              v_prof.profid as prof_id,
+              v_prof.profname as prof_name,
+              v_prof.conf,
+              v_prof.roleid as role_id,
+              v_prof.rolename as role_name
+              FROM mis.v_practitioner_organization_profile_role as v_prof
+              WHERE practitionerid=? and rolename=?
+        ]]>
+    </getprofilebypractandrole>
+    
+    <getprofilebypractitioner>
+        <parameter type="string" name="id" />
+        <![CDATA[
+              SELECT v_prof.practitionerid as practitioner_id,
+              v_prof.orgid as org_id,
+              v_prof.orgname as org_name,
+              v_prof.profid as prof_id,
+              v_prof.profname as prof_name,
+              v_prof.conf,
+              v_prof.roleid as role_id,
+              v_prof.rolename as role_name
+              FROM mis.v_practitioner_organization_profile_role as v_prof
+              WHERE practitionerid=?
+        ]]>
+    </getprofilebypractitioner>
+    
+    <profilelistpractitioner>
+        <![CDATA[
+            SELECT v_prof.practitionerid as practitioner_id,
+            v_prof.orgid as org_id,
+            v_prof.orgname as org_name,
+            v_prof.profid as prof_id,
+            v_prof.profname as prof_name,
+            v_prof.conf as conf ,
+            v_prof.roleid as role_id,
+            v_prof.rolename as role_name
+            FROM mis.v_practitioner_organization_profile_role AS v_prof
+        ]]>
+    </profilelistpractitioner>
+    
+    <getprofilebyorganization>
+        <parameter type="string" name="id" />
+        <![CDATA[
+              SELECT v_prof.orgid as org_id,
+              v_prof.orgname as org_name,
+              v_prof.profid as prof_id,
+              v_prof.profname as prof_name,
+              v_prof.conf,
+              v_prof.roleid as role_id,
+              v_prof.rolename as role_name
+              FROM mis.v_link_org_profile_role as v_prof
+              WHERE orgid=?
+        ]]>
+    </getprofilebyorganization>
+    
+    <getprofilewithlink>
+        <parameter type="string" name="id" />
+        <![CDATA[
+              SELECT v_prof.orgid as org_id,
+              v_prof.orgname as org_name,
+              v_prof.profid as prof_id,
+              v_prof.profname as prof_name,
+              v_prof.conf,
+              v_prof.roleid as role_id,
+              v_prof.rolename as role_name
+              FROM mis.v_organization_profile_role as v_prof
+              WHERE profid=?
+        ]]>
+    </getprofilewithlink>
+    
+    <createprofile>       
+        <parameter type="string" name="name" />
+        <parameter type="string" name="conf" />
+        <![CDATA[
+        insert into mis.v_profile
+        (name,conf)
+        values
+        (?,?)
+        returning  id
+        ]]>
+    </createprofile>
+    
+    <updateprofile>      
+        <parameter type="string" name="name" />
+        <parameter type="string" name="conf" />
+        <parameter type="string" name="id"/> 
+        <![CDATA[
+        update mis.v_profile set
+            name=?,
+            conf=?
+        where id=?    
+        returning  id
+        ]]>
+    </updateprofile>
+    
+    <deleteprofile>
+        <parameter type="string" name="id" order="1"/>
+       <![CDATA[
+          delete from mis.v_profile where id=?
+        ]]> 
+    </deleteprofile>
+    
+    <createlinkprofiletorole>
+        <parameter type="string" name="profileid" />
+        <parameter type="bigdecimal" name="roleid" />
+        <![CDATA[
+        insert into mis.v_link_profile_role
+        (profileid,roleid)
+        values
+        (?,?)
+        returning profileid
+        ]]>
+    </createlinkprofiletorole>
+    
+    <createlinkorgtoprofile>
+        <parameter type="string" name="organizationid" />
+        <parameter type="string" name="profileid" />
+        <![CDATA[
+        insert into mis.v_link_org_profile
+        (organizationid,profileid)
+        values
+        (?,?)
+        returning profileid
+        ]]>
+    </createlinkorgtoprofile>
+    
+</root>

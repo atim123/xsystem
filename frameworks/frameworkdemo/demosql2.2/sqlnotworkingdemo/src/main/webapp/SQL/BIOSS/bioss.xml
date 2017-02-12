@@ -1,0 +1,20 @@
+<root>
+    <parse>
+         <parameter type="string" name="id" />
+    </parse>
+    <ekgparse>
+         <parameter type="string" name="id" />
+    </ekgparse>
+    <userparse>
+         <parameter type="string" name="jsonparam" />
+         <parameter type="string" name="fileid" />
+    </userparse>
+    <fischerparse>
+         <parameter type="string" name="jsonparam" />
+         <parameter type="string" name="fileid" />
+    </fischerparse>
+    <figoparse>
+         <parameter type="string" name="jsonparam" />
+         <parameter type="string" name="fileid" />
+    </figoparse>
+</root>

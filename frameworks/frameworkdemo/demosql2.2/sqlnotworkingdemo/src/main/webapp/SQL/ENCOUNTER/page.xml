@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<page>    
+    <location>file:///SQL/ENCOUNTER/encounter.xml</location>
+    <action type="qurey"> 
+        <patern>^\/encounter\/list</patern>
+        <path>//list</path>
+    </action>
+    <action type="qurey"> 
+        <patern>^\/encounter\/get/(.+)</patern>
+        <path>//get</path>
+        <context>
+                <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml">
+        <patern>^\/encounter\/create</patern>
+        <path>//create</path>
+        <context>
+            <text>json/text</text>
+            <reasontext>json/reasontext</reasontext>
+            <subject>json/subject</subject>
+            <periodstart>json/periodstart</periodstart>
+            <periodend>json/periodend</periodend>
+            <statusid>json/statusid</statusid>
+            <classid>json/classid</classid>
+        </context>
+    </action>
+    <action type="dml">
+        <patern>^\/encounter\/update/(.+)</patern>
+        <path>//update</path>
+        <context>
+            <!-- id>json/id</id-->
+            <id>groups[1]</id>
+            <text>json/text</text>
+            <reasontext>json/reasontext</reasontext>
+            <subject>json/subject</subject>
+            <periodstart>json/periodstart</periodstart>
+            <periodend>json/periodend</periodend>
+            <statusid>json/statusid</statusid>
+            <classid>json/classid</classid>
+        </context>
+    </action>
+    <action type="dml">
+        <patern>^\/encounter/delete\/(.+)</patern>
+        <path>//delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+</page>
+
+
+

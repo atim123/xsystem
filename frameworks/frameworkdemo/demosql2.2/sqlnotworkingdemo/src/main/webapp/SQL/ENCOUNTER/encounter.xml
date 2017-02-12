@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<root>
+    <list>
+        <![CDATA[
+            select e.id, e.text, e.reasontext, e.subject, 
+            e.periodstart, e.periodend, e.statusid, e.classid 
+            from mis.v_administrative_encounter e
+        ]]>
+    </list>
+    <get>
+        <parameter type="string" name="id" />
+        <![CDATA[
+            select e.id, e.text, e.reasontext, e.subject, 
+            e.periodstart, e.periodend, e.statusid, e.classid 
+            from mis.v_administrative_encounter e
+            where e.id=?
+        ]]>
+    </get>
+    <create>       
+        <parameter type="string" name="text" order="1"/>
+        <parameter type="string" name="reasontext" order="1"/>
+        <parameter type="string" name="subject" order="1"/>
+        <parameter type="string" name="periodstart" order="1"/>
+        <parameter type="string" name="periodend" order="1"/>
+        <parameter type="integer" name="statusid" order="1"/>
+        <parameter type="integer" name="classid" order="1"/>
+        <![CDATA[
+        insert into mis.v_administrative_encounter(text,reasontext,subject,periodstart,periodend,statusid,classid)
+        values (?,?,?,?,?,?,?)  returning  id
+        ]]>
+    </create>
+    <update>
+        <parameter type="string" name="text" order="1"/>
+        <parameter type="string" name="reasontext" order="1"/>
+        <parameter type="string" name="subject" order="1"/>
+        <parameter type="string" name="periodstart" order="1"/>
+        <parameter type="string" name="periodend" order="1"/>
+        <parameter type="integer" name="statusid" order="1"/>
+        <parameter type="integer" name="classid" order="1"/>
+        <parameter type="string" name="id" order="1"/>
+        <![CDATA[
+        update mis.v_administrative_encounter set
+            text=?,
+            reasontext=?,
+            subject=?,
+            periodstart=?,
+            periodend=?,
+            statusid=?,
+            classid=?
+        where id=?    
+        returning  id
+        ]]>
+    </update>
+    
+    <delete>
+        <parameter type="string" name="id" order="1"/>
+       <![CDATA[
+          delete from  mis.v_administrative_encounter where id=?
+        ]]> 
+    </delete>
+    
+    <identifierlist>
+        <parameter type="string" name="encounterid" order="1"/>
+         <![CDATA[
+           select system, value, encounterid
+           from mis.v_administrative_encounter_identifier
+           where encounterid=?
+        ]]> 
+        
+    </identifierlist>
+    
+    <createidentifier>
+        <parameter type="string" name="system" />
+        <parameter type="string" name="value" />
+        <parameter type="string" name="deviceid" />
+        <![CDATA[
+        insert into mis.v_administrative_encounter_identifier(system,value,encounterid)
+        values (?,?,?)  returning value
+        ]]> 
+ 
+    </createidentifier>
+    
+    <deleteidentifier>
+        <parameter type="string" name="system" />
+        <parameter type="string" name="value" />
+        <![CDATA[
+        delete from mis.v_administrative_device_identifier
+        where system = ?
+        and   value  = ?
+        ]]>
+    </deleteidentifier>
+    
+</root>

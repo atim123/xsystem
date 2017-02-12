@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    
+    <upload>
+        <parameter type="string" name="id" value="${PAGE.guid()}"/>
+        <parameter type="string" name="filename" />
+        <parameter type="string" name="contenttype" />
+        <parameter type="string" name="format" />
+        <parameter type="arraybyte" name="content" />
+         <![CDATA[
+            insert into files.Files(DBID,filename,contenttype,format,content)
+            values (?,?,?,?,?)
+            returning  DBID as id
+         ]]>
+    </upload>
+    
+    <search>
+        <parameter name="subjectpatient" if="${PAGE.exist('subjectpatient')}" />
+        <parameter name="subjectpractitioner" if="${PAGE.exist('subjectpractitioner')}" />
+        <parameter name="subjectdevice" if="${PAGE.exist('subjectdevice')}" />
+        <parameter name="type" type="arraystring" if="${PAGE.exist('type')}" />
+        <parameter name="class" type="arraystring" if="${PAGE.exist('class')}" />
+        <parameter name="authorpractitioner" if="${PAGE.exist('authorpractitioner')}" />
+        <parameter name="authordevice" if="${PAGE.exist('authordevice')}" />
+        <parameter name="authorpatient" if="${PAGE.exist('authorpatient')}" />
+        <parameter name="startindexed" if="${PAGE.exist('startindexed')||PAGE.exist('endindexed')}"/>
+        <parameter name="endindexed" if="${PAGE.exist('startindexed')||PAGE.exist('endindexed')}"/>
+        <parameter name="status" if="${PAGE.exist('status')}" />
+        <parameter name="docstatus" type="arraystring" if="${PAGE.exist('docstatus')}"/>
+        <parameter name="description" if="${PAGE.exist('description')}"/>
+        
+        <define    type="string" name="wsubjectpatient" if="${PAGE.exist('subjectpatient')}">
+            and A.subjectpatient  = ?
+        </define>
+        <define    type="string" name="wsubjectpractitioner" if="${PAGE.exist('subjectpractitioner')}">
+            and A.subjectpractitioner  = ?
+        </define>
+        <define    type="string" name="wsubjectdevice" if="${PAGE.exist('subjectdevice')}">
+            and A.subjectdevice  = ?
+        </define>
+        <define    type="string" name="wtype" if="${PAGE.exist('type')}">
+            and A.type  = any(?)
+        </define>
+        <define    type="string" name="wclass" if="${PAGE.exist('class')}">
+            and A.type  = any(?)
+        </define>
+        <define    type="string" name="wauthorpractitioner" if="${PAGE.exist('authorpractitioner')}">
+            and A.authorpractitioner  = ?
+        </define>
+        <define    type="string" name="wauthordevice" if="${PAGE.exist('authordevice')}">
+            and A.authordevice  = ?
+        </define>
+        <define    type="string" name="wauthorpatient" if="${PAGE.exist('authorpatient')}">
+            and A.authorpatient  = ?
+        </define> 
+        <define    type="string" name="windexed" if="${PAGE.exist('startindexed')||PAGE.exist('endindexed')}">
+            and mis.is_date_in_range(A.indexed,?,?)
+        </define>
+        <define    type="string" name="wstatus" if="${PAGE.exist('status')}">
+            and A.status  = ?
+        </define>
+        <define    type="string" name="wdocstatus" if="${PAGE.exist('docstatus')}">
+            and A.docstatus  = any(?)
+        </define>  
+        <define    type="string" name="wdescription" if="${PAGE.exist('description')}">
+            and A.description  = ilike ?
+        </define>
+        <define    type="string" name="orderBy" if="${PAGE.exist('orderBy')}">
+            order by ${orderBy} 
+        </define>
+                                        
+        <![CDATA[
+SELECT a.id,
+    a.masteridentifier,
+    a.subjectpatient,
+    a.subjectpractitioner,
+    a.subjectdevice,
+    a.type,
+    (select name from mis.v_glossary_documentreference_type B where A.type=B.code) as typename, 
+    a.class as claz,
+    (select name from  mis.v_glossary_documentreference_class B where A.class=B.code) AS classname, 
+    a.authorpractitioner,
+    a.authordevice,
+    a.authorpatient,
+    a.indexed,
+    a.status,
+    a.docstatus,
+    (select name from mis.v_glossary_documentreference_docstatus B where A.docstatus=B.code) AS docstatusname, 
+    a.mimetype,
+    a.format,
+    a.description,
+    b.filename
+FROM mis.v_infrastructure_documentreference a,
+     files.Files b 
+where a.masteridentifier=b.DBID
+${wsubjectpatient}
+${wsubjectpractitioner}
+${wsubjectdevice}
+${wtype}
+${wclass}
+${wauthorpractitioner}
+${wauthordevice}
+${wauthorpatient}
+${windexed}
+${wstatus}
+${wdocstatus}
+${wdescription}
+${orderBy}       
+        ]]>
+    </search>
+
+    <count>
+        <parameter name="subjectpatient" if="${PAGE.exist('subjectpatient')}" />
+        <parameter name="subjectpractitioner" if="${PAGE.exist('subjectpractitioner')}" />
+        <parameter name="subjectdevice" if="${PAGE.exist('subjectdevice')}" />
+        <parameter name="type" type="arraystring" if="${PAGE.exist('type')}" />
+        <parameter name="class" type="arraystring" if="${PAGE.exist('class')}" />
+        <parameter name="authorpractitioner" if="${PAGE.exist('authorpractitioner')}" />
+        <parameter name="authordevice" if="${PAGE.exist('authordevice')}" />
+        <parameter name="authorpatient" if="${PAGE.exist('authorpatient')}" />
+        <parameter name="startindexed" if="${PAGE.exist('startindexed')||PAGE.exist('endindexed')}"/>
+        <parameter name="endindexed" if="${PAGE.exist('startindexed')||PAGE.exist('endindexed')}"/>
+        <parameter name="status" if="${PAGE.exist('status')}" />
+        <parameter name="docstatus" type="arraystring" if="${PAGE.exist('docstatus')}"/>
+        <parameter name="description" if="${PAGE.exist('description')}"/>
+        
+        <define    type="string" name="wsubjectpatient" if="${PAGE.exist('subjectpatient')}">
+            and A.subjectpatient  = ?
+        </define>
+        <define    type="string" name="wsubjectpractitioner" if="${PAGE.exist('subjectpractitioner')}">
+            and A.subjectpractitioner  = ?
+        </define>
+        <define    type="string" name="wsubjectdevice" if="${PAGE.exist('subjectdevice')}">
+            and A.subjectdevice  = ?
+        </define>
+        <define    type="string" name="wtype" if="${PAGE.exist('type')}">
+            and A.type  = any(?)
+        </define>
+        <define    type="string" name="wclass" if="${PAGE.exist('class')}">
+            and A.type  = any(?)
+        </define>
+        <define    type="string" name="wauthorpractitioner" if="${PAGE.exist('authorpractitioner')}">
+            and A.authorpractitioner  = ?
+        </define>
+        <define    type="string" name="wauthordevice" if="${PAGE.exist('authordevice')}">
+            and A.authordevice  = ?
+        </define>
+        <define    type="string" name="wauthorpatient" if="${PAGE.exist('authorpatient')}">
+            and A.authorpatient  = ?
+        </define> 
+        <define    type="string" name="windexed" if="${PAGE.exist('startindexed')||PAGE.exist('endindexed')}">
+            and mis.is_date_in_range(A.indexed,?,?)
+        </define>
+        <define    type="string" name="wstatus" if="${PAGE.exist('status')}">
+            and A.status  = ?
+        </define>
+        <define    type="string" name="wdocstatus" if="${PAGE.exist('docstatus')}">
+            and A.docstatus  = any(?)
+        </define>  
+        <define    type="string" name="wdescription" if="${PAGE.exist('description')}">
+            and A.description  = ilike ?
+        </define>
+        <define    type="string" name="orderBy" if="${PAGE.exist('orderBy')}">
+            order by ${orderBy} 
+        </define>
+                                        
+        <![CDATA[
+SELECT
+    count(*) as count 
+FROM mis.v_infrastructure_documentreference a 
+where 1=1
+${wsubjectpatient}
+${wsubjectpractitioner}
+${wsubjectdevice}
+${wtype}
+${wclass}
+${wauthorpractitioner}
+${wauthordevice}
+${wauthorpatient}
+${windexed}
+${wstatus}
+${wdocstatus}
+${wdescription}
+        ]]>
+    </count>
+    
+        
+                
+    <preview>
+        <parameter type="string" name="id" />
+        <![CDATA[
+           select 
+              A.filename,A.contenttype,A.format,A.content 
+           from files.Files A,
+                mis.v_infrastructure_documentreference B
+           where A.DBID=B.masteridentifier
+           and  B.id=?
+        ]]>
+    </preview>
+    
+    <download>
+        <parameter type="string" name="id" />
+          <![CDATA[
+           select 
+              A.filename,A.contenttype,A.format,A.content 
+           from files.Files A,
+                mis.v_infrastructure_documentreference B
+           where A.DBID=B.masteridentifier
+           and  B.id=?
+        ]]>
+    </download>    
+
+    <create>
+           <parameter name="masteridentifier" />  
+           <parameter name="subjectpatient" />    
+           <parameter name="subjectpractitioner" /> 
+           <parameter name="subjectdevice" /> 
+           <parameter name="type" />  
+           <parameter name="class" /> 
+           <parameter name="authorpractitioner" /> 
+           <parameter name="authordevice" />  
+           <parameter name="authorpatient" />
+           <parameter name="indexed" />
+           <parameter name="status" />
+           <parameter name="docstatus" />
+           <parameter name="description" />
+           <parameter name="id" value="${PAGE.guid()}"/>  
+           <![CDATA[
+        insert into mis.v_infrastructure_documentReference
+        (masteridentifier,subjectpatient,subjectpractitioner,subjectdevice,type,class,authorpractitioner,authordevice,authorpatient,indexed,status,docstatus,description,id)
+        values
+        (${PAGE.strRepeat("?",",",14)})
+        returning  id as id
+        ]]>
+      </create>
+      
+      <update>
+          <parameter name="masteridentifier" /> 
+          <parameter name="subjectpatient" /> 
+          <parameter name="subjectpractitioner" /> 
+          <parameter name="subjectdevice" /> 
+          <parameter name="type" /> 
+          <parameter name="class" /> 
+          <parameter name="authorpractitioner" /> 
+          <parameter name="authordevice" /> 
+          <parameter name="authorpatient" /> 
+          <parameter name="indexed" /> 
+          <parameter name="status" />  
+          <parameter name="docstatus" /> 
+          <parameter name="description" /> 
+          <parameter name="id" /> 
+           <![CDATA[
+            update mis.v_infrastructure_documentReference set
+               masteridentifier=?,
+               subjectpatient=?,
+               subjectpractitioner=?,
+               subjectdevice=?,
+               type=?,
+               class=?,
+               authorpractitioner=?,
+               authordevice=?,
+               authorpatient=?,
+               indexed=?,
+               status=?,
+               docstatus=?,
+               description=?
+            where id=?
+            returning  id as id
+          ]]>  
+      </update>
+      
+      <read>
+          <parameter name="id" />
+          <![CDATA[
+             select 
+               id,
+               masteridentifier,
+               subjectpatient,
+               subjectpractitioner,
+               subjectdevice,
+               type,
+               class as claz,
+               authorpractitioner,
+               authordevice,
+               authorpatient,
+               indexed,
+               status,
+               docstatus,
+               description
+            from mis.v_infrastructure_documentReference 
+            where id=?  
+          ]]>
+      </read>
+      <delete>
+          <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_infrastructure_documentReference
+             where id=?
+           ]]>
+      </delete>
+</root>

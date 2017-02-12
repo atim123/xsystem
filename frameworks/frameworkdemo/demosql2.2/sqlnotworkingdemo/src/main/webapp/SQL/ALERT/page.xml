@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<page>    
+    <location>file:///SQL/ALERT/sql.xml</location>
+    <prefix>^\/alert\/</prefix>
+    
+    <action type="query"> 
+        <patern>search</patern>
+        <path>//search</path>
+        <context>
+            <status>json/data/status</status>
+            <category>json/data/category</category> 
+            <subject>json/data/subject</subject>
+            <authorpractitioner>json/data/authorpractitioner</authorpractitioner>
+            <authorpatient>json/data/authorpatient</authorpatient>
+            <authordevice>json/data/authordevice</authordevice>
+            <note>json/data/note</note>
+            <startcreated>json/data/startcreated</startcreated>
+            <endcreated>json/data/endcreated</endcreated>
+            <orderBy>json/orderBy</orderBy>
+        </context>        
+    </action>
+    
+    <action type="qurey">
+        <patern>count</patern>
+        <path>//count</path>
+        <context>
+            <status>json/data/status</status>
+            <category>json/data/category</category> 
+            <subject>json/data/subject</subject>
+            <authorpractitioner>json/data/authorpractitioner</authorpractitioner>
+            <authorpatient>json/data/authorpatient</authorpatient>
+            <authordevice>json/data/authordevice</authordevice>
+            <note>json/data/note</note>
+            <startcreated>json/data/note</startcreated>
+            <endcreated>json/data/endcreated</endcreated>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>read/(.+)</patern>
+        <path>//read</path>
+        <context>
+                <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+
+    <action type="dml">
+        <patern>create</patern>
+        <path>//create</path>
+        <context>
+            <status>json/data/status</status>
+            <category>json/data/category</category>
+            <subject>json/data/subject</subject>
+            <authorpractitioner>json/data/authorpractitioner</authorpractitioner>
+            <authorpatient>json/data/authorpatient</authorpatient>
+            <authordevice>json/data/authordevice</authordevice>
+            <note>json/data/note</note>
+            <created>json/data/created</created>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    
+    <action type="dml">
+        <patern>update/(.+)</patern>
+        <path>//update</path>
+        <context>
+             <id>groups[1]</id>
+             <status>json/data/status</status>
+            <category>json/data/category</category>
+            <subject>json/data/subject</subject>
+            <authorpractitioner>json/data/authorpractitioner</authorpractitioner>
+            <authorpatient>json/data/authorpatient</authorpatient>
+            <authordevice>json/data/authordevice</authordevice>
+            <note>json/data/note</note>
+            <created>json/data/created</created>
+        </context>
+    </action>
+    <action type="dml">
+        <patern>delete\/(.+)</patern>
+        <path>//delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+
+</page>
+

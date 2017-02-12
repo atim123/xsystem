@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor. careplan/monitorad/read
+-->
+<page>
+    <location>file:///SQL/CAREPLAN/MONITORAD/sql.xml</location>
+    <prefix>^\/careplan/monitorad\/</prefix>
+    
+    <action type="monitorAd" action="read"> 
+        <patern>read\/(.+)$</patern>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+   
+    <action type="monitorAd" action="create"> 
+        <patern>create$</patern>
+        <context>
+            <status>json/data/status</status>
+            <periodstart>json/data/periodstart</periodstart>
+            <periodend>json/data/periodend</periodend>
+            <modified>json/data/modified</modified>
+            <patient>json/data/patient</patient>
+            <participantpractitioner>json/data/participantpractitioner</participantpractitioner>
+            <participantorganization>json/data/participantorganization</participantorganization>
+            <sys>json/data/sys</sys>
+            <dia>json/data/dia</dia>
+            <puls>json/data/puls</puls>
+        </context>
+    </action>
+    <action type="monitorAd" action="update"> 
+        <patern>update\/(.+)$</patern>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <periodstart>json/data/periodstart</periodstart>
+            <periodend>json/data/periodend</periodend>
+            <modified>json/data/modified</modified>
+            <patient>json/data/patient</patient>
+            <participantpractitioner>json/data/participantpractitioner</participantpractitioner>
+            <participantorganization>json/data/participantorganization</participantorganization>
+            <sys>json/data/sys</sys>
+            <dia>json/data/dia</dia>
+            <puls>json/data/puls</puls>
+        </context>
+    </action> 
+      
+    <action type="dml">
+        <patern>delete\/(.+)$</patern>
+        <path>//delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    <action type="template">
+        <patern>template$</patern>
+        <template>
+       <![CDATA[
+         {"success":true,
+          "data":{
+          "status":"active",
+          "periodstart":null,
+          "periodend":null,
+          "modified":null,
+          "patient":null,
+          "participantpractitioner":null,
+          "participantorganization":null,
+          "sys":[{"rangetype":"2","low":160,"high":null},
+                 {"rangetype":"3","low":150,"high":159},
+                 {"rangetype":"3","low":90,"high":99},
+                 {"rangetype":"2","low":null,"high":89}],
+          "dia":[{"rangetype":"2","low":100,"high":null},
+                 {"rangetype":"3","low":90,"high":99},
+                 {"rangetype":"3","low":60,"high":65},
+                 {"rangetype":"2","low":null,"high":59}],
+          "puls":[ {"rangetype":"2","low":120,"high":null},
+                 {"rangetype":"3","low":91,"high":119},
+                 {"rangetype":"3","low":41,"high":59},
+                 {"rangetype":"2","low":null,"high":40}]
+         }}
+        ]]>
+        </template>
+    </action>
+    
+    
+    <action type="query"> 
+        <patern>search$</patern>
+        <path>//search</path>
+        <context>
+            <patient>json/data/patient</patient> 
+            <status>json/data/status</status>
+            <startperiodstart>json/data/startperiodstart</startperiodstart>
+            <endperiodstart>json/data/endperiodstart</endperiodstart>
+            <startperiodend>json/data/startperiodend</startperiodend>
+            <endperiodend>json/data/endperiodend</endperiodend>
+            <orderBy>json/orderBy</orderBy>
+        </context>        
+    </action>
+    <action type="qurey">
+        <patern>count$</patern>
+        <path>//count</path>
+        <context>
+            <patient>json/data/patient</patient> 
+            <status>json/data/status</status>
+            <startperiodstart>json/data/startperiodstart</startperiodstart>
+            <endperiodstart>json/data/endperiodstart</endperiodstart>
+            <startperiodend>json/data/startperiodend</startperiodend>
+            <endperiodend>json/data/endperiodend</endperiodend>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    <action type="dml"> 
+        <patern>completed$</patern>
+        <context>
+        </context>
+    </action> 
+</page>
+
+

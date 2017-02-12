@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<page>    
+    <location>file:///SQL/BIOSS/bioss.xml</location>
+    <prefix>^\/bioss\/</prefix>
+  
+    <action type="fileHttpExecuter">
+        <patern>parse\/(.+)</patern>
+        <path>//parse</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>    
+    
+    <action type="fileHttpBiossUser">
+        <patern>userparse</patern>
+        <path>//userparse</path>
+        <context>
+            <jsonparam>json/jsonparam</jsonparam>
+            <fileid>json/fileid</fileid>
+        </context>
+    </action>    
+    <action type="fileHttpBiossFischer">
+        <patern>fischerparse</patern>
+        <path>//fischerparse</path>
+        <context>
+            <jsonparam>json/jsonparam</jsonparam>
+            <fileid>json/fileid</fileid>
+        </context>
+    </action>    
+    <action type="fileHttpBiossFigo">
+        <patern>figoparse</patern>
+        <path>//figoparse</path>
+        <context>
+            <jsonparam>json/jsonparam</jsonparam>
+            <fileid>json/fileid</fileid>
+        </context>
+    </action>    
+    <action type="fileHttpEkg">
+        <patern>ekgparse\/(.+)</patern>
+        <path>//ekgparse</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>    
+</page>

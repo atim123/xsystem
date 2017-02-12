@@ -1,0 +1,864 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <definitions>
+        <define    type="string" name="wpatient" if="${PAGE.exist('patientid')}">
+            and A.patientid =?
+        </define>
+        <define    type="string" name="wcode" if="${PAGE.exist('code')}">
+            and A.code=? 
+        </define>
+        <define    type="string" name="wappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}">
+            and mis.is_date_in_range(A.appliesdatetime,?,?)
+        </define>    
+        <define    type="string" name="orderBy" if="${PAGE.exist('orderBy')}">
+            order by ${orderBy} 
+        </define>
+    </definitions>
+    
+    <concentration_glucose>
+        <parameter name="code"      if="${PAGE.exist('code')}"/>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+      <![CDATA[
+ select 
+    A.id,
+    A.typeid,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.quantity,
+    A.code,
+    B.name as codename,
+    A.bodysite,
+    (select name from mis.v_glossary_concentration_glucose_bodysite D where A.bodysite=D.code) as bodysitename,
+    A.foodintake,
+    (select name from mis.v_glossary_concentration_glucose_food_intake C where A.foodintake=C.code) as foodintakename,
+    A.entrymethod,
+    A.appliesdatetime
+from mis.v_clinical_observation_concentration_glucose A,
+     mis.v_glossary_types_measurement_concentration_glucose B
+where A.code=B.code  
+${wcode}
+${wpatient}
+${wappliesdatetime}
+${orderBy} 
+        ]]>
+    </concentration_glucose>
+    
+    <concentration_glucose_count>
+        <parameter name="code"      if="${PAGE.exist('code')}"/>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+      <![CDATA[
+ select 
+    count(*) as count 
+from mis.v_clinical_observation_concentration_glucose A,
+     mis.v_glossary_types_measurement_concentration_glucose B
+where A.code=B.code  
+${wcode}
+${wpatient}
+${wappliesdatetime}
+        ]]>
+    </concentration_glucose_count>
+    
+    <measurement_fruit>
+        <parameter name="code"      if="${PAGE.exist('code')}"/>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+       
+        <![CDATA[
+ select 
+    A.id,
+    A.typeid,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.quantity,
+    A.code,
+    B.name as codename,
+    A.appliesdatetime 
+from mis.v_clinical_observation_MEASUREMENT_FRUIT A,
+     mis.v_glossary_types_measurement_fruit B
+where 1=1
+and A.code=B.code
+${wcode}
+${wpatient}
+${wappliesdatetime}
+${orderBy} 
+     ]]>
+    </measurement_fruit>
+    
+    <measurement_fruit_count>
+        <parameter name="code"      if="${PAGE.exist('code')}"/>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+       
+        <![CDATA[
+ select 
+    count(*) as count
+from mis.v_clinical_observation_MEASUREMENT_FRUIT A,
+     mis.v_glossary_types_measurement_fruit B
+where 1=1
+and A.code=B.code
+${wcode}
+${wpatient}
+${wappliesdatetime}
+     ]]>
+    </measurement_fruit_count>
+    
+    <measurement_of_water_balance>
+        <parameter name="code"      if="${PAGE.exist('code')}"/>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+        <![CDATA[
+select  
+    A.id,
+    A.typeid,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.quantity,
+    A.code,
+    B.name as codename,
+    A.appliesdatetime
+from mis.v_clinical_observation_MEASUREMENT_OF_WATER_BALANCE A,
+     mis.v_glossary_measurement_of_water_balance  B
+where 1=1
+and A.code=B.code
+${wcode}
+${wpatient}
+${wappliesdatetime}
+${orderBy}
+     ]]>
+    </measurement_of_water_balance>
+    
+    <measurement_of_water_balance_count>
+        <parameter name="code"      if="${PAGE.exist('code')}"/>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+        <![CDATA[
+select  
+   count(*) as count
+from mis.v_clinical_observation_MEASUREMENT_OF_WATER_BALANCE A,
+     mis.v_glossary_measurement_of_water_balance  B
+where 1=1
+and A.code=B.code
+${wcode}
+${wpatient}
+${wappliesdatetime}
+     ]]>
+    </measurement_of_water_balance_count>
+    
+    <mdc_temperature>
+        <parameter name="code"  type="string"      if="${PAGE.isString(code)}"/>
+        <parameter name="code"  type="arraystring" if="${PAGE.isList(code)}"/>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+        <define    type="string" name="wcodeloc" if="${PAGE.isString(code)}">
+            and code = ?
+        </define>
+        <define    type="string" name="wcodeloc" if="${PAGE.isList(code)}">
+            and A.code  = any(?)
+        </define>
+          
+        <![CDATA[    
+select 
+    A.id,
+    A.typeid,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.quantity,
+    A.code,
+    (select name from mis.v_glossary_measurement_place_temperature B where A.code=B.code) codename,
+    A.appliesdatetime
+from mis.v_clinical_observation_MDC_TEMPERATURE A
+where 1=1
+${wcodeloc}
+${wpatient}
+${wappliesdatetime}
+${orderBy}
+        ]]>
+    </mdc_temperature>
+    
+    <mdc_temperature_count>
+        <parameter name="code"  type="string"      if="${PAGE.isString(code)}"/>
+        <parameter name="code"  type="arraystring" if="${PAGE.isList(code)}"/>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+        <define    type="string" name="wcodeloc" if="${PAGE.isString(code)  and code.trim().equalsIgnoreCase('isnull')}">
+            and  code is null
+        </define>
+        <define    type="string" name="wcodeloc" if="${PAGE.exist('code') and !code.trim().equalsIgnoreCase('isnull')}">
+            and code = ?
+        </define>
+        <define    type="string" name="wcodeloc" if="${PAGE.isList(code)}">
+            and A.code  = any(?)
+        </define>
+    <![CDATA[    
+select 
+   count(*) as count
+from mis.v_clinical_observation_MDC_TEMPERATURE A
+where 1=1
+${wcodeloc}
+${wpatient}
+${wappliesdatetime}
+      ]]>
+    </mdc_temperature_count>
+    
+    <note>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+        <![CDATA[ 
+    select 
+       a.id,
+       a.typeid,
+       a.status,
+       a.reliability,
+       a.comments,
+       a.patientid,
+       a.device as deviceid,
+       a.organization as organizationid,
+       a.practitioner as practitionerid,
+       a.string,
+       a.appliesdatetime 
+    from mis.v_clinical_observation_NOTE a
+    where 1=1
+    ${wpatient}
+    ${wappliesdatetime}
+    ${orderBy}
+        ]]>
+    </note>
+    
+    <note_count>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+        <![CDATA[ 
+    select 
+       count(*) as count 
+    from mis.v_clinical_observation_NOTE a
+    where 1=1
+    ${wpatient}
+    ${wappliesdatetime}
+          ]]>
+    </note_count>
+    
+
+    <mdc_len_body_actual>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+         <![CDATA[
+    select 
+       a.id,
+       a.typeid,
+       a.status,
+       a.reliability,
+       a.comments,
+       a.patientid,
+       a.device as deviceid,
+       a.organization as organizationid,
+       a.practitioner as practitionerid,
+       a.quantity,
+       a.appliesdatetime 
+    from mis.v_clinical_observation_MDC_LEN_BODY_ACTUAL a
+    where 1=1 
+    ${wpatient}
+    ${wappliesdatetime}
+    ${orderBy}
+        ]]>
+    </mdc_len_body_actual>
+    
+    <mdc_len_body_actual_count>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+         <![CDATA[
+    select 
+       count(*) as count   
+    from mis.v_clinical_observation_MDC_LEN_BODY_ACTUAL a
+    where 1=1 
+    ${wpatient}
+    ${wappliesdatetime}
+         ]]>
+    </mdc_len_body_actual_count>
+    
+    <mdc_mass_body_actual>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+        <![CDATA[
+    select 
+       a.id,
+       a.typeid,
+       a.status,
+       a.reliability,
+       a.comments,
+       a.patientid,
+       a.device as deviceid,
+       a.organization as organizationid,
+       a.practitioner as practitionerid,
+       a.quantity,
+       a.appliesdatetime  
+    from mis.v_clinical_observation_MDC_MASS_BODY_ACTUAL a
+    where 1=1
+    ${wpatient}
+    ${wappliesdatetime}
+    ${orderBy} 
+        ]]>
+    </mdc_mass_body_actual>
+    
+    <mdc_mass_body_actual_count>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+        <![CDATA[
+    select 
+       count(*) as count  
+    from mis.v_clinical_observation_MDC_MASS_BODY_ACTUAL a
+    where 1=1
+    ${wpatient}
+    ${wappliesdatetime}
+          ]]>
+    </mdc_mass_body_actual_count>
+    
+    <alcohol_intake>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+        <![CDATA[
+    select 
+      a.id,
+      a.typeid,
+      a.status,
+      a.reliability,
+      a.comments,
+      a.patientid,
+      a.device as deviceid,
+      a.organization as organizationid,
+      a.practitioner as practitionerid,
+      a.quantity,
+      a.appliesdatetime 
+    from mis.v_clinical_observation_ALCOHOL_INTAKE a
+    where 1=1
+    ${wpatient}
+    ${wappliesdatetime}
+    ${orderBy}
+       ]]>
+    </alcohol_intake>
+
+    <alcohol_intake_count>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+        <![CDATA[
+    select 
+      count(*) as count 
+      from mis.v_clinical_observation_ALCOHOL_INTAKE a
+    where 1=1
+    ${wpatient}
+    ${wappliesdatetime}
+        ]]>
+    </alcohol_intake_count> 
+
+    <physicalactivity>
+        <parameter name="code"      if="${PAGE.exist('code')}"/>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <![CDATA[
+select  
+    A.typeid,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.code,
+    B.name as codename,
+    A.appliesstart,
+    A.appliesend
+from mis.v_clinical_observation_PHYSICALACTIVITY A,
+     mis.v_glossary_physicalactivity_types  B
+where 1=1
+and A.code=B.code
+${wcode}
+${wpatient}
+${orderBy}
+       ]]>
+    </physicalactivity>
+    
+    <physicalactivity_count>
+        <parameter name="code"      if="${PAGE.exist('code')}"/>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <![CDATA[
+select
+    count(*) as count  
+from mis.v_clinical_observation_PHYSICALACTIVITY A,
+     mis.v_glossary_physicalactivity_types  B
+where 1=1
+and A.code=B.code
+${wcode}
+${wpatient}
+       ]]>
+    </physicalactivity_count> 
+    
+    <maintaining_food_diary>
+        <parameter name="code"      if="${PAGE.exist('code')}"/>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+        <![CDATA[ 
+ select  
+    A.typeid,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.quantity,
+    A.code,
+    B.name as codename,
+    A.appliesdatetime           
+from mis.v_clinical_observation_MAINTAINING_FOOD_DIARY A,
+     mis.v_glossary_categories_of_meal B
+where 1=1
+and A.code=B.code
+${wcode}
+${wpatient}
+${wappliesdatetime}
+${orderBy}
+       ]]>
+    </maintaining_food_diary>
+    
+    <maintaining_food_diary_count>
+        <parameter name="code"      if="${PAGE.exist('code')}"/>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+        <![CDATA[ 
+ select 
+    count(*) as count  
+from mis.v_clinical_observation_MAINTAINING_FOOD_DIARY A,
+     mis.v_glossary_categories_of_meal B
+where 1=1
+and A.code=B.code
+${wcode}
+${wpatient}
+${wappliesdatetime}
+       ]]>
+        
+    </maintaining_food_diary_count>
+    
+    <health>
+        <parameter name="code"      if="${PAGE.exist('code')}"/>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+        <![CDATA[
+select  
+    A.typeid,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.code,
+    B.name as codename,
+    A.appliesdatetime           
+from mis.v_clinical_observation_HEALTH A,
+     mis.v_glossary_health B  
+where 1=1
+and A.code=B.code
+${wcode}
+${wpatient}
+${wappliesdatetime}
+${orderBy}
+     ]]>
+    </health>
+   
+    <health_count>
+        <parameter name="code"      if="${PAGE.exist('code')}"/>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+        <![CDATA[
+select
+    count(*) as count  
+from mis.v_clinical_observation_HEALTH A,
+     mis.v_glossary_health B  
+where 1=1
+and A.code=B.code
+${wcode}
+${wpatient}
+${wappliesdatetime}
+     ]]>
+    </health_count>
+   
+    <press_bld_and_heart_rate>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+       
+      <![CDATA[
+   select 
+    A.id, 
+    A.typeid,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.appliesdatetime,
+    A.dia,
+    A.sys,
+    A.puls,
+    A.entrymethod
+   from  mis.v_clinical_observation_press_bld_and_heart_rate A
+   where 1=1
+    ${wpatient}
+    ${wappliesdatetime}
+    ${orderBy}
+   ]]> 
+    </press_bld_and_heart_rate>
+  
+    <press_bld_and_heart_rate_count>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                        
+      <![CDATA[
+   select 
+    count(*) as count
+   from  mis.v_clinical_observation_press_bld_and_heart_rate A
+   where 1=1
+    ${wpatient}
+    ${wappliesdatetime}
+   ]]> 
+      
+    </press_bld_and_heart_rate_count>
+    
+    <multiple_pregnancy>   
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                          
+    <![CDATA[
+   select A.id,
+    A.typeid,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.quantity,
+    A.appliesdatetime
+   from  mis.v_clinical_observation_multiple_pregnancy A
+   where 1=1
+   ${wpatient}
+    ${wappliesdatetime}
+    ${orderBy}
+   ]]> 
+    </multiple_pregnancy>
+    <multiple_pregnancy_count>   
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>                          
+    <![CDATA[
+   select A.id,
+    count(*) as count     
+   from  mis.v_clinical_observation_multiple_pregnancy A
+   where 1=1
+   ${wpatient}
+    ${wappliesdatetime}
+   ]]> 
+    </multiple_pregnancy_count>
+  
+    <duration_of_pregnancy>
+        <parameter name="code"  type="string"      if="${PAGE.isString(code)}"/>
+        <parameter name="code"  type="arraystring" if="${PAGE.isList(code)}"/>  
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startvaluedate')||PAGE.exist('endvaluedate')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startvaluedate')||PAGE.exist('endvaluedate')}"/>                                                    
+        <define    type="string" name="wcodeloc" if="${PAGE.isString(code)}">
+            and code = ?
+        </define>
+        <define    type="string" name="wcodeloc" if="${PAGE.isList(code)}">
+            and A.code  = any(?)
+        </define>
+        <define    type="string" name="wlvaluedate" if="${PAGE.exist('startvaluedate')||PAGE.exist('endvaluedate')}">
+            and mis.is_date_in_range(A.appliesdatetime,?,?)
+        </define>
+          <![CDATA[
+  select A.id,
+    A.typeid,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device  as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.valuedate,
+    A.code,
+    (select name from mis.v_glossary_duration_of_pregnancy (code) B where A.code=B.code) as codename,
+    A.appliesdatetime
+  from v_clinical_observation_duration_of_pregnancy A  
+  where 1=1
+  ${wcodeloc}
+  ${wpatient}
+  ${wappliesdatetime}
+  ${wlvaluedate}
+  ${orderBy}
+    ]]>
+    </duration_of_pregnancy> 
+   
+    <duration_of_pregnancy_count>
+        <parameter name="code"  type="string"      if="${PAGE.isString(code)}"/>
+        <parameter name="code"  type="arraystring" if="${PAGE.isList(code)}"/>  
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startvaluedate')||PAGE.exist('endvaluedate')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startvaluedate')||PAGE.exist('endvaluedate')}"/>                                                    
+        <define    type="string" name="wcodeloc" if="${PAGE.isString(code)}">
+            and code = ?
+        </define>
+        <define    type="string" name="wcodeloc" if="${PAGE.isList(code)}">
+            and A.code  = any(?)
+        </define>
+        <define    type="string" name="wlvaluedate" if="${PAGE.exist('startvaluedate')||PAGE.exist('endvaluedate')}">
+            and mis.is_date_in_range(A.appliesdatetime,?,?)
+        </define>
+          <![CDATA[
+  select 
+    count(*) as count
+  from v_clinical_observation_duration_of_pregnancy A  
+  where 1=1
+  ${wcodeloc}
+  ${wpatient}
+  ${wappliesdatetime}
+  ${wlvaluedate}
+    ]]>
+    </duration_of_pregnancy_count>  
+   
+    <pregnancy_date_of_birth>
+        <parameter name="code"  type="string"      if="${PAGE.isString(code)}"/>
+        <parameter name="code"  type="arraystring" if="${PAGE.isList(code)}"/>  
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="startvaluedate" if="${PAGE.exist('startvaluedate')||PAGE.exist('endvaluedate')}"/>
+        <parameter name="endvaluedate" if="${PAGE.exist('startvaluedate')||PAGE.exist('endvaluedate')}"/>                                                    
+        <define    type="string" name="wcodeloc" if="${PAGE.isString(code)}">
+            and code = ?
+        </define>
+        <define    type="string" name="wcodeloc" if="${PAGE.isList(code)}">
+            and A.code  = any(?)
+        </define>
+        <define    type="string" name="wlvaluedate" if="${PAGE.exist('startvaluedate')||PAGE.exist('endvaluedate')}">
+            and mis.is_date_in_range(A.appliesdatetime,?,?)
+        </define>
+    <![CDATA[
+  select 
+    A.id,
+    A.typeid,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization  as organizationid,
+    A.practitioner  as practitionerid,
+    A.valuedate,
+    A.code,
+     (select name from mis.v_glossary_date_of_birth B where A.code=B.code) as codename,
+    A.appliesdatetime
+   FROM mis.v_clinical_observation_date_of_birth
+   where 1=1 
+  ${wcodeloc}
+  ${wpatient}
+  ${wappliesdatetime}
+  ${wlvaluedate}
+  ${orderBy}
+     ]]>
+     
+    </pregnancy_date_of_birth>
+      
+    <pregnancy_date_of_birth_count>
+        <parameter name="code"  type="string"      if="${PAGE.isString(code)}"/>
+        <parameter name="code"  type="arraystring" if="${PAGE.isList(code)}"/>  
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="startvaluedate" if="${PAGE.exist('startvaluedate')||PAGE.exist('endvaluedate')}"/>
+        <parameter name="endvaluedate" if="${PAGE.exist('startvaluedate')||PAGE.exist('endvaluedate')}"/>                                                    
+        <define    type="string" name="wcodeloc" if="${PAGE.isString(code)}">
+            and code = ?
+        </define>
+        <define    type="string" name="wcodeloc" if="${PAGE.isList(code)}">
+            and A.code  = any(?)
+        </define>
+        <define    type="string" name="wlvaluedate" if="${PAGE.exist('startvaluedate')||PAGE.exist('endvaluedate')}">
+            and mis.is_date_in_range(A.appliesdatetime,?,?)
+        </define>
+    <![CDATA[
+  select 
+    count(*) as count
+   FROM mis.v_clinical_observation_date_of_birth
+   where 1=1 
+  ${wcodeloc}
+  ${wpatient}
+  ${wappliesdatetime}
+  ${wlvaluedate}
+      ]]>
+    </pregnancy_date_of_birth_count>   
+    
+    <attachment>
+        <parameter name="code"  type="string"      if="${PAGE.isString(code)}"/>
+        <parameter name="code"  type="arraystring" if="${PAGE.isList(code)}"/>  
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <define    type="string" name="wcodeloc" if="${PAGE.isString(code)}">
+            and code = ?
+        </define>
+        <define    type="string" name="wcodeloc" if="${PAGE.isList(code)}">
+            and A.code  = any(?)
+        </define>
+        <define    type="string" name="wlvaluedate" if="${PAGE.exist('startvaluedate')||PAGE.exist('endvaluedate')}">
+            and mis.is_date_in_range(A.appliesdatetime,?,?)
+        </define>
+<![CDATA[
+ SELECT a.id,
+    A.typeid,
+    A.status,
+    A.reliability,
+    A.comments,
+    A.patientid,
+    A.device as deviceid,
+    A.organization as organizationid,
+    A.practitioner as practitionerid,
+    A.code,
+    A.appliesdatetime,
+    A.filename,
+    A.contenttype,
+    A.format,
+    A.size
+   FROM mis.v_clinical_observation_attachment A
+   where 1=1 
+  ${wcodeloc}
+  ${wpatient}
+  ${wappliesdatetime}
+  ${wlvaluedate}
+   ${orderBy}
+  ]]>
+    </attachment>
+    <attachment_count>
+        <parameter name="code"  type="string"      if="${PAGE.isString(code)}"/>
+        <parameter name="code"  type="arraystring" if="${PAGE.isList(code)}"/>  
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <define    type="string" name="wcodeloc" if="${PAGE.isString(code)}">
+            and code = ?
+        </define>
+        <define    type="string" name="wcodeloc" if="${PAGE.isList(code)}">
+            and A.code  = any(?)
+        </define>
+        <define    type="string" name="wlvaluedate" if="${PAGE.exist('startvaluedate')||PAGE.exist('endvaluedate')}">
+            and mis.is_date_in_range(A.appliesdatetime,?,?)
+        </define>
+<![CDATA[
+ SELECT
+   count(*) as count 
+   FROM mis.v_clinical_observation_attachment A
+   where 1=1 
+  ${wcodeloc}
+  ${wpatient}
+  ${wappliesdatetime}
+  ${wlvaluedate}
+   ]]> 
+    </attachment_count>
+    
+    <type_absorption_liquid>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+   <![CDATA[
+    SELECT
+      A.id,
+      A.typeid,
+      A.status,
+      A.reliability,
+      A.comments,
+      A.patientid,
+      A.device  as deviceid,
+      A.organization  as organizationid,
+      A.practitioner  as practitionerid,
+      A.string,
+      A.appliesdatetime
+    from mis.v_clinical_observation_type_absorption_liquid A
+    where 1=1
+    ${wpatient}
+    ${wappliesdatetime}
+    ${orderBy}
+   ]]>    
+    </type_absorption_liquid>
+    
+    <type_absorption_liquid_count>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="startappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+        <parameter name="endappliesdatetime" if="${PAGE.exist('startappliesdatetime')||PAGE.exist('endappliesdatetime')}"/>
+   <![CDATA[
+    SELECT
+      count(*) as count
+    from mis.v_clinical_observation_type_absorption_liquid A 
+    where 1=1
+    ${wpatient}
+    ${wappliesdatetime}
+    ]]>  
+    </type_absorption_liquid_count>
+    
+</root>

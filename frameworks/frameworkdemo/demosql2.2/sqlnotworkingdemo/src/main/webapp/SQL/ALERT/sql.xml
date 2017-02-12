@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <search>
+        <parameter name="status" type="string" if="${PAGE.exist('status')}"/>
+        <parameter name="category"  type="string"      if="${PAGE.isString(category)}"/>
+        <parameter name="category"  type="arraystring" if="${PAGE.isList(category)}"/>  
+        <parameter name="subject" type="string" if="${PAGE.exist('subject')}"/>
+        <parameter name="authorpractitioner" type="string" if="${PAGE.exist('authorpractitioner')}"/>
+        <parameter name="authorpatient" type="string" if="${PAGE.exist('authorpatient')}"/>          
+        <parameter name="authordevice" type="string" if="${PAGE.exist('authordevice')}"/>          
+        <parameter name="note" type="string" if="${PAGE.exist('note')}"/>         
+        <parameter name="startcreated" if="${PAGE.exist('startcreated')||PAGE.exist('endcreated')}"/>
+        <parameter name="endcreated" if="${PAGE.exist('startcreated')||PAGE.exist('endcreated')}"/>                        
+        
+        <define type="string" name="wstatus" if="${PAGE.exist('status')}">
+            and status=?
+        </define>
+        <define    type="string" name="wcategory" if="${PAGE.isString(category)}">
+            and category = ?
+        </define>
+        <define    type="string" name="wcategory" if="${PAGE.isList(category)}">
+            and category  = any(?)
+        </define>
+        <define name="wsubject" type="string" if="${PAGE.exist('subject')}">
+            and  subject=?
+        </define>
+        <define name="wauthorpractitioner" type="string" if="${PAGE.exist('authorpractitioner')}">
+            and authorpractitioner=?
+        </define>
+        <define name="wauthorpatient" type="string" if="${PAGE.exist('authorpatient')}">
+            and authorpatient=?
+        </define>
+        <define name="wauthordevice" type="string" if="${PAGE.exist('authordevice')}">
+            and authordevice=?
+        </define>          
+        <define name="wnote" type="string" if="${PAGE.exist('note')}">
+            and note ilike ?
+        </define>
+        <define    type="string" name="wcreated" if="${PAGE.exist('startcreated')||PAGE.exist('endcreated')}">
+            and mis.is_date_in_range(created,?,?)
+        </define>    
+        <define    type="string" name="orderBy" if="${PAGE.exist('orderBy')}">
+            order by ${orderBy} 
+        </define>
+        <![CDATA[
+           SELECT id,
+                  status,
+                  category,
+                  (select A.name from mis.v_glossary_types_alert A where category=A.code) as categoryname,
+                  subject,
+                  authorpractitioner,
+                  authorpatient,
+                  authordevice,
+                  note,
+                  created
+          FROM mis.v_administrative_alert
+          where 1=1
+          ${wstatus}
+          ${wcategory}
+          ${wsubject}
+          ${wauthorpractitioner}
+          ${wauthorpatient}
+          ${wauthordevice}
+          ${wnote}
+          ${wcreated}
+          ${orderBy}
+        ]]>
+    </search>
+    
+    <count>
+        <parameter name="status" type="string" if="${PAGE.exist('status')}"/>
+        <parameter name="category"  type="string"      if="${PAGE.isString(category)}"/>
+        <parameter name="category"  type="arraystring" if="${PAGE.isList(category)}"/>  
+        <parameter name="subject" type="string" if="${PAGE.exist('subject')}"/>
+        <parameter name="authorpractitioner" type="string" if="${PAGE.exist('authorpractitioner')}"/>
+        <parameter name="authorpatient" type="string" if="${PAGE.exist('authorpatient')}"/>          
+        <parameter name="authordevice" type="string" if="${PAGE.exist('authordevice')}"/>          
+        <parameter name="note" type="string" if="${PAGE.exist('note')}"/>         
+        <parameter name="startcreated" if="${PAGE.exist('startcreated')||PAGE.exist('endcreated')}"/>
+        <parameter name="endcreated" if="${PAGE.exist('startcreated')||PAGE.exist('endcreated')}"/>                        
+        
+        <define type="string" name="wstatus" if="${PAGE.exist('status')}">
+            and status=?
+        </define>
+        <define    type="string" name="wcategory" if="${PAGE.isString(code)}">
+            and category = ?
+        </define>
+        <define    type="string" name="wcategory" if="${PAGE.isList(code)}">
+            and category  = any(?)
+        </define>
+        <define name="wsubject" type="string" if="${PAGE.exist('subject')}">
+            and  subject=?
+        </define>
+        <define name="wauthorpractitioner" type="string" if="${PAGE.exist('authorpractitioner')}">
+            and authorpractitioner=?
+        </define>
+        <define name="wauthorpatient" type="string" if="${PAGE.exist('authorpatient')}">
+            and authorpatient=?
+        </define>
+        <define name="wauthordevice" type="string" if="${PAGE.exist('authordevice')}">
+            and authordevice=?
+        </define>          
+        <define name="wnote" type="string" if="${PAGE.exist('note')}">
+            and note ilike ?
+        </define>
+        <define    type="string" name="wcreated" if="${PAGE.exist('startcreated')||PAGE.exist('endcreated')}">
+            and mis.is_date_in_range(created,?,?)
+        </define>    
+         <![CDATA[
+           SELECT 
+           count(*) as count
+          FROM mis.v_administrative_alert
+          where 1=1
+          ${wstatus}
+          ${wcategory}
+          ${wsubject}
+          ${wauthorpractitioner}
+          ${wauthorpatient}
+          ${wauthordevice}
+          ${wnote}
+          ${wcreated}
+        ]]>
+    </count>
+    
+    
+    <read>
+        <parameter name="id" type="string"/>
+        <![CDATA[
+           SELECT id,
+                  status,
+                  category,
+                  subject,
+                  authorpractitioner,
+                  authorpatient,
+                  authordevice,
+                  note,
+                  created
+          FROM mis.v_administrative_alert
+          where id=?
+          ]]>
+    </read>
+    
+    <create>
+        <parameter name="status" type="string"/>
+        <parameter name="category" type="string"/>
+        <parameter name="subject" type="string"/>
+        <parameter name="authorpractitioner" type="string"/>
+        <parameter name="authorpatient" type="string"/>
+        <parameter name="authordevice" type="string"/>
+        <parameter name="note" type="string"/>
+        <parameter name="created"  type="string"/>
+        <parameter name="id" type="string" value="${PAGE.guid()}"/>  
+           <![CDATA[
+        insert into mis.v_administrative_alert
+        (status,category,subject,authorpractitioner,authorpatient,authordevice,note,created,id)
+         values
+        (${PAGE.strRepeat("?",",",9)})
+        returning  id as id
+        ]]>
+    </create>
+    
+    <update>
+        <parameter name="status" type="string"/>
+        <parameter name="category" type="string"/>
+        <parameter name="subject" type="string"/>
+        <parameter name="authorpractitioner" type="string"/>
+        <parameter name="authorpatient" type="string"/>
+        <parameter name="authordevice" type="string"/>
+        <parameter name="note" type="string"/>
+        <parameter name="created"  type="string"/>
+        <parameter name="id" type="string" />  
+           <![CDATA[
+           update mis.v_administrative_alert set
+              status=?,
+              category=?,
+              subject=?,
+              authorpractitioner=?,
+              authorpatient=?,
+              authordevice=?,
+              note=?,
+              created=?
+           where id=?
+           returning  id as id
+        ]]>
+    </update>
+    <delete>
+        <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_administrative_alert
+             where id=?
+           ]]>
+    </delete>
+</root>

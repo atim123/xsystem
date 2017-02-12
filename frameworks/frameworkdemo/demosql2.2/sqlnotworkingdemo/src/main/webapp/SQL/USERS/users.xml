@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <userlist>
+        select dbid as id, userid as login from users.users
+    </userlist>
+    <rolelist>
+        select dbid as id,rolename as role  from users.roles
+    </rolelist>
+    <userrolelist>
+        <parameter type="string" name="user" order="1"/>
+        <![CDATA[
+        select A.dbid as id,
+               A.rolename as role
+        from users.roles A
+        where 
+        A.DBID  in (select B.roleid 
+                       from users.usersroles B,
+                       users.users C  
+                       where  B.userid = C.DBID
+                       and    C.userid=?)
+        ]]>
+    </userrolelist>
+    <availablerolelist>
+        <parameter type="string" name="user" order="1"/>
+        
+        <![CDATA[
+        select A.dbid as id,
+               A.rolename as role
+        from users.roles A
+        where 
+        A.DBID not in (select B.roleid 
+                       from users.usersroles B,
+                       users.users C  
+                       where  B.userid = C.DBID
+                       and    C.userid=?) 
+        ]]>
+    </availablerolelist>
+    <roleuserlist>
+        <parameter type="string" name="role" order="1"/>
+        <![CDATA[
+        select A.dbid as id,
+               userid as login
+        from users.users A
+        where 
+        A.DBID in (select B.userid 
+                       from users.usersroles B,
+                       users.roles C  
+                       where  B.roleid = C.DBID
+                       and    C.rolename=?)
+        ]]>
+    </roleuserlist>    
+    <availableuserlist>
+        <parameter type="string" name="role"/>
+        <![CDATA[
+        select A.dbid as id,
+               userid as login
+        from users.users A
+        where 
+        A.DBID not in (select B.userid 
+                       from users.usersroles B,
+                       users.roles C  
+                       where  B.roleid = C.DBID
+                       and    C.rolename=?)
+        ]]> 
+    </availableuserlist>
+    
+    <setroletouser>
+      <parameter type="string" name="user"/>  
+      <parameter type="string" name="role"/>  
+      <![CDATA[
+        INSERT INTO users.usersroles(userid,roleid) 
+        select 
+        (select dbid from users.users where userid=?) as userid,
+        (select dbid from users.roles where rolename=?) as roleid     
+     ]]> 
+    </setroletouser>
+    
+    
+    <getuser>
+        <parameter type="integer" name="dbid" order="1"/>
+       <![CDATA[
+          select userid,password from  users.users where dbid=?
+        ]]> 
+    </getuser>
+    
+    <deleteuser>
+        <parameter type="integer" name="dbid" order="1"/>
+       <![CDATA[
+          delete from  users.users where dbid=?
+        ]]> 
+    </deleteuser>
+    
+    <createuser>       
+        <parameter type="string" name="userid" order="1"/>
+        <parameter type="string" name="password" order="1"/>
+        <![CDATA[
+        insert into users.users(dbid,userid,password)
+        values (nextval('users.userseq'),?,?)  returning  dbid
+        ]]>
+    </createuser>  
+    <updateuser>       
+        <parameter type="string" name="password" />
+        <parameter type="string" name="userid" />
+        
+        <![CDATA[
+        update users.users set
+          password=?
+        where  userid=?
+        returning  dbid
+        ]]>
+  
+    </updateuser>  
+    <getuser>
+        <parameter type="integer" name="userid" order="1"/>
+       <![CDATA[
+          select dbid, userid, chatid from  users.users where userid=?
+        ]]> 
+    </getuser>
+    <getuserinfo>
+        <parameter type="string" name="userid" order="1"/>
+       <![CDATA[
+          SELECT * FROM mis.get_user_info(?)
+        ]]> 
+    </getuserinfo>
+    
+    <getinfobyid>
+      <parameter type="string" name="role"/>  
+      <parameter type="string" name="id"/>  
+      <![CDATA[
+        SELECT * FROM mis.get_user_info_byid(?,?)
+     ]]> 
+    </getinfobyid>
+</root>

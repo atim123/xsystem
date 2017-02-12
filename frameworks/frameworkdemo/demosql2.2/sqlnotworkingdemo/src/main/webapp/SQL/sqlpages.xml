@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.                          
+-->
+<pages>
+    <connection>
+        <defualt>java:/comp/env/jdbc/fhir</defualt>
+    </connection>
+    <executer name="fromjson" class="org.xsystem.hmrest.simpestorage.FromJsonExecuter" />
+    <executer name="tojson" class="org.xsystem.hmrest.simpestorage.ToJsonExecuter" />
+    
+    <executer name="insertProfWithLink" class='org.xsystem.hmrest.service.ProfileInsert' />
+    <executer name="updateProfWithLink" class='org.xsystem.hmrest.service.ProfileUpdate' />
+    <executer name="fileAccuChekAction" class='org.xsystem.hmrest.service.files.FileAccuChekAction' />
+    <executer name="fileHttpExecuter" class='org.xsystem.hmrest.service.http.FileHttpExecuter' />
+
+    <executer name="fileHttpBiossUser" class='org.xsystem.hmrest.service.http.FileHttpBiossUser' />
+    <executer name="fileHttpBiossFischer" class='org.xsystem.hmrest.service.http.FileHttpBiossFischer' />
+    <executer name="fileHttpBiossFigo" class='org.xsystem.hmrest.service.http.FileHttpBiossFigo' />
+    <executer name="monitorAd" class='org.xsystem.hmrest.service.careplans.MonitorAd' />
+    <executer name="monitorGlucose"     class='org.xsystem.hmrest.service.careplans.MonitorGlucose'/>
+    <executer name="monitorTemperature" class='org.xsystem.hmrest.service.careplans.MonitorTemperature'/>
+    <executer name="monitorMeasurementFruit" class='org.xsystem.hmrest.service.careplans.MonitorMeasurementFruit'/>
+    <executer name="appointmentsList" class='org.xsystem.hmrest.service.careplans.AppointmentsList'/>
+    <executer name="listPatients" class='org.xsystem.hmrest.service.listpatient.ListPatients'/>
+    <executer name="fileHttpEkg" class='org.xsystem.hmrest.service.http.FileHttpEkg' />    
+    <executer name="listContact" class='org.xsystem.hmrest.service.listpatient.ListPatientContact'/>
+    <executer name="fileUploadAvatar" class='org.xsystem.hmrest.service.files.FileUploadAvatar'/>
+    <executer name="notifyPractitioner" class='org.xsystem.hmrest.service.listpatient.NotifySettingPractitioner'/>
+      
+
+    <include href="file:///SQL/USERS/page.xml" />  
+    <include href="file:///SQL/DEVICE/page.xml" />
+    <include href="file:///SQL/GLOSSARY/page.xml" />
+    <include href="file:///SQL/PATIENT/page.xml" />        
+    <include href="file:///SQL/PRACTITIONER/page.xml" />       
+    <include href="file:///SQL/PRACTITIONER/SERVICE/page.xml" />       
+    <include href="file:///SQL/ORGANIZATION/page.xml" />
+    <include href="file:///SQL/OBSERVATION/page.xml" />
+    <include href="file:///SQL/MEDICATIONSTATEMENT/page.xml" />
+    <include href="file:///SQL/OBSERVATION/SEARCH/page.xml" />
+    <include href="file:///SQL/OBSERVATION/UPDATE/page.xml" />
+    <include href="file:///SQL/PROFILE/page.xml" />       
+    <include href="file:///SQL/ROLES/page.xml" />       
+    <include href="file:///SQL/DOCUMENTREFERENCE/page.xml" />            
+    
+    <include href="file:///SQL/STORAGE/page.xml" />
+    <include href="file:///SQL/AUTHUSER/page.xml" />
+    <include href="file:///SQL/BIOSS/page.xml" />
+
+    
+    <include href="file:///SQL/CAREPLAN/MONITORAD/page.xml" />  
+    <include href="file:///SQL/REACTION/page.xml" /> 
+    <include href="file:///SQL/CAREPLAN/MONITORGLUCOSE/page.xml" />
+    <include href="file:///SQL/CAREPLAN/MEASUREMENTFRUIT/page.xml" />
+    <include href="file:///SQL/CAREPLAN/MONITORTEMPERATURE/page.xml" />
+    <include href="file:///SQL/CAREPLAN/APPOINTMENTSLIST/page.xml" />
+    
+    <include href="file:///SQL/NOTIFICATION/PATIENT/page.xml" /> 
+    <include href="file:///SQL/ALERT/page.xml" />
+    <include href="file:///SQL/FILES/page.xml" />
+</pages>
+

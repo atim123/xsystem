@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+   
+    <search>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="status" if="${PAGE.exist('status')}"/>
+        <parameter name="startcreated" if="${PAGE.exist('startcreated')||PAGE.exist('endcreated')}"/>
+        <parameter name="endcreated" if="${PAGE.exist('startcreated')||PAGE.exist('endcreated')}"/>
+     
+        <define    type="string" name="wpatient" if="${PAGE.exist('patientid')}">
+            and A.patient =?
+        </define>
+        <define    type="string" name="wstatus" if="${PAGE.exist('status')}">
+            and A.status =?
+        </define>
+        <define    type="string" name="wcreated" if="${PAGE.exist('startperiodstart')||PAGE.exist('endperiodstart')}">
+            and mis.is_date_in_range(A.created,?,?)
+        </define>
+        <define    type="string" name="orderBy" if="${PAGE.exist('orderBy')}">
+            order by ${orderBy} 
+        </define>
+        SELECT A.id,
+        A.status,
+        A.periodstart,
+        A.periodend,
+        A.modified,
+        A.patient,  
+        A.participantpractitioner,
+        A.participantorganization,
+        A.name,
+        A.created,
+        (SELECT COALESCE((d.sname || ' '),'') || COALESCE((d.fname || ' '),'') || COALESCE(d.mname ,'')
+        FROM mis.v_administrative_practitioner d where d.id= A.participantpractitioner) as fio
+        FROM mis.v_clinical_careplan A
+        where A.id in (
+        SELECT 
+        B.careplanid
+        FROM mis.v_clinical_careplan_type B
+        where B.type='ЛН'
+        )
+        ${wpatient}
+        ${wstatus}
+        ${wcreated}
+        ${orderBy}    
+    </search>
+    <count>
+        <parameter name="patientid" if="${PAGE.exist('patientid')}"/>
+        <parameter name="status" if="${PAGE.exist('status')}"/>
+        <parameter name="startcreated" if="${PAGE.exist('startcreated')||PAGE.exist('endcreated')}"/>
+        <parameter name="endcreated" if="${PAGE.exist('startcreated')||PAGE.exist('endcreated')}"/>
+        
+        <define    type="string" name="wpatient" if="${PAGE.exist('patientid')}">
+            and A.patient =?
+        </define>
+        <define    type="string" name="wstatus" if="${PAGE.exist('status')}">
+            and A.status =?
+        </define>
+        <define    type="string" name="wcreated" if="${PAGE.exist('startperiodstart')||PAGE.exist('endperiodstart')}">
+            and mis.is_date_in_range(A.created,?,?)
+        </define>  
+        SELECT
+        count(*) as count 
+        FROM mis.v_clinical_careplan A
+        where A.id in (
+        SELECT 
+        B.careplanid
+        FROM mis.v_clinical_careplan_type B
+        where B.type='ЛН'
+        )
+        ${wpatient}
+        ${wstatus}
+        ${wcreated}
+       
+    </count>
+    
+    <createtype>
+        <parameter type="string" name="id" />
+        insert into mis.v_clinical_careplan_type(type,careplanid)
+        values('ЛН',?)
+    </createtype> 
+    
+       
+    <createcareplan>
+        <parameter type="string" name="status"/>
+        <parameter type="string" name="periodstart" />
+        <parameter type="string" name="periodend"/>
+        <parameter type="string" name="modified" />
+        <parameter type="string" name="patient" />
+        <parameter type="string" name="participantpractitioner" />
+        <parameter type="string" name="participantorganization" />
+        <parameter type="string" name="name" />
+        <parameter type="string" name="created" />
+        <parameter type="string" name="id" value="${PAGE.guid()}"/>
+         <![CDATA[
+             insert into mis.v_clinical_careplan (status,periodstart,periodend,modified,patient,participantpractitioner,participantorganization,name,created,id)
+             values (${PAGE.strRepeat("?",",",10)}) returning  id
+        ]]>
+    </createcareplan>
+    
+    <updatecareplan>
+        <parameter type="string" name="status"/>
+        <parameter type="string" name="periodstart" />
+        <parameter type="string" name="periodend" />
+        <parameter type="string" name="modified" />
+        <parameter type="string" name="patient" />
+        <parameter type="string" name="participantpractitioner" />
+        <parameter type="string" name="participantorganization" />
+        <parameter type="string" name="name" />
+        <parameter type="string" name="created" />
+        <parameter type="string" name="id" />
+         <![CDATA[
+             update mis.v_clinical_careplan set
+                status=?,
+                periodstart=?,
+                periodend=?,
+                modified=?,
+                patient=?,
+                participantpractitioner=?,
+                participantorganization=?,
+                name=?,
+                created=?
+            where id=?
+            returning  id
+        ]]>
+    </updatecareplan>
+    
+    <readcareplan>
+        <parameter name="id"/>
+              <![CDATA[
+    SELECT A.id, 
+       A.status, 
+       A.periodstart, 
+       A.periodend, 
+       A.modified, 
+       A.patient, 
+       A.participantpractitioner, 
+       A.participantorganization,
+       A.name,
+       A.created
+  FROM mis.v_clinical_careplan A
+  where id=?
+            ]]> 
+    </readcareplan> 
+    
+    <delete>
+        <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_careplan
+             where id=?
+           ]]>
+    </delete>  
+    
+    <prescriptionslist>
+        <parameter name="id" /> 
+        <parameter name="status" if="${PAGE.exist('status')}"/>
+        <parameter name="date" if="${PAGE.exist('date')}"/>
+        <define    type="string" name="wstatus" if="${PAGE.exist('status')}">
+            and A.status=?
+        </define>
+        <define    type="string" name="wdate" if="${PAGE.exist('date')}">
+            and mis.is_date_in_range(?,A.periodstart,A.periodend)
+        </define>
+        <define    type="string" name="orderBy" if="${PAGE.exist('orderBy')}">
+            order by ${orderBy} 
+        </define>
+        <![CDATA[
+SELECT A.id,
+       A.type,
+       A.status,
+       A.prohibited,
+       A.careplan,
+       A.notes,
+       A.category,
+       A.periodstart,
+       A.periodend,
+       A.observationtype,
+       A.timingschedulestart,
+       A.timingscheduleend,
+       A.timingschedulefrequency,
+       A.timingscheduleduration,
+       A.timingscheduleunits,
+       A.quantityvalue,
+       A.quantityunits,
+       A.text,
+       A.code, 
+       A.codename
+from (
+SELECT id,
+       type,
+       status,
+       prohibited,
+       careplan,
+       notes,
+       category,
+       periodstart,
+       periodend,
+       null as observationtype,
+       timingschedulestart,
+       timingscheduleend,
+       timingschedulefrequency,
+       timingscheduleduration,
+       timingscheduleunits,
+       quantityvalue,
+       quantityunits,
+       text,
+       null as code,
+       null as codename  
+  FROM mis.v_clinical_activity_drug
+  union all
+SELECT id,
+       type,
+       status,
+       prohibited,
+       careplan,
+       notes,
+       category,
+       periodstart,
+       periodend,
+       observationtype,
+       timingschedulestart,
+       timingscheduleend,
+       timingschedulefrequency,
+       timingscheduleduration,
+       timingscheduleunits,
+       null as quantityvalue,
+       null as quantityunits,
+       null as text,
+       null as code,
+       null as codename 
+  FROM mis.v_clinical_activity_observation
+  union all
+SELECT B.id,
+       B.type,
+       B.status,
+       B.prohibited,
+       B.careplan,
+       B.notes,
+       B.category,
+       B.periodstart,
+       B.periodend,
+       null as observationtype,
+       null as timingschedulestart,
+       null as timingscheduleend,
+       null as timingschedulefrequency,
+       null as timingscheduleduration,
+       null as timingscheduleunits,
+       null as quantityvalue,
+       null as quantityunits,
+       null as text,
+       B.code,
+       (select c.name from mis.v_glossary_diet_type c where B.code =c.code) as codename
+ FROM mis.v_clinical_activity_diet B  
+  ) as A  
+   where A.careplan=?                  
+  ${wstatus}
+  ${wdate}
+  ${orderBy}      
+]]>
+    </prescriptionslist>
+    <prescriptionscount>
+        <parameter name="id" /> 
+        <parameter name="status" if="${PAGE.exist('status')}"/>
+        <parameter name="date" if="${PAGE.exist('date')}"/>
+        <define    type="string" name="wstatus" if="${PAGE.exist('status')}">
+            and status=?
+        </define>
+        <define    type="string" name="wdate" if="${PAGE.exist('date')}">
+            and mis.is_date_in_range(?,periodstart,periodend)
+        </define>
+        <![CDATA[        
+     
+
+
+SELECT 
+        count(*) as count
+from (
+SELECT id,
+       type,
+       status,
+       prohibited,
+       careplan,
+       notes,
+       category,
+       periodstart,
+       periodend,
+       null as observationtype,
+       timingschedulestart,
+       timingscheduleend,
+       timingschedulefrequency,
+       timingscheduleduration,
+       timingscheduleunits,
+       quantityvalue,
+       quantityunits,
+       text,
+       null as code,
+       null as codename  
+  FROM mis.v_clinical_activity_drug
+  union all
+SELECT id,
+       type,
+       status,
+       prohibited,
+       careplan,
+       notes,
+       category,
+       periodstart,
+       periodend,
+       observationtype,
+       timingschedulestart,
+       timingscheduleend,
+       timingschedulefrequency,
+       timingscheduleduration,
+       timingscheduleunits,
+       null as quantityvalue,
+       null as quantityunits,
+       null as text,
+       null as code,
+       null as codename 
+  FROM mis.v_clinical_activity_observation
+  union all
+SELECT B.id,
+       B.type,
+       B.status,
+       B.prohibited,
+       B.careplan,
+       B.notes,
+       B.category,
+       B.periodstart,
+       B.periodend,
+       null as observationtype,
+       null as timingschedulestart,
+       null as timingscheduleend,
+       null as timingschedulefrequency,
+       null as timingscheduleduration,
+       null as timingscheduleunits,
+       null as quantityvalue,
+       null as quantityunits,
+       null as text,
+       B.code,
+       (select c.name from mis.v_glossary_diet_type c where B.code =c.code) as codename
+ FROM mis.v_clinical_activity_diet B  
+  ) as A  
+   where A.careplan=?                  
+  ${wstatus}
+  ${wdate}
+    ]]>
+    </prescriptionscount> 
+    
+    <observation>
+        <read>
+            <parameter name="id" />   
+            SELECT id,  status, prohibited, careplan, notes,  periodstart, 
+            periodend, observationtype, timingschedulestart, timingscheduleend, 
+            timingschedulefrequency, timingscheduleduration, timingscheduleunits
+            FROM mis.v_clinical_activity_observation
+            where id=?   
+        </read>
+        <update>
+            <parameter name="status" />
+            <parameter name="prohibited" type="boolean"/>
+            <parameter name="careplan"/>
+            <parameter name="notes"/>  
+            <parameter name="periodstart"/>  
+            <parameter name="periodend"/> 
+            <parameter name="observationtype"/> 
+            <parameter name="timingschedulestart"/> 
+            <parameter name="timingscheduleend"/> 
+            <parameter name="timingschedulefrequency"/>
+            <parameter name="timingscheduleduration"/>
+            <parameter name="timingscheduleunits"/>
+            <parameter name="id" />
+            update mis.v_clinical_activity_observation set
+            status=?, 
+            prohibited=?,
+            careplan=?,
+            notes=?,  
+            periodstart=?, 
+            periodend=?, 
+            observationtype=?, 
+            timingschedulestart=?, 
+            timingscheduleend=?, 
+            timingschedulefrequency=?,
+            timingscheduleduration=?,
+            timingscheduleunits=?
+            where id=? 
+            returning  id as id
+        </update>
+        <create>
+            <parameter name="status" />
+            <parameter name="prohibited" type="boolean"/>
+            <parameter name="careplan"/>
+            <parameter name="notes"/>  
+            <parameter name="periodstart"/>  
+            <parameter name="periodend"/> 
+            <parameter name="observationtype"/> 
+            <parameter name="timingschedulestart"/> 
+            <parameter name="timingscheduleend"/> 
+            <parameter name="timingschedulefrequency"/>
+            <parameter name="timingscheduleduration"/>
+            <parameter name="timingscheduleunits"/> 
+            <parameter name="id" value="${PAGE.guid()}"/>
+            insert into  mis.v_clinical_activity_observation
+            (status,prohibited,careplan,notes,periodstart,periodend,observationtype,timingschedulestart,timingscheduleend,timingschedulefrequency,timingscheduleduration,timingscheduleunits,id)
+            values           
+            (${PAGE.strRepeat("?",",",13)})
+            returning  id as id
+        </create>
+        <delete>
+            <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_activity_observation
+             where id=?
+           ]]>
+        </delete>
+    </observation>
+    <drug>
+        <read>
+            <parameter name="id" />   
+            SELECT id,  status, prohibited, careplan, notes,  periodstart, 
+            periodend, text, timingschedulestart, timingscheduleend, timingschedulefrequency, 
+            timingscheduleduration, timingscheduleunits, quantityvalue, quantityunits
+            FROM mis.v_clinical_activity_drug
+            where id=?
+        </read>
+        <update>
+            <parameter name="status" />
+            <parameter name="prohibited" type="boolean"/>
+            <parameter name="careplan"/>
+            <parameter name="notes"/>  
+            <parameter name="periodstart"/>  
+            <parameter name="periodend"/>
+            <parameter name="text"/> 
+            <parameter name="timingschedulestart"/> 
+            <parameter name="timingscheduleend"/> 
+            <parameter name="timingschedulefrequency"/>
+            <parameter name="timingscheduleduration"/>
+            <parameter name="timingscheduleunits"/>
+            <parameter name="quantityvalue" type="bigdecimal"/> 
+            <parameter name="quantityunits"/>
+            <parameter name="id" />
+            update mis.v_clinical_activity_drug set
+             status=?,
+             prohibited=?, 
+             careplan=?, 
+             notes=?,  
+             periodstart=?, 
+             periodend=?, 
+             text=?, 
+             timingschedulestart=?, 
+             timingscheduleend=?, 
+             timingschedulefrequency=?, 
+             timingscheduleduration=?, 
+             timingscheduleunits=?, 
+             quantityvalue=?, 
+             quantityunits=?
+            where id=? 
+            returning  id as id
+        </update>
+        <create>
+            <parameter name="status" />
+            <parameter name="prohibited" type="boolean"/>
+            <parameter name="careplan"/>
+            <parameter name="notes"/>  
+            <parameter name="periodstart"/>  
+            <parameter name="periodend"/>
+            <parameter name="text"/> 
+            <parameter name="timingschedulestart"/> 
+            <parameter name="timingscheduleend"/> 
+            <parameter name="timingschedulefrequency"/>
+            <parameter name="timingscheduleduration"/>
+            <parameter name="timingscheduleunits"/>
+            <parameter name="quantityvalue" type="bigdecimal"/> 
+            <parameter name="quantityunits"/>
+            <parameter name="id"  value="${PAGE.guid()}"/>
+            insert into  mis.v_clinical_activity_drug
+            (status,prohibited,careplan,notes,periodstart,periodend,text,timingschedulestart,
+             timingscheduleend,timingschedulefrequency,timingscheduleduration,timingscheduleunits,
+             quantityvalue,quantityunits,id)
+             values           
+            (${PAGE.strRepeat("?",",",15)})
+            returning  id as id
+        </create>
+        <delete>
+            <parameter name="id" />
+             <![CDATA[
+             delete from mis.v_clinical_activity_drug
+             where id=?
+           ]]>
+        </delete>
+        <completed>
+            <parameter name="patient" />
+            <![CDATA[
+             UPDATE  mis.v_clinical_careplan set
+                  status='completed',
+                  periodend=TO_CHAR(CURRENT_TIMESTAMP , 'YYYY-MM-DD"T"HH24:MI:SS+')||'0'||extract(timezone_hour from clock_timestamp())||':'||'00',
+                  modified=TO_CHAR(CURRENT_TIMESTAMP , 'YYYY-MM-DD"T"HH24:MI:SS+')||'0'||extract(timezone_hour from clock_timestamp())||':'||'00'
+                where  id in(select careplanid from mis.v_clinical_careplan_type where type='ЛН') and patient=?;
+                 ]]>
+        </completed>
+    </drug>    
+    
+    <diet>
+        <read>
+            <parameter name="id" />   
+            SELECT id,  status, prohibited, careplan, notes,  periodstart, 
+            periodend, code
+            FROM mis.v_clinical_activity_diet
+            where id=?
+        </read>
+        <create>
+            <parameter name="status" />
+            <parameter name="prohibited" type="boolean"/>
+            <parameter name="careplan"/>
+            <parameter name="notes"/>  
+            <parameter name="periodstart"/>  
+            <parameter name="periodend"/>
+            <parameter name="code"/> 
+            <parameter name="id"  value="${PAGE.guid()}"/>
+            insert into  mis.v_clinical_activity_diet
+            (status,prohibited,careplan,notes,periodstart,periodend,code,id)
+             values           
+            (${PAGE.strRepeat("?",",",8)})
+            returning  id as id
+        </create>
+        <update>
+            <parameter name="status" />
+            <parameter name="prohibited" type="boolean"/>
+            <parameter name="careplan"/>
+            <parameter name="notes"/>  
+            <parameter name="periodstart"/>  
+            <parameter name="periodend"/>
+            <parameter name="code"/> 
+            <parameter name="id" />
+            update mis.v_clinical_activity_diet set
+             status=?,
+             prohibited=?, 
+             careplan=?, 
+             notes=?,  
+             periodstart=?, 
+             periodend=?, 
+             code=?
+            where id=? 
+            returning  id as id
+        </update>
+        <delete>
+            <parameter name="id" />
+             <![CDATA[
+             delete from mis.v_clinical_activity_diet
+             where id=?
+           ]]>
+        </delete>
+    </diet>
+    
+</root>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<page>
+    <location>file:///SQL/REACTION/sql.xml</location>
+    <prefix>^\/reaction\/</prefix>
+   
+    <action type="query"> 
+        <patern>search</patern>
+        <path>//search</path>
+        <context>
+            <status>json/data/status</status>
+            <type>json/data/type</type>
+            <rangetype>json/data/rangetype</rangetype>
+            <subject>json/data/subject</subject>
+            <participant>json/data/participant</participant>
+            <startperiodstart>json/data/startperiodstart</startperiodstart>
+            <endperiodstart>json/data/endperiodstart</endperiodstart>
+            <startperiodend>json/data/startperiodend</startperiodend>
+            <endperiodend>json/data/endperiodend</endperiodend>
+        </context>         
+     
+    </action>   
+   
+    <action type="qurey">
+        <patern>count</patern>
+        <path>//count</path>
+        <context>
+            <status>json/data/status</status>
+            <type>json/data/type</type>
+            <rangetype>json/data/rangetype</rangetype>
+            <subject>json/data/subject</subject>
+            <participant>json/data/participant</participant>
+            <date>json/data/date</date>    
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+   
+    <action type="qurey"> 
+        <patern>read\/(.+)</patern>
+        <path>//read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    
+    <action type="dml">
+        <patern>update\/(.+)</patern>
+        <path>//update</path>              
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <text>json/data/text</text>
+            <participant>json/data/participant</participant>
+        </context>
+    </action>
+    
+    <action type="dml">
+        <patern>delete\/(.+)</patern>
+        <path>//delete</path>     
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+                                        
+</page>
+

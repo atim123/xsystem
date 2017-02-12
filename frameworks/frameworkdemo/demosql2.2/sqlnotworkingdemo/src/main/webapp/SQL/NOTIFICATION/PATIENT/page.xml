@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<page>
+    <location>file:///SQL/NOTIFICATION/PATIENT/sql.xml</location>
+    <prefix>^\/notification\/patient\/</prefix>
+    <action type="query"> 
+        <patern>search$</patern>
+        <path>//search</path>
+        <context>
+            <subject>json/data/subject</subject>
+        </context>
+    </action>  
+    
+      
+    <action type="qurey"> 
+        <patern>read\/(.+)$</patern>
+        <path>//read</path>
+        <context>
+            <subject>groups[1]</subject>
+        </context>
+        <singlerow>true</singlerow>
+    </action>  
+    
+    <action type="dml">
+        <patern>delete\/(.+)$</patern>
+        <path>//delete</path>     
+        <context>
+            <subject>groups[1]</subject>
+        </context>
+    </action> 
+    
+    <action type="dml"> 
+        <patern>set\/(.+)$</patern>
+        <path>//set</path>
+        <context>
+            <subject>groups[1]</subject>
+            <nominations>json/data/nominations</nominations>
+            <nominationstime>json/data/nominationstime</nominationstime>
+            <nominationssms>json/data/nominationssms</nominationssms>
+            <nominationsmail>json/data/nominationsmail</nominationsmail>
+            <noticeunfulfilled>json/data/noticeunfulfilled</noticeunfulfilled>
+            <noticeunfulfilledtime>json/data/noticeunfulfilledtime</noticeunfulfilledtime>
+            <noticeunfulfilledsms>json/data/noticeunfulfilledsms</noticeunfulfilledsms>
+            <noticeunfulfilledmail>json/data/noticeunfulfilledmail</noticeunfulfilledmail>
+            <nomsmstelecomid>json/data/nomsmstelecomid</nomsmstelecomid>
+            <nommailtelecomid>json/data/nommailtelecomid</nommailtelecomid>
+            <notsmstelecomid>json/data/notsmstelecomid</notsmstelecomid>
+            <notmailtelecomid>json/data/notmailtelecomid</notmailtelecomid>
+         </context>
+    </action>
+    
+   
+    
+</page>

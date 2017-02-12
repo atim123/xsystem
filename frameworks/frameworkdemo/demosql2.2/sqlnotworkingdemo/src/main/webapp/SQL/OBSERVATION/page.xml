@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<page>
+    <location>file:///SQL/OBSERVATION/observation.xml</location>
+    <action type="qurey"> 
+        <patern>^\/observation\/list</patern>
+        <path>//observation_mdc_dev_spec_list</path>
+    </action>
+        
+        
+    <action type="qurey"> 
+        <patern>^\/observation\/getobservationbypatient\/(.+)</patern>
+        <path>//getobservation_mdc_dev_spec_bypatient</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <!--singlerow>true</singlerow-->
+    </action>
+    
+    <action type="qurey"> 
+        <patern>^\/observation\/getobservationbydevice\/(.+)</patern>
+        <path>//getobservation_mdc_dev_spec_bydevice</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>    
+    
+    <action type="qurey"> 
+        <patern>^\/observation\/getobservationbypractitioner\/(.+)</patern>
+        <path>//getobservation_mdc_dev_spec_bypractitioner</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>   
+    
+    <action type="qurey"> 
+        <patern>^\/observation\/getobservationbyorganization\/(.+)</patern>
+        <path>//getobservation_mdc_dev_spec_byorganization</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>             
+        
+</page>

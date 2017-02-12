@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<page>
+    <location>file:///SQL/CAREPLAN/MONITORTEMPERATURE/sql.xml</location>
+    <prefix>^\/careplan/monitortemperature\/</prefix>
+
+      <action type="monitorTemperature" action="read"> 
+        <patern>read\/(.+)$</patern>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+
+
+  
+    <action type="monitorTemperature" action="create"> 
+        <patern>create$</patern>
+        <context>
+            <status>json/data/status</status>
+            <periodstart>json/data/periodstart</periodstart>
+            <periodend>json/data/periodend</periodend>
+            <modified>json/data/modified</modified>
+            <patient>json/data/patient</patient>
+            <participantpractitioner>json/data/participantpractitioner</participantpractitioner>
+            <participantorganization>json/data/participantorganization</participantorganization>
+            <activities>json/data/activities</activities>
+        </context>
+    </action> 
+   
+    <action type="monitorTemperature" action="update"> 
+        <patern>update\/(.+)$</patern>
+        <context>
+            <id>groups[1]</id>
+            <status>json/data/status</status>
+            <periodstart>json/data/periodstart</periodstart>
+            <periodend>json/data/periodend</periodend>
+            <modified>json/data/modified</modified>
+            <patient>json/data/patient</patient>
+            <participantpractitioner>json/data/participantpractitioner</participantpractitioner>
+            <participantorganization>json/data/participantorganization</participantorganization>
+            <activities>json/data/activities</activities>
+            
+        </context>
+    </action> 
+    
+    
+    <action type="dml">
+        <patern>delete\/(.+)$</patern>
+        <path>//delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    <action type="query"> 
+        <patern>search$</patern>
+        <path>//search</path>
+        <context>
+            <patient>json/data/patient</patient> 
+            <status>json/data/status</status>
+            <startperiodstart>json/data/startperiodstart</startperiodstart>
+            <endperiodstart>json/data/endperiodstart</endperiodstart>
+            <startperiodend>json/data/startperiodend</startperiodend>
+            <endperiodend>json/data/endperiodend</endperiodend>
+            <orderBy>json/orderBy</orderBy>
+        </context>        
+    </action>
+    
+    <action type="qurey">
+        <patern>count$</patern>
+        <path>//count</path>
+        <context>
+            <patient>json/data/patient</patient> 
+            <status>json/data/status</status>
+            <startperiodstart>json/data/startperiodstart</startperiodstart>
+            <endperiodstart>json/data/endperiodstart</endperiodstart>
+            <startperiodend>json/data/startperiodend</startperiodend>
+            <endperiodend>json/data/endperiodend</endperiodend>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+<!--   -->
+</page>

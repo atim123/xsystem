@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <listorganization>
+    <![CDATA[
+    SELECT id      as id,
+           name    as name,
+           typecode    as typecode,
+           partof  as partof,
+           active  as active
+    FROM mis.v_administrative_organization
+    ]]>
+    </listorganization> 
+    
+    <getorganization>
+        <parameter type="string" name="id" />
+        <![CDATA[
+            SELECT id      as id,
+                   name    as name,
+                   typecode    as type,
+                   partof  as partof,
+                   active  as active
+            FROM mis.v_administrative_organization
+            where id=?
+        ]]>
+    </getorganization>
+    
+    <createorganization>       
+        <parameter type="string" name="name" />
+        <parameter type="string" name="type" />
+        <parameter type="string" name="partof" />
+        <parameter type="boolean" name="active"/>
+        <![CDATA[
+        insert into mis.v_administrative_organization
+        (name,typecode,partof,active)
+        values
+        (?,?,?,?)
+        returning  id
+        ]]>
+    </createorganization>
+    
+    <updateorganization>      
+        <parameter type="string" name="name" />
+        <parameter type="string" name="type" />
+        <parameter type="string" name="partof" />
+        <parameter type="boolean" name="active"/>
+        <parameter type="string" name="id"/> 
+        
+        <![CDATA[
+        update mis.v_administrative_organization set
+            name=?,
+            typecode=?,
+            partof=?,
+            active=?            
+        where id=?    
+        returning  id
+        ]]>
+    </updateorganization>
+    
+    <deleteorganization>
+        <parameter type="string" name="id" order="1"/>
+       <![CDATA[
+          delete from mis.v_administrative_organization where id=?
+        ]]> 
+    </deleteorganization>
+    
+    <getdutypractitioners>
+        <parameter type="string" name="organizationid" order="1"/>
+       <![CDATA[
+       SELECT l_p_o.practitionerid FROM mis.v_link_practitioner_organization  as l_p_o
+            INNER JOIN mis.administrative_practitioner_identifier as p_i on l_p_o.practitionerid=p_i.practitionerid
+            INNER JOIN users.v_user_roles as v_u_r on p_i.value=v_u_r.login
+            WHERE l_p_o.organizationid=? AND v_u_r.roleid=6
+        ]]> 
+    </getdutypractitioners>
+</root>

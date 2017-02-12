@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <roleslist>
+    <![CDATA[
+    SELECT dbid as db_id,
+           rolename as role_name,
+           runame as ru_name
+    FROM users.v_roles
+    ]]>
+    </roleslist> 
+    <getrole>
+        <parameter type="bigdecimal"  name="id" />
+        <![CDATA[
+            SELECT dbid      as db_id,
+                   rolename    as role_name,
+                   runame    as ru_name
+            FROM users.v_roles
+            where dbid=?
+        ]]>
+    </getrole>
+    
+</root>

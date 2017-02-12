@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <search>
+         <parameter name="subject" type="string" if="${PAGE.exist('subject')}"/>
+         <define    type="string" name="wsubject" if="${PAGE.exist('subject')}">
+            and subject  = ?
+         </define>
+    SELECT subject,
+           nominations,
+           nominationstime,
+           nominationssms,
+           nominationsmail,
+           noticeunfulfilled,
+           noticeunfulfilledtime,
+           noticeunfulfilledsms,
+           noticeunfulfilledmail,
+           created,
+           nomsmstelecomid,
+           nommailtelecomid,
+           notsmstelecomid,
+           notmailtelecomid
+     FROM mis.v_infrastructure_notification_patient
+     where 1=1
+     ${wsubject}
+     ${orderBy}     
+    </search> 
+    <count>
+        <parameter name="subject" type="string" if="${PAGE.exist('subject')}"/>
+         <define    type="string" name="wsubject" if="${PAGE.exist('subject')}">
+            and subject  = ?
+         </define>
+         SELECT subject,
+           nominations,
+           nominationstime,
+           nominationssms,
+           nominationsmail,
+           noticeunfulfilled,
+           noticeunfulfilledtime,
+           noticeunfulfilledsms,
+           noticeunfulfilledmail,
+           created,
+           nomsmstelecomid,
+           nommailtelecomid,
+           notsmstelecomid,
+           notmailtelecomid
+     FROM mis.v_infrastructure_notification_patient
+     where 1=1
+     ${wsubject}
+     ${orderBy}
+    </count>
+    
+    <read>
+       <parameter name="subject" type="string" /> 
+       SELECT subject,
+           nominations,
+           nominationstime,
+           nominationssms,
+           nominationsmail,
+           noticeunfulfilled,
+           noticeunfulfilledtime,
+           noticeunfulfilledsms,
+           noticeunfulfilledmail,
+           created,
+           nomsmstelecomid,
+           nommailtelecomid,
+           notsmstelecomid,
+           notmailtelecomid
+     FROM mis.v_infrastructure_notification_patient
+     where subject  = ? 
+    </read>
+    
+    <delete>
+          <parameter name="subject" type="string" /> 
+           delete from mis.v_infrastructure_notification_patient
+           where subject  = ?   
+    </delete>
+    
+    <set>
+       
+        <define type="boolean" name="exist">
+            ${SQL.exec("select exists(select 1 from mis.v_infrastructure_notification_patient where subject=? ) exist",subject).exist}
+        </define> 
+        <define name="q" if="${exist}"> 
+           update mis.v_infrastructure_notification_patient set
+                nominations=?,
+                nominationstime=?,
+                nominationssms=?,
+                nominationsmail=?,
+                noticeunfulfilled=?,
+                noticeunfulfilledtime=?,
+                noticeunfulfilledsms=?,
+                noticeunfulfilledmail=?,
+                nomsmstelecomid=?,
+                nommailtelecomid=?,
+                notsmstelecomid=?,
+                notmailtelecomid=?
+            where subject  = ? 
+           </define>
+        <define name="q" if="${!exist}"> 
+           insert into mis.v_infrastructure_notification_patient
+           (nominations,nominationstime,nominationssms,nominationsmail,noticeunfulfilled,noticeunfulfilledtime,noticeunfulfilledsms,noticeunfulfilledmail,nomsmstelecomid,nommailtelecomid,notsmstelecomid,notmailtelecomid,subject,created)
+           values
+           (${PAGE.strRepeat("?",",",14)})
+        </define> 
+        <parameter name="nominations" type="boolean"/>
+        <parameter name="nominationstime" type="string"/>
+        <parameter name="nominationssms"  type="boolean"/>
+        <parameter name="nominationsmail" type="boolean"/>
+        <parameter name="noticeunfulfilled" type="boolean"/>
+        <parameter name="noticeunfulfilledtime" type="string"/>
+        <parameter name="noticeunfulfilledsms" type="boolean"/>
+        <parameter name="noticeunfulfilledmail" type="boolean"/>
+        <parameter name="nomsmstelecomid" type="string"/>  
+        <parameter name="nommailtelecomid" type="string"/>  
+        <parameter name="notsmstelecomid" type="string"/>  
+        <parameter name="notmailtelecomid" type="string"/>
+        <parameter name="subject" type="string" />
+        <parameter name="created" type="string"  if="${!exist}" value="${PAGE.nowISODateAsString()}"/>  
+        ${q}
+    </set>
+</root>

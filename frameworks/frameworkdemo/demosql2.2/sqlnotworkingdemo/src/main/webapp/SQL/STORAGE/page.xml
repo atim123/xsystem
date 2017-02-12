@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<page>
+    <location>file:///SQL/STORAGE/storage.xml</location>
+    <prefix>^\/storage\/</prefix>
+   
+    <action type="qurey">
+        <patern>test</patern>
+        <path>//test</path>
+    </action>
+
+    <action type="qurey"> 
+        <patern>documents</patern>
+        <path>//documents</path>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>chidsnode\/(.+)</patern>
+        <path>//chidsnode</path>
+        <context>
+            <parent>groups[1]</parent>
+        </context> 
+        <file download="true" preview="params/thumb"> 
+            <contenttype>contenttype</contenttype> 
+            <context>context</context> 
+            <format>format</format>
+            <filename>filename</filename>
+        </file>          
+    </action>
+   
+     
+    <action type="qurey"> 
+        <patern>documentcount\/(.+)</patern>
+        <path>//documentcount</path>
+        <context>
+            <name>groups[1]</name>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>hasmember\/(.+)\/(.+)</patern>
+        <path>//hasmember</path>
+        <context>
+            <id>groups[1]</id>
+            <name>groups[2]</name>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>hasmemberi\/(.+)\/(.+)\/(.+)</patern>
+        <path>//hasmemberi2</path>
+        <context>
+            <id>groups[1]</id>
+            <name>groups[2]</name>
+            <idx>groups[3]</idx>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>hasmemberi\/(.+)\/(.+)</patern>
+        <path>//hasmemberi2</path>
+        <context>
+            <id>groups[1]</id>
+            <name>groups[2]</name>
+          </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    
+    <action type="qurey"> 
+        <patern>getchild\/(.+)\/(.+)\/(.+)</patern>
+        <path>//getchild</path>
+        <context>
+            <id>groups[1]</id>
+            <name>groups[2]</name>
+            <idx>groups[3]</idx>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+ 
+    <action type="qurey"> 
+        <patern>getchildcount\/(.+)\/(.+)</patern>
+        <path>//getchildcount</path>
+        <context>
+            <id>groups[1]</id>
+            <name>groups[2]</name>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+     
+    <action type="qurey"> 
+        <patern>getnode\/(.+)</patern>
+        <path>//getnode</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+     <action type="dml">
+        <patern>createdocument</patern>
+        <path>//createdocument</path>
+        <context>
+            <name>json/name</name>
+        </context>
+    </action>
+
+    <action type="dml">
+        <patern>createnode\/(.+)</patern>
+        <path>//createnode</path>
+        <context>
+            <parent>groups[1]</parent>
+            <name>json/name</name>
+        </context>
+    </action>
+
+    <action type="dml">
+        <patern>updatenode\/(.+)</patern>
+        <path>//updatenode</path>
+        <context>
+            <id>groups[1]</id>
+            <name>json/name</name>
+        </context>
+    </action>
+
+    <action type="dml">
+        <patern>deletenode\/(.+)</patern>
+        <path>//deletenode</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>getnodevalue\/(.+)</patern>
+        <path>//getnodevalue</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>
+    </action>
+    
+    <action type="dml">
+        <patern>createnodevalue\/(.+)</patern>
+        <path>//createnodevalue</path>
+        <context>
+            <id>groups[1]</id>
+            <type>json/type</type>
+            <value>json/value</value>
+        </context>
+    </action>
+    
+    <action type="dml">
+        <patern>updatenodevalue\/(.+)</patern>
+        <path>//updatenodevalue</path>
+        <context>
+            <id>groups[1]</id>
+            <type>json/type</type>
+            <value>json/value</value>
+        </context>
+    </action>
+    
+    <action type="dml">
+        <patern>existnodevalue\/(.+)</patern>
+        <path>//existnodevalue</path>
+        <context>
+            <id>groups[1]</id>
+         </context>
+         <singlerow>true</singlerow>
+    </action>
+ 
+    <action type="tojson">
+        <patern>tojson\/(.+)</patern>
+        <context>
+            <id>groups[1]</id>
+         </context>
+    </action> 
+    <action type="fromjson">
+        <patern>fromjson\/(.+)</patern>
+        <context>
+            <id>groups[1]</id>
+            <context>json</context>
+        </context>
+    </action>   
+</page>

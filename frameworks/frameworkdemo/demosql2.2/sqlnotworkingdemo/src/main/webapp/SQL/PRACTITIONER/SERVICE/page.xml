@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor. careplan/monitorad/read
+-->
+<page>
+    <location>file:///SQL/PRACTITIONER/SERVICE/sql.xml</location>
+    <prefix>^\/practitioner/service\/</prefix>
+    
+    <action type="listPatients" action="list" > 
+        <patern>patientlist\/(.+)</patern>
+        <path>//patientlist</path>
+        <context>
+            <practitionerid>groups[1]</practitionerid>
+        </context>
+    </action>
+    
+    <action type="query" > 
+        <patern>gatherbypractitioner\/(.+)</patern>
+        <path>//gatherbypractitioner</path>
+        <context>
+            <practitionerid>groups[1]</practitionerid>
+        </context>
+    </action>
+    
+    <action type="notifyPractitioner" action="list"> 
+        <patern>notifypractitionerlist\/(.+)$</patern>
+        <path>//notifypractitionerlist</path>
+        <context>
+            <practitionerid>groups[1]</practitionerid>
+        </context>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>readpractitionernotify\/(.+)$</patern>
+        <path>//readpractitionernotify</path>
+        <context>
+            <practitionerid>groups[1]</practitionerid>
+        </context>
+    </action>
+    
+    <action type="qurey"> 
+        <patern>readpatientnotify\/(.+)$</patern>
+        <path>//readpatientnotify</path>
+        <context>
+            <practitionerid>groups[1]</practitionerid>
+        </context>
+    </action>
+    
+    <action type="notifyPractitioner" action="create" > 
+        <patern>notifypractitionercreate$</patern>
+        <path>//notifypractitionercreate</path>
+        <context>
+            <subject>json/subject</subject>
+            <nominations>json/nominations</nominations>
+            <nominationssms>json/nominationssms</nominationssms>
+            <nominationsmail>json/nominationsmail</nominationsmail>
+            <nomsmstelecomid>json/nomsmstelecomid</nomsmstelecomid>
+            <nommailtelecomid>json/nommailtelecomid</nommailtelecomid>
+            <isnotify>json/isnotify</isnotify>
+            <patients>json/patients</patients>
+        </context>
+    </action>
+    
+    <action type="dml">
+        <patern>createnotify$</patern>
+        <path>//createnotify</path>
+        <context>
+            <subject>json/subject</subject>
+            <nominations>json/nominations</nominations>
+            <nominationssms>json/nominationssms</nominationssms>
+            <nominationsmail>json/nominationsmail</nominationsmail>
+            <nomsmstelecomid>json/nomsmstelecomid</nomsmstelecomid>
+            <nommailtelecomid>json/nommailtelecomid</nommailtelecomid>
+            <isnotify>json/isnotify</isnotify>
+            <patients>json/patients</patients>
+        </context>
+    </action>
+    <action type="dml">
+        <patern>createspecnotify$</patern>
+        <path>//createspecnotify</path>
+        <context>
+            <patientid>json/patientid</patientid>
+            <practitionerid>json/practitionerid</practitionerid>
+            <eventcode>json/eventcode</eventcode>
+        </context>    
+    </action>
+    <action type="dml">
+        <patern>deletespecnotify$</patern>
+        <path>//deletespecnotify</path>
+        <context>
+            <subject>json/subject</subject>
+        </context>    
+    </action>
+</page>
+
+

@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <test> 
+    <![CDATA[
+    SELECT ARRAY(SELECT id || ' ' || surname 
+FROM mis.administrative_patient 
+ORDER BY birthdate ) as ff
+    ]]>
+    </test>
+    <documents>
+        <![CDATA[
+           select  id,
+                   name,
+                   parent,
+                   orderindex
+            from mis.v_simle_storage_node          
+            where parent is null
+        ]]>
+    </documents>
+    
+    <chidsnode>
+        <parameter type="string" name="parent" />
+        <![CDATA[
+           select  id,
+                   name,
+                   parent,
+                   orderindex
+            from mis.v_simle_storage_node          
+            where parent=?
+            order by name,orderindex
+        ]]>
+    </chidsnode>
+    
+    <hasmember>
+        <parameter type="string" name="id" />
+        <parameter type="string" name="name" />
+        <![CDATA[
+        select exists(select 1 from mis.v_simle_storage_node where parent=? and name=?) exist
+        ]]>
+    </hasmember>
+    
+    <hasmemberi>
+        <parameter type="string" name="id" />
+        <parameter type="string" name="name" />
+        <parameter type="integer" name="idx" />
+        <![CDATA[
+           select exists(select 1 from mis.v_simle_storage_node where parent=? and name=? and orderindex=? ) exist
+        ]]>
+    </hasmemberi>
+    
+    
+    <hasmemberi2>                              
+        <parameter type="string" name="id" />  
+        <parameter type="string" name="name" />
+        <parameter type="integer" name="idx"      if="${CONTEXT.get('idx')!=null}"/>
+        <define    type="string" name="orderindex" if="${CONTEXT.get('idx')!=null}"> 
+            and orderindex=?
+        </define>    
+        <![CDATA[
+           select exists(select 1 from mis.v_simle_storage_node where parent=? and name=? 
+             ${orderindex} )exist
+        ]]>
+    </hasmemberi2>
+    
+    <getchild2>
+        <parameter type="string" name="id" />
+        <parameter type="string" name="name" />
+        <parameter type="integer" name="idx"      if="${CONTEXT.get('idx')!=null}"/>
+        <define    type="string" name="orderindex" if="${CONTEXT.get('idx')!=null}"> 
+            and orderindex=?
+        </define>
+         <![CDATA[
+           select  id,
+                   name,
+                   parent,
+                   orderindex
+            from mis.v_simle_storage_node          
+            where parent=?
+            and   name=?
+            ${orderindex}
+            order by orderindex
+        ]]>
+    </getchild2>
+    
+    <getchild>
+        <parameter type="string" name="id" />
+        <parameter type="string" name="name" />
+        <parameter type="integer" name="idx" />
+         <![CDATA[
+           select  id,
+                   name,
+                   parent,
+                   orderindex
+            from mis.v_simle_storage_node          
+            where parent=?
+            and   name=?
+            and   orderindex=?
+            
+        ]]>
+    </getchild>
+   
+   
+   
+    <getchildwhithname>
+        <parameter type="string" name="parent" />
+        <parameter type="string" name="name" />
+        select  id,
+        name,
+        parent,
+        orderindex
+        from mis.v_simle_storage_node          
+        where parent=?
+        and   name=?
+        order by orderindex
+    </getchildwhithname>
+   
+    <getchildcount>
+        <parameter type="string" name="id" />
+        <parameter type="string" name="name" />
+        <![CDATA[
+          select count(*) as count from mis.v_simle_storage_node where parent=? and name=?
+        ]]>
+    </getchildcount>
+    
+    <createdocument>       
+        <parameter type="string" name="name" />
+         <![CDATA[
+          insert into mis.v_simle_storage_node(name)
+          values (?)  returning  id
+        ]]>
+    </createdocument>
+    
+    <createnode>       
+        <parameter type="string" name="name" />
+        <parameter type="string" name="parent" />
+         <![CDATA[
+          insert into mis.v_simle_storage_node(name,parent)
+          values (?,?)  returning  id
+        ]]>
+    </createnode>
+    
+    
+    <createnode>       
+        <parameter type="string" name="name" />
+        <parameter type="string" name="parent" />
+         <![CDATA[
+          insert into mis.v_simle_storage_node(name,parent)
+          values (?,?)  returning  id
+        ]]>
+    </createnode>
+    
+    
+    <updatenode>
+        <parameter type="string" name="name" />
+        <parameter type="string" name="id" />
+         <![CDATA[
+          update mis.v_simle_storage_node set
+                name=?
+          where id=?
+          returning  id
+         ]]>
+    </updatenode>    
+        
+    
+    <getnode>
+        <parameter type="string" name="id" />
+        <![CDATA[
+         SELECT id,
+                name,
+                parent,
+                orderindex
+         FROM mis.v_simle_storage_node
+         where id=?
+        ]]>
+    </getnode>
+    
+    
+    <deletenode>
+        <parameter type="string" name="id" />
+        <![CDATA[
+         delete
+         FROM mis.v_simle_storage_node
+         where id=?
+        ]]>
+    </deletenode>
+    
+    <deletenodevalue>
+        <parameter type="string" name="id" />
+        <![CDATA[
+         delete
+         FROM mis.v_simle_storage_node_value
+         where owner=?
+        ]]>
+    </deletenodevalue>
+    
+    
+    <deletechildnodes>
+        <parameter type="string" name="parent" />
+        delete
+        FROM mis.v_simle_storage_node
+        where parent=?
+    </deletechildnodes>
+    
+    <deletechildnodesbyname>
+        <parameter type="string" name="parent" />
+        <parameter type="string" name="name" />
+        delete
+        FROM mis.v_simle_storage_node
+        where parent=? and name= ?
+    </deletechildnodesbyname>
+    
+    <getnodevalue>
+        <parameter type="string" name="id" />
+        <![CDATA[
+        SELECT 
+          owner,
+          type,
+          value          
+        FROM mis.v_simle_storage_node_value
+        where owner=?
+        ]]>
+    </getnodevalue>
+    
+    <createnodevalue>
+        <parameter type="string" name="id" />
+        <parameter type="string" name="type" />
+        <parameter type="string" name="value" />
+        <![CDATA[
+          insert into mis.v_simle_storage_node_value (owner,type,value)
+          values (?,?,?)
+        ]]>
+    </createnodevalue>
+    
+    <existnodevalue>
+        <parameter type="string" name="id" />
+       <![CDATA[
+      select exists(select 1 from mis.v_simle_storage_node_value where owner=?) exist
+       ]]>
+    </existnodevalue>
+       
+       
+           
+    <updatenodevalue>
+        <parameter type="string" name="id" />
+        <parameter type="string" name="type" />
+        <parameter type="string" name="value" />
+        <![CDATA[
+          update mis.v_simle_storage_node_value set
+             type=?,
+             value=?
+          where owner=?   
+        ]]>
+    </updatenodevalue>
+       
+</root>

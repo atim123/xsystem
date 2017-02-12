@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    
+    <readcareplan>
+        <parameter name="id"/>
+              <![CDATA[
+    SELECT A.id, 
+       A.status, 
+       A.periodstart, 
+       A.periodend, 
+       A.modified, 
+       A.patient, 
+       A.participantpractitioner, 
+       A.participantorganization
+  FROM mis.v_clinical_careplan A
+  where id=?
+            ]]> 
+    </readcareplan>
+    
+    <createtype>
+        <parameter type="string" name="id" />
+        insert into mis.v_clinical_careplan_type(type,careplanid)
+        values('КПТ',?)
+    </createtype>
+    
+    <createcareplan>
+        <parameter type="string" name="status"/>
+        <parameter type="string" name="periodstart" />
+        <parameter type="string" name="periodend"/>
+        <parameter type="string" name="modified" />
+        <parameter type="string" name="patient" />
+        <parameter type="string" name="participantpractitioner" />
+        <parameter type="string" name="participantorganization" />
+        <parameter type="string" name="id" value="${PAGE.guid()}"/>
+         <![CDATA[
+             insert into mis.v_clinical_careplan (status,periodstart,periodend,modified,patient,participantpractitioner,participantorganization,id)
+             values (${PAGE.strRepeat("?",",",8)}) returning  id
+        ]]>
+    </createcareplan>
+    
+    <updatecareplan>
+        <parameter type="string" name="status"/>
+        <parameter type="string" name="periodstart" />
+        <parameter type="string" name="periodend" />
+        <parameter type="string" name="modified" />
+        <parameter type="string" name="patient" />
+        <parameter type="string" name="participantpractitioner" />
+        <parameter type="string" name="participantorganization" />
+        <parameter type="string" name="id" />
+         <![CDATA[
+             update mis.v_clinical_careplan set
+                status=?,
+                periodstart=?,
+                periodend=?,
+                modified=?,
+                patient=?,
+                participantpractitioner=?,
+                participantorganization=?
+            where id=?
+            returning  id
+        ]]>
+    </updatecareplan>
+    
+    <delete>
+        <parameter name="id" />
+           <![CDATA[
+             delete from mis.v_clinical_careplan
+             where id=?
+           ]]>
+    </delete>
+    
+    <completed>
+        UPDATE  mis.clinical_careplan set
+        status='completed',
+        periodend=now(),
+        modified=now()
+        where  id in(select careplanid from mis.clinical_careplan_type where type='КПТ');
+    </completed>
+
+    
+    <getactivity>
+        <parameter type="string" name="careplan"/>
+        SELECT id,  status, prohibited, notes, code, lowcritical, 
+        lowborder, hightborder, hightcritical
+        FROM mis.v_clinical_activity_observation_response_temperature
+        where careplan=?
+    </getactivity> 
+
+     <getactivitycount>
+        <parameter type="string" name="careplan"/>
+        SELECT
+           count(*) as count  
+        FROM mis.v_clinical_activity_observation_response_temperature
+        where careplan=?
+    </getactivitycount>
+
+    <createactivity>
+        <parameter name="status" /> 
+        <parameter type="boolean" name="prohibited" /> 
+        <parameter name="careplan"/> 
+        <parameter name="notes"/> 
+        <parameter name="code"/> 
+        <parameter type="bigdecimal" name="lowcritical"/> 
+        <parameter type="bigdecimal" name="lowborder"/> 
+        <parameter type="bigdecimal" name="hightborder"/> 
+        <parameter type="bigdecimal" name="hightcritical"/>
+        <parameter type="string" name="id" value="${PAGE.guid()}"/>
+        insert into mis.v_clinical_activity_observation_response_temperature 
+        (status, prohibited, careplan, notes, code, lowcritical,lowborder, hightborder, hightcritical,id)
+        values (${PAGE.strRepeat("?",",",10)}) returning  id
+    </createactivity>       
+   
+   <updateactivity>
+        <parameter name="status" /> 
+        <parameter type="boolean" name="prohibited" /> 
+        <parameter name="notes"/> 
+        <parameter name="code"/> 
+        <parameter type="bigdecimal" name="lowcritical"/> 
+        <parameter type="bigdecimal" name="lowborder"/> 
+        <parameter type="bigdecimal" name="hightborder"/> 
+        <parameter type="bigdecimal" name="hightcritical"/>
+        <parameter type="string" name="id" />
+        
+        update mis.v_clinical_activity_observation_response_temperature set
+           status=?, 
+           prohibited=?, 
+           notes=?, 
+           code=?, 
+           lowcritical=?,
+           lowborder=?, 
+           hightborder=?,
+           hightcritical=?
+        where id=?
+    </updateactivity>
+
+    <deleteactivity>
+        <parameter type="string" name="id"/>
+        delete mis.v_clinical_activity_observation_response_temperature
+        where id=?
+    </deleteactivity>
+    
+    <search>
+     <parameter name="patient" if="${PAGE.exist('patient')}"/>
+     <parameter name="status" if="${PAGE.exist('status')}"/>
+     <parameter name="date" if="${PAGE.exist('date')}"/>
+     <parameter name="startperiodstart" if="${PAGE.exist('startperiodstart')||PAGE.exist('endperiodstart')}"/>
+     <parameter name="endperiodstart" if="${PAGE.exist('startperiodstart')||PAGE.exist('endperiodstart')}"/> 
+     <parameter name="startperiodend" if="${PAGE.exist('startperiodend')||PAGE.exist('endperiodend')}"/>
+     <parameter name="endperiodend" if="${PAGE.exist('startperiodend')||PAGE.exist('endperiodend')}"/>
+     
+     <define    type="string" name="wpatient" if="${PAGE.exist('patient')}">
+            and A.patient =?
+     </define>
+     <define    type="string" name="wstatus" if="${PAGE.exist('status')}">
+            and A.status =?
+     </define>
+     <define    type="string" name="wperiodstart" if="${PAGE.exist('startperiodstart')||PAGE.exist('endperiodstart')}">
+            and mis.is_date_in_range(A.periodstart,?,?)
+     </define>
+     <define    type="string" name="wperiodend" if="${PAGE.exist('startperiodend')||PAGE.exist('endperiodend')}">
+            and mis.is_date_in_range(A.periodend,?,?)
+     </define>
+     
+     <define    type="string" name="orderBy" if="${PAGE.exist('orderBy')}">
+            order by ${orderBy} 
+     </define>
+    SELECT A.id,
+        A.status,
+        A.periodstart,
+        A.periodend,
+        A.modified,
+        A.patient,  
+        A.participantpractitioner,
+        A.participantorganization
+   FROM mis.v_clinical_careplan A
+   where A.id in (
+     SELECT 
+        B.careplanid
+     FROM mis.v_clinical_careplan_type B
+     where B.type='КПТ'
+    )
+    ${wpatient}
+    ${wstatus}
+    ${wperiodstart}
+    ${wperiodend}
+    ${orderBy}    
+   </search>
+   
+    <count>
+     <parameter name="patient" if="${PAGE.exist('patient')}"/>
+     <parameter name="status" if="${PAGE.exist('status')}"/>
+     <parameter name="date" if="${PAGE.exist('date')}"/>
+     <parameter name="startperiodstart" if="${PAGE.exist('startperiodstart')||PAGE.exist('endperiodstart')}"/>
+     <parameter name="endperiodstart" if="${PAGE.exist('startperiodstart')||PAGE.exist('endperiodstart')}"/> 
+     <parameter name="startperiodend" if="${PAGE.exist('startperiodend')||PAGE.exist('endperiodend')}"/>
+     <parameter name="endperiodend" if="${PAGE.exist('startperiodend')||PAGE.exist('endperiodend')}"/>
+     
+     <define    type="string" name="wpatient" if="${PAGE.exist('patient')}">
+            and A.patient =?
+     </define>
+     <define    type="string" name="wstatus" if="${PAGE.exist('status')}">
+            and A.status =?
+     </define>
+     <define    type="string" name="wperiodstart" if="${PAGE.exist('startperiodstart')||PAGE.exist('endperiodstart')}">
+            and mis.is_date_in_range(A.periodstart,?,?)
+     </define>
+     <define    type="string" name="wperiodend" if="${PAGE.exist('startperiodend')||PAGE.exist('endperiodend')}">
+            and mis.is_date_in_range(A.periodend,?,?)
+     </define>  
+      SELECT
+           count(*) as count 
+      FROM mis.v_clinical_careplan A
+      where A.id in (
+      SELECT 
+        B.careplanid
+     FROM mis.v_clinical_careplan_type B
+     where B.type='КПТ'
+     )
+     ${wpatient}
+     ${wstatus}
+     ${wperiodstart}
+     ${wperiodend}
+    </count>
+    
+      
+</root>

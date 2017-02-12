@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <practitionerlist>
+        <![CDATA[
+            select 
+               p.id as id,
+               p.fname as firstname,
+               p.mname as patname,
+               p.sname as surname,
+               p.gender as gender,
+               p.birthdate as birthdate, 
+               mis.get_practitioner_speciality(p.id) as speciality,
+               p.avatar as avatar,
+               p.organizationid,
+               mis.get_practitioner_organization(p.id) as organization,
+               mis.get_practitioner_chatid(p.id) as chatid
+            from mis.v_administrative_practitioner as p
+        ]]>
+    </practitionerlist>
+    <getpractitioner>
+        <parameter type="string" name="id" />
+      <![CDATA[
+        select  
+          p.id as id,
+          p.fname as firstname,
+          p.mname as patname,
+          p.sname as surname,
+          p.gender as gender,
+          p.birthDate as birthDate,
+          mis.get_practitioner_speciality(p.id) as speciality,
+          p.avatar as avatar,
+          p.organizationid,
+          COALESCE((v_o.name || ' '),'') as organization,
+          mis.get_practitioner_chatid(p.id) as chatid
+        from mis.v_administrative_practitioner as p
+        left outer join mis.v_administrative_organization as v_o on p.organizationid=v_o.id
+        where p.id=?
+        ]]>
+    </getpractitioner>
+    
+    <practitionerchatlist>
+        <parameter type="string" name="id" />
+        <![CDATA[
+            select patientid as id
+            ,COALESCE((data.surname || ' '),'') || COALESCE((data.firstname || ' '),'') || COALESCE(data.patname ,'') as fio
+            ,value as email
+            ,data.avatar
+	        ,roles.rolename
+            ,roles.runame as roleruname
+            from (
+                mis.v_link_patient_practitioner as resultids
+                inner join
+                mis.v_administrative_patient as patients
+                on resultids.patientid = patients.id
+                inner join
+                mis.v_administrative_patient_identifier as identifiers
+                on resultids.patientid = identifiers.patient
+            ) as data
+            inner join
+            users.v_user_roles as roles
+            on roles.login = data.value
+            where practitionerid=?
+            and system='https://hm.med24.ru'
+        ]]>
+    </practitionerchatlist>
+	
+    <getpractitionerbypatient>
+        <parameter type="string" name="id" />
+         <![CDATA[
+            select 
+               P.id as id,
+               P.fname as firstname,
+               P.mname as patname,
+               P.sname as surname,
+               P.gender as gender,
+               P.birthdate as birthdate,
+               P.organizationid as organizationid,
+               mis.get_practitioner_speciality(P.id) as speciality,
+               COALESCE(P.avatar,'') as avatar,
+               mis.get_telecom_practitioner(P.id,'phone') as telecom_phone, mis.get_telecom_practitioner(P.id,'email') as telecom_mail, 
+               mis.get_practitioner_organization(P.id) as organization,
+               mis.get_practitioner_chatid(P.id) as chatid,
+               mis.get_practitioner_login(P.id) as login
+            from mis.v_link_patient_practitioner as Link
+            inner join mis.v_administrative_practitioner as P on P.id = Link.practitionerid
+            where Link.patientid=?
+        ]]>
+    </getpractitionerbypatient>
+    <createpractitioner>       
+        <parameter type="string" name="firstname" />
+        <parameter type="string" name="patname" />
+        <parameter type="string" name="surname" />
+        <parameter type="string" name="gender" />
+        <parameter type="string" name="birthdate" />
+        <![CDATA[
+        insert into mis.v_administrative_practitioner(fname,mname,sname,gender,birthdate)
+        values (?,?,?,?,?)  returning  id
+        ]]>
+    </createpractitioner>
+    
+    <updatepractitioner>       
+        <parameter type="string" name="firstname"/>
+        <parameter type="string" name="patname"/>
+        <parameter type="string" name="surname"/>
+        <parameter type="string" name="gender"/>
+        <parameter type="string" name="birthdate"/>
+        <parameter type="string" name="id"/>
+        <![CDATA[
+        update mis.v_administrative_practitioner set
+            fname=?,
+            mname=?,
+            sname=?,
+            gender=?,
+            birthdate=?
+        where id=?    
+        returning  id
+        ]]>
+    </updatepractitioner>
+    
+    <deletepractitioner>
+        <parameter type="string" name="id" order="1"/>
+       <![CDATA[
+          delete from  mis.v_administrative_practitioner where id=?
+        ]]> 
+    </deletepractitioner>
+    
+    <createlinkorganization>
+        <parameter type="string" name="practitionerid" />
+        <parameter type="string" name="organizationid" />
+        <![CDATA[
+        insert into mis.v_link_practitioner_organization(practitionerid, organizationid)
+        values (?,?)  returning practitionerid
+        ]]>
+    </createlinkorganization>
+    <deletelinkorganization>
+        <parameter type="string" name="practitionerid" />
+        <parameter type="string" name="organizationid" />
+        <![CDATA[
+        delete from mis.v_link_practitioner_organization as v where v.practitionerid=? and v.organizationid=?
+        ]]>
+    </deletelinkorganization>
+    
+    <createavatar>
+        <parameter type="string" name="practitionerid" order="1"/>
+        <parameter type="string" name="fileid" order="1"/>
+        <parameter name="filename" />
+        <parameter name="contenttype" />
+        <parameter name="format" />
+        <parameter name="authorid" type="string"/>
+        <parameter name="subjectid" type="string"/>
+        <parameter name="description" type="string"/>
+        <parameter name="content" type="arraybyte"/>
+
+       <![CDATA[
+          insert into mis.v_avatar_practitioner
+            (practitionerid,fileid,filename,contenttype,format,authorid,subjectid,description,content)
+           values (${PAGE.strRepeat("?",",",9)})
+           returning  fileid as id
+        ]]> 
+    </createavatar>
+    <getavatar>
+        <parameter type="string" name="practitionerid" order="1"/>
+       <![CDATA[
+          select practitionerid,fileid,filename,contenttype,format,authorid,subjectid,description,content
+           from mis.v_avatar_practitioner
+           where practitionerid=?
+        ]]> 
+    </getavatar>
+    
+    <identifierlist>
+        <parameter type="string" name="practitionerid" order="1"/>
+         <![CDATA[
+           select system, value, practitioner
+           from mis.v_administrative_practitioner_identifier
+           where practitioner=?
+        ]]> 
+        
+    </identifierlist>
+    
+    <createidentifier>
+        <parameter type="string" name="system" />
+        <parameter type="string" name="value" />
+        <parameter type="string" name="practitionerid" />
+        <![CDATA[
+        insert into mis.v_administrative_practitioner_identifier(system,value,practitioner)
+        values (?,?,?)  returning value
+        ]]> 
+ 
+    </createidentifier>
+    
+    <deleteidentifier>
+        <parameter type="string" name="system" />
+        <parameter type="string" name="value" />
+        <![CDATA[
+        delete from mis.v_administrative_practitioner_identifier
+        where system = ?
+        and   value  = ?
+        ]]>
+    </deleteidentifier>
+    
+    <readtelecom>
+        <parameter type="string" name="practitionerid" />
+        <![CDATA[
+         select 
+               T.id,
+               T.practitionerid,
+               T.usetype,
+               T.systemtype,
+               T.contactvalue,
+               T.notifycode,
+               T.periodstart,
+               T.periodend
+           from mis.v_administrative_practitioner_telecom T
+        where practitionerid = ?
+        
+        ]]>
+    </readtelecom>   
+    <deletetelecom>
+        <parameter type="string" name="id" />
+        <![CDATA[
+        delete from mis.v_administrative_practitioner_telecom
+        where id = ?
+        
+        ]]>
+    </deletetelecom> 
+    <createtelecom>
+        <parameter type="string" name="practitionerid"/>
+        <parameter type="string" name="usetype"/>
+        <parameter type="string" name="systemtype"/>
+        <parameter type="string" name="contactvalue"/>
+        <parameter type="string" name="periodstart"/>
+        <parameter type="string" name="periodend"/>
+        <![CDATA[
+        insert into mis.v_administrative_practitioner_telecom(practitionerid, usetype, systemtype, contactvalue, periodstart, periodend)
+        values (?,?,?,?,?,?)  returning id
+        ]]>
+    </createtelecom>
+    <gettelecom>
+        <parameter type="string" name="telecomid"/>
+        <![CDATA[
+        select 
+               T.id,
+               T.practitionerid,
+               T.usetype,
+               T.systemtype,
+               T.contactvalue,
+               T.notifycode,
+               T.periodstart,
+               T.periodend
+           from mis.v_administrative_practitioner_telecom T
+        where id = ?
+        ]]>
+    </gettelecom>
+    <updatetelecom>
+        <parameter type="string" name="usetype"/>
+        <parameter type="string" name="systemtype"/>
+        <parameter type="string" name="contactvalue"/>
+        <parameter type="string" name="periodstart"/>
+        <parameter type="string" name="periodend"/>
+        <parameter type="string" name="practitionerid"/>
+        <parameter type="string" name="id"/>
+        <![CDATA[
+        update mis.v_administrative_practitioner_telecom 
+            set usetype=?, systemtype=?, contactvalue=?, periodstart=?, periodend=? 
+            where practitionerid=? and id=?  returning id
+        ]]>
+    </updatetelecom>
+    <readspeciality>
+        <parameter type="string" name="practitionerid" />
+        <![CDATA[
+             select 
+               A.id,
+               A.practitionerid,
+               A.specialityid,
+               A.specname,
+               A.periodstart,
+               A.periodend
+           from mis.v_administrative_practitioner_speciality A
+        where practitionerid = ?
+        ]]>
+    </readspeciality>  
+    <deletespeciality>
+        <parameter type="string" name="id" />
+        <![CDATA[
+        delete from mis.v_administrative_practitioner_speciality
+        where id = ?
+        
+        ]]>
+    </deletespeciality> 
+    <createspeciality>
+        <parameter type="string" name="practitionerid"/>
+        <parameter type="string" name="specialityid"/>
+        <parameter type="string" name="periodstart"/>
+        <parameter type="string" name="periodend"/>
+        <![CDATA[
+        insert into mis.v_administrative_practitioner_speciality(practitionerid, specialityid, periodstart, periodend)
+        values (?,?,?,?)  returning id
+        ]]>
+    </createspeciality>
+    <updatespeciality>
+        <parameter type="string" name="specialityid"/>
+        <parameter type="string" name="periodstart"/>
+        <parameter type="string" name="periodend"/>
+        <parameter type="string" name="practitionerid"/>
+        <parameter type="string" name="id"/>
+        <![CDATA[
+        update mis.v_administrative_practitioner_speciality
+            set specialityid=?, periodstart=?, periodend=? 
+            where practitionerid=? and id=?  returning id
+        ]]>
+    </updatespeciality>
+    
+    <readposition>
+        <parameter type="string" name="practitionerid" />
+        <![CDATA[
+             select 
+               A.id,
+               A.practitionerid,
+               A.positionid,
+               A.name,
+               A.periodstart,
+               A.periodend
+           from mis.v_administrative_practitioner_position A
+        where practitionerid = ?
+        ]]>
+    </readposition>  
+    <deleteposition>
+        <parameter type="string" name="id" />
+        <![CDATA[
+        delete from mis.v_administrative_practitioner_position
+        where id = ?
+        
+        ]]>
+    </deleteposition> 
+    <createposition>
+        <parameter type="string" name="practitionerid"/>
+        <parameter type="string" name="positionid"/>
+        <parameter type="string" name="periodstart"/>
+        <parameter type="string" name="periodend"/>
+        <![CDATA[
+        insert into mis.v_administrative_practitioner_position(practitionerid, positionid, periodstart, periodend)
+        values (?,?,?,?)  returning id
+        ]]>
+    </createposition>
+    <updateposition>
+        <parameter type="string" name="positionid"/>
+        <parameter type="string" name="periodstart"/>
+        <parameter type="string" name="periodend"/>
+        <parameter type="string" name="practitionerid"/>
+        <parameter type="string" name="id"/>
+        <![CDATA[
+        update mis.v_administrative_practitioner_position
+            set positionid=?, periodstart=?, periodend=? 
+            where practitionerid=? and id=?  returning id
+        ]]>
+    </updateposition>
+</root>

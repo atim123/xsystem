@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<page>    
+    <location>file:///SQL/GLOSSARY/glossary.xml</location>
+    <prefix>^\/glossary\/search\/</prefix>
+    <action type="qurey"> 
+        <patern>(.+)</patern>
+        <path>//simple</path>
+        <context>
+            <type>groups[1]</type>
+        </context>    
+    </action>
+    
+</page>
+

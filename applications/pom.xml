@@ -10,5 +10,6 @@
     <packaging>pom</packaging>
   <modules>
     <module>extbpmnconsole</module>
+    <module>extbpmneditor</module>
   </modules>
 </project>

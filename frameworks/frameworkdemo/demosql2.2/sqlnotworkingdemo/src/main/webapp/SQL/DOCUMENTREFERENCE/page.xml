@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<page>
+    <location>file:///SQL/DOCUMENTREFERENCE/documentreference.xml</location>
+    <prefix>^\/documentreference\/</prefix>
+    
+    
+    <action type="dml"> 
+        <patern>upload</patern>
+        <path>//upload</path>
+        <context form="true">
+            <contenttype>params/file/contentType</contenttype>
+            <format>params/file/fileType</format>
+            <filename>params/file/fileName</filename>
+            <content>params/file/data</content>
+        </context> 
+                  
+    </action>
+    
+    <action type="qurey">
+        <patern>search</patern>
+        <path>//search</path>
+        <context>
+            <subjectpatient>json/data/subjectpatient</subjectpatient>
+            <subjectpractitioner>json/data/subjectpractitioner</subjectpractitioner>
+            <subjectdevice>json/data/subjectdevice</subjectdevice>
+            <type>json/data/type</type>
+            <class>json/data/claz</class>
+            <authorpractitioner>json/data/authorpractitioner</authorpractitioner>
+            <authordevice>json/data/authorpractitioner</authordevice>
+            <authorpatient>json/data/authorpatient</authorpatient>
+            <startindexed>json/data/startindexed</startindexed>
+            <endindexed>json/data/endindexed</endindexed>
+            <status>json/data/status</status>
+            <docstatus>json/data/docstatus</docstatus>
+            <description>json/data/description</description>
+            <orderBy>json/orderBy</orderBy>
+        </context>
+    </action>
+    
+    <action type="qurey">
+        <patern>count</patern>
+        <path>//count</path>
+        <context>
+            <subjectpatient>json/data/subjectpatient</subjectpatient>
+            <subjectpractitioner>json/data/subjectpractitioner</subjectpractitioner>
+            <subjectdevice>json/data/subjectdevice</subjectdevice>
+            <type>json/data/type</type>
+            <class>json/data/claz</class>
+            <authorpractitioner>json/data/authorpractitioner</authorpractitioner>
+            <authordevice>json/data/authorpractitioner</authordevice>
+            <authorpatient>json/data/authorpatient</authorpatient>
+            <startindexed>json/data/startindexed</startindexed>
+            <endindexed>json/data/endindexed</endindexed>
+            <status>json/data/status</status>
+            <docstatus>json/data/docstatus</docstatus>
+            <description>json/data/description</description>
+         </context>
+    </action>
+    
+    
+    <action type="qurey"> 
+        <patern>preview\/(.+)</patern>
+        <path>//preview</path>
+        <context>
+            <id>groups[1]</id>
+        </context> 
+        <singlerow>true</singlerow>
+        <file download="false" preview="params/thumb"> 
+            <contenttype>contenttype</contenttype> 
+            <context>context</context> 
+            <format>format</format>
+            <filename>filename</filename>
+        </file>          
+    </action>
+    
+    <action type="qurey"> 
+        <patern>download\/(.+)</patern>
+        <path>//download</path>
+        <context>
+            <id>groups[1]</id>
+        </context> 
+        <singlerow>true</singlerow>
+        <file download="true" > 
+            <contenttype>contenttype</contenttype> 
+            <context>context</context> 
+            <format>format</format>
+            <filename>filename</filename>
+        </file>          
+    </action>
+    
+    <action type="dml">
+        <patern>create</patern>
+        <path>//create</path>
+        <context>
+            <masteridentifier>json/data/masteridentifier</masteridentifier>
+            <subjectpatient>json/data/subjectpatient</subjectpatient>
+            <subjectpractitioner>json/data/subjectpractitioner</subjectpractitioner>
+            <subjectdevice>json/data/subjectdevice</subjectdevice>
+            <type>json/data/type</type>
+            <class>json/data/claz</class>
+            <authorpractitioner>json/data/authorpractitioner</authorpractitioner>
+            <authordevice>json/data/authordevice</authordevice>
+            <authorpatient>json/data/authorpatient</authorpatient>
+            <indexed>json/data/indexed</indexed>
+            <status>json/data/status</status>
+            <docstatus>json/data/docstatus</docstatus>
+            <description>json/data/description</description>
+          </context>
+          <singlerow>true</singlerow>
+    </action>
+    
+    <action type="qurey">
+        <patern>read\/(.+)</patern>
+        <path>//read</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+        <singlerow>true</singlerow>    
+    </action>        
+    
+    <action type="dml">
+        <patern>update\/(.+)</patern>
+        <path>//update</path>
+        <context>
+            <id>groups[1]</id>
+            <masteridentifier>json/data/masteridentifier</masteridentifier>
+            <subjectpatient>json/data/subjectpatient</subjectpatient>
+            <subjectpractitioner>json/data/subjectpractitioner</subjectpractitioner>
+            <subjectdevice>json/data/subjectdevice</subjectdevice>
+            <type>json/data/type</type>
+            <class>json/data/claz</class>
+            <authorpractitioner>json/data/authorpractitioner</authorpractitioner>
+            <authordevice>json/data/authordevice</authordevice>
+            <authorpatient>json/data/authorpatient</authorpatient>
+            <indexed>json/data/indexed</indexed>
+            <status>json/data/status</status>
+            <docstatus>json/data/docstatus</docstatus>
+            <description>json/data/description</description>
+          </context>
+          <singlerow>true</singlerow>
+    </action>
+    
+    <action type="dml">
+        <patern>delete\/(.+)</patern>
+        <path>//delete</path>
+        <context>
+            <id>groups[1]</id>
+        </context>
+    </action>        
+    
+    
+</page>

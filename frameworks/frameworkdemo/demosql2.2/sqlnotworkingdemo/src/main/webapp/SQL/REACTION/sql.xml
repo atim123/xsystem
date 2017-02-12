@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <search>
+      <parameter name="status"  type="arraystring" if="${PAGE.isList(status)}"/> 
+      <parameter name="type"    type="string" if="${PAGE.exist('type')}"/>
+      <parameter name="rangetype" type="string" if="${PAGE.exist('rangetype')}"/>
+      <parameter name="subject" type="string" if="${PAGE.exist('subject')}"/>
+      <parameter name="participant" type="string" if="${PAGE.exist('participant')}"/>
+     <parameter name="startperiodstart" if="${PAGE.exist('startperiodstart')||PAGE.exist('endperiodstart')}"/>
+     <parameter name="endperiodstart" if="${PAGE.exist('startperiodstart')||PAGE.exist('endperiodstart')}"/> 
+     <parameter name="startperiodend" if="${PAGE.exist('startperiodend')||PAGE.exist('endperiodend')}"/>
+     <parameter name="endperiodend" if="${PAGE.exist('startperiodend')||PAGE.exist('endperiodend')}"/>
+      <define    type="string" name="wstatus" if="${PAGE.isList(status)}">
+            and D.status  = any(?)
+      </define>
+      <define    type="string" name="wtype" if="${PAGE.exist('type')}">
+            and D.type  = ?
+      </define>
+      <define    type="string" name="wrangetype" if="${PAGE.exist('rangetype')}">
+            and D.rangetype  = ?
+      </define>
+      <define    type="string" name="wsubject" if="${PAGE.exist('subject')}">
+            and D.subject  = ?
+      </define>
+      <define    type="string" name="wparticipant" if="${PAGE.exist('participant')}">
+            and D.participant  = ?
+      </define>
+      
+      <define    type="string" name="wperiodstart" if="${PAGE.exist('startperiodstart')||PAGE.exist('endperiodstart')}">
+            and mis.is_date_in_range(D.periodstart,?,?)
+      </define>
+      <define    type="string" name="wperiodend" if="${PAGE.exist('startperiodend')||PAGE.exist('endperiodend')}">
+            and mis.is_date_in_range(D.periodend,?,?)
+      </define>
+ <![CDATA[        
+select 
+    D.id,
+    D.status,
+    D.type,
+    D.subject,
+    D.text,
+    D.periodstart,
+    D.periodend,
+    D.reason,
+    D.indication,
+    D.rangetype,
+    D.participant,
+    (select 
+        coalesce(C.fname,'')||' '||coalesce(C.mname,'')||' '||coalesce(C.sname,'') 
+        FROM mis.v_administrative_practitioner C
+        where C.id=D.participant) as fio
+ 
+from  ( 
+select id,
+    status,
+    claz,
+    type,
+    subject,
+    text,
+    periodstart,
+    periodend,
+    reason,
+    indication,
+    rangetype,
+    participant 
+from mis.v_administrative_encounter_response_bp
+union all
+select
+    id,
+    status,
+    claz,
+    type,
+    subject,
+    text,
+    periodstart,
+    periodend,
+    reason,
+    indication,
+    rangetype,
+    participant 
+from mis.v_administrative_encounter_response_glucose) as D
+where 1=1
+${wstatus}
+${wtype}
+${wrangetype}
+${wsubject}
+${wperiodstart}
+${wperiodend}
+${orderBy}
+   ]]>
+        
+    </search>
+    <count>
+      <parameter name="status"  type="arraystring" if="${PAGE.isList(status)}"/> 
+      <parameter name="type"    type="string" if="${PAGE.exist('type')}"/>
+      <parameter name="rangetype" type="string" if="${PAGE.exist('rangetype')}"/>
+      <parameter name="subject" type="string" if="${PAGE.exist('subject')}"/>
+      <parameter name="participant" type="string" if="${PAGE.exist('participant')}"/>
+      <parameter name="startperiodstart" if="${PAGE.exist('startperiodstart')||PAGE.exist('endperiodstart')}"/>
+      <parameter name="endperiodstart" if="${PAGE.exist('startperiodstart')||PAGE.exist('endperiodstart')}"/> 
+     <parameter name="startperiodend" if="${PAGE.exist('startperiodend')||PAGE.exist('endperiodend')}"/>
+     <parameter name="endperiodend" if="${PAGE.exist('startperiodend')||PAGE.exist('endperiodend')}"/>
+      <define    type="string" name="wstatus" if="${PAGE.isList(status)}">
+            and D.status  = any(?)
+      </define>
+      <define    type="string" name="wtype" if="${PAGE.exist('type')}">
+            and D.type  = ?
+      </define>
+      <define    type="string" name="wrangetype" if="${PAGE.exist('rangetype')}">
+            and D.rangetype  = ?
+      </define>
+      <define    type="string" name="wsubject" if="${PAGE.exist('subject')}">
+            and D.subject  = ?
+      </define>
+      <define    type="string" name="wparticipant" if="${PAGE.exist('participant')}">
+            and D.participant  = ?
+      </define>
+            <define    type="string" name="wperiodstart" if="${PAGE.exist('startperiodstart')||PAGE.exist('endperiodstart')}">
+            and mis.is_date_in_range(D.periodstart,?,?)
+      </define>
+      <define    type="string" name="wperiodend" if="${PAGE.exist('startperiodend')||PAGE.exist('endperiodend')}">
+            and mis.is_date_in_range(D.periodend,?,?)
+      </define>
+ <![CDATA[        
+select 
+    count(*) as count    
+from  ( 
+select id,
+    status,
+    claz,
+    type,
+    subject,
+    text,
+    periodstart,
+    periodend,
+    reason,
+    indication,
+    rangetype,
+    participant 
+from mis.v_administrative_encounter_response_bp
+union all
+select
+    id,
+    status,
+    claz,
+    type,
+    subject,
+    text,
+    periodstart,
+    periodend,
+    reason,
+    indication,
+    rangetype,
+    participant 
+from mis.v_administrative_encounter_response_glucose) as D
+where 1=1
+${wstatus}
+${wtype}
+${wrangetype}
+${wsubject}
+${wperiodstart}
+${wperiodend}
+   ]]>
+    </count>
+    
+    <read>
+        <parameter name="id"  type="string" />  
+        <define    type="string" name="type">
+            ${SQL.exec("select type from mis.v_administrative_encounter where id=?",id).type}
+        </define>
+        <define type="string" name="wq" if="${type.trim().equals('12')}">
+  select 
+    A.id,
+    A.status,
+    A.type,
+    A.subject,
+    A.text,
+    A.periodstart,
+    A.periodend,
+    A.reason,
+    A.indication,
+    A.rangetype,
+    A.participant,
+    coalesce(B.firstname,'')||' '||coalesce(B.patname,'')||' '||coalesce(B.surname,'') as patientfio,
+    mis.get_age(B.birthdate) as age,
+    C.dia,
+    C.sys,
+    C.puls,
+    (select 
+        coalesce(C.fname,'')||' '||coalesce(C.mname,'')||' '||coalesce(C.sname,'') 
+        FROM mis.v_administrative_practitioner C
+        where C.id=A.participant) as practitionerfio
+from mis.v_administrative_encounter_response_bp A,
+     mis.v_administrative_patient B,
+     mis.v_clinical_observation_press_bld_and_heart_rate C
+where A.subject=B.id 
+and   A.indication=C.id
+and A.id=?
+        </define>
+        <define type="string" name="wq" if="${type.trim().equals('15')}">
+select 
+    A.id,
+    A.status,
+    A.type,
+    A.subject,
+    A.text,
+    A.periodstart,
+    A.periodend,
+    A.reason,
+    A.indication,
+    A.rangetype,
+    A.participant,
+    coalesce(B.firstname,'')||' '||coalesce(B.patname,'')||' '||coalesce(B.surname,'') as patientfio,
+    mis.get_age(B.birthdate) as age,
+    (select quantity from mis.v_clinical_observation_concentration_glucose C where A.indication=C.id) glucose,
+    (select 
+        coalesce(C.fname,'')||' '||coalesce(C.mname,'')||' '||coalesce(C.sname,'') 
+        FROM mis.v_administrative_practitioner C
+        where C.id=A.participant) as practitionerfio
+  FROM mis.v_administrative_encounter_response_glucose A,
+       mis.v_administrative_patient B
+  where A.subject=B.id
+  and A.id=?
+        </define>    
+        ${wq}
+      </read>
+      
+      <update>
+          <parameter name="status"  type="string" />
+          <parameter name="text"  type="string" />
+          <parameter name="participant"  type="string" />
+          <parameter name="id"  type="string" />
+          <define    type="string" name="type">
+            ${SQL.exec("select type from mis.v_administrative_encounter where id=?",id).type}
+          </define>
+          <define type="string" name="wtable" if="${type.trim().equals('12')}">
+          mis.v_administrative_encounter_response_bp
+          </define>    
+          <define type="string" name="wtable" if="${type.trim().equals('15')}">
+          mis.v_administrative_encounter_response_glucose
+          </define>
+          update ${wtable} set
+              status=?,
+              text=?,
+              participant=?
+          where id=?
+          returning  id as id    
+      </update>
+      
+      <delete>
+          <parameter name="id"  type="string" />
+           delete from mis.v_administrative_encounter
+           where id=?   
+      </delete>
+</root>
+

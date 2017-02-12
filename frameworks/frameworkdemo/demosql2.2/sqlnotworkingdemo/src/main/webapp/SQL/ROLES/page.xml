@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+<page>    
+    <location>file:///SQL/ROLES/roles.xml</location>
+    <prefix>^\/roles\/</prefix>
+    <action type="qurey"> 
+        <patern>list</patern>
+        <path>//roleslist</path>
+    </action>
+  
+    <action type="qurey">
+            <patern>get\/(.+)</patern>
+            <path>//getrole</path>
+            <context>
+                <id>groups[1]</id>
+            </context>
+            <singlerow>true</singlerow>
+    </action>   
+                               
+</page>

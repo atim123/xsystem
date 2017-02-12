@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    
+    <patientlist>
+        <![CDATA[
+            select 
+               A.id as id,
+               A.firstname as firstname,
+               A.patname as patname,
+               A.surname as surname,
+               A.gender as gender,
+               mis.get_age(A.birthdate) as age  
+            from mis.v_administrative_patient A
+        ]]>
+    </patientlist>
+
+    <getpatient>
+        <parameter type="string" name="id" />
+        <![CDATA[
+            select 
+               A.id as id,
+               A.firstname as firstname,
+               A.patname as patname,
+               A.surname as surname,
+               A.gender as gender,
+               birthdate as birthdate  
+            from mis.v_administrative_patient A
+            where A.id=?
+        ]]>
+    </getpatient>
+    
+    <patientchatlist>
+        <parameter type="string" name="id" />
+        <![CDATA[
+            select practitionerid as id
+            ,COALESCE((data.sname || ' '),'') || COALESCE((data.fname || ' '),'') || COALESCE(data.mname ,'') as fio
+            ,value as email
+            ,data.avatar
+            ,roles.rolename
+            ,roles.runame as roleruname
+            from (
+                mis.v_link_patient_practitioner as resultids
+                inner join
+                mis.v_administrative_practitioner as practitioners
+                on resultids.practitionerid = practitioners.id
+                inner join
+                mis.v_administrative_practitioner_identifier as identifiers
+                on resultids.practitionerid = identifiers.practitioner
+            ) as data
+            inner join
+            users.v_user_roles as roles
+            on roles.login = data.value
+            where patientid=?
+            and system='https://hm.med24.ru'
+        ]]>
+    </patientchatlist>
+	
+    <createpatient>       
+        <parameter type="string" name="firstname" order="1"/>
+        <parameter type="string" name="patname" order="1"/>
+        <parameter type="string" name="surname" order="1"/>
+        <parameter type="string" name="gender" order="1"/>
+        <parameter type="string" name="birthdate" order="1"/>
+        <![CDATA[
+        insert into mis.v_administrative_patient(firstname,patname,surname,gender,birthdate)
+        values (?,?,?,?,?)  returning  id
+        ]]>
+    </createpatient>
+    
+    
+    <updatepatient>       
+        <parameter type="string" name="firstname" order="1"/>
+        <parameter type="string" name="patname" order="1"/>
+        <parameter type="string" name="surname" order="1"/>
+        <parameter type="string" name="gender" order="1"/>
+        <parameter type="string" name="birthdate" order="1"/>
+        <parameter type="string" name="id" order="1"/>
+        <![CDATA[
+        update mis.v_administrative_patient set
+            firstname=?,
+            patname=?,
+            surname=?,
+            gender=?,
+            birthdate=?
+        where id=?    
+        returning  id
+        ]]>
+    </updatepatient>
+    
+    <deletepatient>
+        <parameter type="string" name="id" order="1"/>
+       <![CDATA[
+          delete from  mis.v_administrative_patient where id=?
+        ]]> 
+    </deletepatient>
+    
+    <createlinkpractitioner>
+        <parameter type="string" name="patientid" />
+        <parameter type="string" name="practitionerid" />
+        <![CDATA[
+        insert into mis.v_link_patient_practitioner(patientid, practitionerid)
+        values (?,?)  returning patientid
+        ]]>
+    </createlinkpractitioner>
+    
+    <deletelinkpractitioner>
+        <parameter type="string" name="patientid" />
+        <parameter type="string" name="practitionerid" />
+        <![CDATA[
+        delete from mis.v_link_patient_practitioner as v where v.patientid=? and v.practitionerid=?
+        ]]>
+    </deletelinkpractitioner>
+    
+    <createavatar>
+        <parameter type="string" name="patientid" order="1"/>
+        <parameter type="string" name="fileid" order="1"/>
+        <parameter name="filename" />
+        <parameter name="contenttype" />
+        <parameter name="format" />
+        <parameter name="authorid" type="string"/>
+        <parameter name="subjectid" type="string"/>
+        <parameter name="description" type="string"/>
+        <parameter name="content" type="arraybyte"/>
+
+       <![CDATA[
+          insert into mis.v_avatar_patient
+            (patientid,fileid,filename,contenttype,format,authorid,subjectid,description,content)
+           values (${PAGE.strRepeat("?",",",9)})
+           returning  fileid as id
+        ]]> 
+    </createavatar>
+    
+    <upload_file>
+        <parameter name="filename" />
+        <parameter name="contenttype" />
+        <parameter name="format" />
+        <parameter name="authorid" type="string"/>
+        <parameter name="subjectid" type="string"/>
+        <parameter name="description" type="string"/>
+        <parameter name="content" type="arraybyte"/>
+        <parameter name="shortcontent" type="arraybyte"/>
+
+       <![CDATA[
+          insert into mis.v_files
+            (filename,contenttype,format,authorid,subjectid,description,content,contentshort)
+           values (${PAGE.strRepeat("?",",",8)})
+           returning  id
+        ]]> 
+    </upload_file>
+    <link_avatar>
+        <parameter name="fileid" />
+        <parameter name="patientid" />
+        <![CDATA[
+             update mis.v_administrative_patient set avatar=?  where id=? returning id
+        ]]>
+    </link_avatar>
+    
+    <getavatar>
+        <parameter type="string" name="patientid" order="1"/>
+       <![CDATA[
+            select patientid,fileid,filename,contenttype,format,authorid,subjectid,description,content 
+            from mis.v_avatar_patient
+            where patientid=?  
+           
+        ]]> 
+    </getavatar>
+    <identifierlist>
+        <parameter type="string" name="patientid" order="1"/>
+         <![CDATA[
+           select system, value, patient
+           from mis.v_administrative_patient_identifier
+           where patient=?
+        ]]> 
+        
+    </identifierlist>
+    
+    <createidentifier>
+        <parameter type="string" name="system" />
+        <parameter type="string" name="value" />
+        <parameter type="string" name="patientid" />
+        <![CDATA[
+        insert into mis.v_administrative_patient_identifier(system,value,patient)
+        values (?,?,?)  returning value
+        ]]> 
+ 
+    </createidentifier>
+    
+    <deleteidentifier>
+        <parameter type="string" name="system" />
+        <parameter type="string" name="value" />
+        <![CDATA[
+        delete from mis.v_administrative_patient_identifier
+        where system = ?
+        and   value  = ?
+        ]]>
+    </deleteidentifier>
+    
+    <readtelecom>
+        <parameter type="string" name="patientid" />
+        <![CDATA[
+         select 
+               T.id,
+               T.patientid,
+               T.usetype,
+               T.systemtype,
+               T.contactvalue,
+               T.notifycode,
+               T.periodstart,
+               T.periodend
+           from mis.v_administrative_patient_telecom T
+        where patientid = ?
+        
+        ]]>
+    </readtelecom>  
+    
+    <deletetelecom>
+        <parameter type="string" name="id" />
+        <![CDATA[
+        delete from mis.v_administrative_patient_telecom
+        where id = ?
+        
+        ]]>
+    </deletetelecom>  
+    <createtelecom>
+        <parameter type="string" name="patientid"/>
+        <parameter type="string" name="usetype"/>
+        <parameter type="string" name="systemtype"/>
+        <parameter type="string" name="contactvalue"/>
+        <parameter type="string" name="periodstart"/>
+        <parameter type="string" name="periodend"/>
+        <![CDATA[
+        insert into mis.v_administrative_patient_telecom(patientid, usetype, systemtype, contactvalue, periodstart, periodend)
+        values (?,?,?,?,?,?)  returning id
+        ]]>
+    </createtelecom>
+    <gettelecom>
+        <parameter type="string" name="telecomid"/>
+        <![CDATA[
+        select 
+               T.id,
+               T.patientid,
+               T.usetype,
+               T.systemtype,
+               T.contactvalue,
+               T.notifycode,
+               T.periodstart,
+               T.periodend
+           from mis.v_administrative_patient_telecom T
+        where id = ?
+        ]]>
+    </gettelecom>
+    <updatetelecom>
+        <parameter type="string" name="usetype"/>
+        <parameter type="string" name="systemtype"/>
+        <parameter type="string" name="contactvalue"/>
+        <parameter type="string" name="periodstart"/>
+        <parameter type="string" name="periodend"/>
+        <parameter type="string" name="patientid"/>
+        <parameter type="string" name="id"/>
+        <![CDATA[
+        update mis.v_administrative_patient_telecom 
+            set usetype=?, systemtype=?, contactvalue=?, periodstart=?, periodend=? 
+            where patientid=? and id=?  returning id
+        ]]>
+    </updatetelecom>
+    
+    <readaddress>
+        <parameter type="string" name="patientid" />
+        <![CDATA[
+             select 
+               A.id,
+               A.patientid,
+               A.usetype,
+               A.fulltext,
+               A.line,
+               A.city,
+               A.state,
+               A.zip,
+               A.country,
+               A.periodstart,
+               A.periodend
+           from mis.v_administrative_patient_address A
+        where patientid = ?
+        ]]>
+    </readaddress>  
+    <deleteaddress>
+        <parameter type="string" name="id" />
+        <![CDATA[
+            delete from mis.v_administrative_patient_address
+            where id = ?
+        ]]>
+    </deleteaddress>  
+    <createaddress>
+        <parameter type="string" name="patientid" />
+        <parameter type="string" name="usetype" />
+        <parameter type="string" name="fulltext" />
+        <parameter type="string" name="line" />
+        <parameter type="string" name="city" />
+        <parameter type="string" name="state" />
+        <parameter type="string" name="zip" />
+        <parameter type="string" name="country" />
+        <parameter type="string" name="periodstart" />
+        <parameter type="string" name="periodend" />
+        <![CDATA[
+             insert into mis.v_administrative_patient_address(patientid, usetype, fulltext, line, city, state, zip, country, periodstart, periodend)
+             values (?,?,?,?,?,?,?,?,?,?)  returning patientid
+        ]]>
+    </createaddress>
+    <getaddress>
+        <parameter type="string" name="addressid"/>
+        <![CDATA[
+        select 
+               A.id,
+               A.patientid,
+               A.usetype,
+               A.fulltext,
+               A.line,
+               A.city,
+               A.state,
+               A.zip,
+               A.country,
+               A.periodstart,
+               A.periodend
+           from mis.v_administrative_patient_address A
+        where id = ?
+        ]]>
+    </getaddress>
+    <updateaddress>
+        <parameter type="string" name="usetype" />
+        <parameter type="string" name="fulltext" />
+        <parameter type="string" name="line" />
+        <parameter type="string" name="city" />
+        <parameter type="string" name="state" />
+        <parameter type="string" name="zip" />
+        <parameter type="string" name="country" />
+        <parameter type="string" name="periodstart" />
+        <parameter type="string" name="periodend" />
+        <parameter type="string" name="patientid"/>
+        <parameter type="string" name="id"/>
+        <![CDATA[
+        update mis.v_administrative_patient_address
+            set usetype=?, fulltext=?, line=?, city=?, state=?, zip=?, country=?, periodstart=?, periodend=? 
+            where patientid=? and id=? returning id
+        ]]>
+    </updateaddress>
+    
+    
+    <readcontact>
+        <parameter type="string" name="patientid" />
+        <![CDATA[
+        select        
+               v.id,
+               v.patientid,
+               v.relationshipcode,
+               COALESCE(v.relationshipname,'') as relationshipname,
+               v.fullname,
+               v.surname,
+               v.firstname,
+               v.patname,
+               v.usetype,
+               v.periodstart,
+               v.periodend
+           from mis.v_administrative_patient_contact as v
+        where patientid = ?
+        
+        ]]>
+    </readcontact>  
+    <readspeccontact>
+        <parameter type="string" name="contactid" />
+        <![CDATA[
+        select 
+                v.id,
+                v.contactid,
+                v.usetype,
+                v.systemtype,
+                v.contactvalue,
+                v.notifycode,
+                v.periodstart,
+                v.periodend       
+           from mis.v_administrative_patient_contact_spec as v
+        where contactid = ?
+        ]]>
+    </readspeccontact>  
+    
+    <createcontact>
+        <parameter type="string" name="patientid"/>
+        <parameter type="string" name="relationshipcode"/>
+        <parameter type="string" name="surname"/>
+        <parameter type="string" name="firstname"/>
+        <parameter type="string" name="patname"/>
+        <parameter type="string" name="usetype"/>
+        <parameter type="string" name="periodstart"/>
+        <parameter type="string" name="periodend"/>
+        <![CDATA[
+        insert into mis.v_administrative_patient_contact(patientid, relationshipcode, surname, firstname, patname, usetype, periodstart, periodend)
+        values (?,?,?,?,?,?,?,?)  returning id
+        ]]>
+    </createcontact> 
+    <updatecontact>
+        <parameter type="string" name="relationshipcode"/>
+        <parameter type="string" name="surname"/>
+        <parameter type="string" name="firstname"/>
+        <parameter type="string" name="patname"/>
+        <parameter type="string" name="usetype"/>
+        <parameter type="string" name="periodstart"/>
+        <parameter type="string" name="periodend"/>
+        <parameter type="string" name="patientid"/>
+        <parameter type="string" name="contactid"/>
+        <![CDATA[
+        update mis.v_administrative_patient_contact
+            set relationshipcode=?, surname=?, firstname=?, patname=?, usetype=?, periodstart=?, periodend=? 
+            where patientid=? and id=? returning id
+        ]]>
+    </updatecontact> 
+    <deletecontact>
+        <parameter type="string" name="contactid"/>
+        <![CDATA[
+        delete from mis.v_administrative_patient_contact
+            where id=? 
+        ]]>
+    </deletecontact> 
+    <createspeccontact>
+        <parameter type="string" name="contactid"/>
+        <parameter type="string" name="usetype"/>
+        <parameter type="string" name="systemtype"/>
+        <parameter type="string" name="contactvalue"/>
+        <parameter type="string" name="notifycode"/>
+        <parameter type="string" name="periodstart"/>
+        <parameter type="string" name="periodend"/>
+        <![CDATA[
+        insert into mis.v_administrative_patient_contact_spec(contactid, usetype, systemtype, contactvalue, notifycode, periodstart, periodend)
+        values (?,?,?,?,?,?,?)  returning id
+        ]]>
+    </createspeccontact>  
+    <deletespeccontact>
+        <parameter type="string" name="contactid"/>
+        <![CDATA[
+             delete from v_administrative_patient_contact_spec
+             where contactid=?
+        ]]>
+    </deletespeccontact>       
+</root>
+
