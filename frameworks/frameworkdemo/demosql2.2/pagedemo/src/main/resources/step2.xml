@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <destroyallpersons>
+            <sql>
+                delete from sql2demo.persons
+            </sql>
+    </destroyallpersons>
+    
+    <createperson>
+        <parameter type="string" name="firstname"/>
+        <parameter type="string" name="surname"/>
+        <parameter type="string" name="patname"/>
+        <parameter type="string" name="email"/>
+        <parameter type="string" name="phone"/>
+        <sql>
+            insert into sql2demo.persons
+            (firstname,surname,patname,email,phone)
+            values
+            (?,?,?,?,?)
+            returning  id as id
+        </sql>    
+
+    </createperson>
+</root>

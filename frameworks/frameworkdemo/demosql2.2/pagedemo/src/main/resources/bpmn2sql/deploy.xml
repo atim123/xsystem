@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    
+    <updatedefinitions>
+        <parameter type="string" name="name" />
+        <parameter type="string" name="content" />
+        <parameter type="string" name="id" />
+        <sql>
+            update bpmn2.v_definitions set
+            name=?,
+            content=?
+            where id=? 
+        </sql>
+    </updatedefinitions>
+    <insertdefinitions>
+        <parameter type="string" name="name" />
+        <parameter type="string" name="content" />
+        <parameter type="string" name="id" />
+        <sql>
+            insert into bpmn2.v_definitions
+            (name,content,id)
+            values
+            (?,?,?)
+        </sql>
+    </insertdefinitions>    
+        
+    <deletedefinitions>
+         <parameter type="string" name="id" />
+        <sql>
+            delete from bpmn2.v_definitions
+            where id=?
+        </sql>
+    </deletedefinitions>
+    
+    <getprocesesdefinition>
+        <parameter type="string" name="definitionid" />
+        <sql>
+            select id,definitionid,name from bpmn2.v_processdefinition
+            where definitionid=?
+        </sql>
+    </getprocesesdefinition>
+    
+    <deleteprocessdefinition>
+        <parameter type="string" name="id" />
+        <sql>
+            delete from bpmn2.v_processdefinition
+            where id=? 
+        </sql>
+    </deleteprocessdefinition>
+    
+    <createprocessdefinition>
+        <parameter type="string" name="definitionid" />
+        <parameter type="string" name="id" />
+        <parameter type="string" name="name" />
+        <sql>
+            insert into bpmn2.v_processdefinition
+            (definitionid,id,name)
+            values
+            (?,?,?)
+        </sql>
+    </createprocessdefinition>
+    
+    <updateprocessdefinition>
+        <parameter type="string" name="name" />
+        <parameter type="string" name="id" />
+        <sql>
+            update bpmn2.v_processdefinition set
+            name=?
+            where id=?
+        </sql>
+    </updateprocessdefinition>
+    
+    <insertwaitingprocess>
+        <parameter type="string" name="message" />
+        <parameter type="string" name="activity"/>
+        <parameter type="string" name="id" />
+        <sql>
+            insert into bpmn2.v_waitingprocess
+            (mesage,activity,id)
+            values
+            (?,?,?)
+        </sql>
+    </insertwaitingprocess>    
+    
+    <deletewaitingprocess>
+        <parameter type="string" name="id" />
+        <sql>
+            delete from bpmn2.v_waitingprocess
+            where id=?
+        </sql>
+    </deletewaitingprocess>
+    
+    <deletesubscription>
+         <parameter type="string" name="id" />
+         <sql>
+            delete from bpmn2.v_process_subscription
+            where processdefinition=?
+        </sql>
+    </deletesubscription>
+    
+    <createsubscription>
+            <parameter type="string" name="message" />
+            <parameter type="string" name="process" />
+            <parameter type="json" name="value" />
+        
+        <sql>
+           insert into bpmn2.v_process_subscription
+           (message,processdefinition,value)
+            values
+            (?,?,?)  
+        </sql>
+    </createsubscription>
+</root>

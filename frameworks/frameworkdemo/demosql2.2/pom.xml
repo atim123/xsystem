@@ -10,5 +10,6 @@
     <packaging>pom</packaging>
   <modules>
     <module>sqlnotworkingdemo</module>
+    <module>pagedemo</module>
   </modules>
 </project>

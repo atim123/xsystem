@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    
+    <token>
+        <insert>
+            <parameter type="string" name="parent" />
+            <parameter type="boolean" name="isactive" />
+            <parameter type="string" name="process"/>
+            <parameter type="string" name="activity"/>
+            <parameter type="integer" name="loopcounter"/>
+            <parameter type="string" name="id" value="PAGE.guid()"/>
+            <sql>
+                insert into  bpmn2.v_token
+                (parent,isactive,process,activity,loopcounter,id)
+                values  (?,?,?,?,?,?)
+                returning  id as id
+            </sql>
+        </insert>
+        <update>
+            <parameter type="string" name="parent" />
+            <parameter type="boolean" name="isactive" />
+            <parameter type="string" name="process"/>
+            <parameter type="string" name="activity"/>
+            <parameter type="integer" name="loopcounter"/>
+            <parameter type="string" name="id" />
+            <sql>
+                update bpmn2.v_token set
+                parent=?,
+                isactive=?,
+                process=?,
+                activity=?,
+                loopcounter=?
+                where id=?
+                returning  id as id
+            </sql>
+        </update>
+        
+        <destroy>
+            <parameter type="string" name="id"/>
+            <sql>
+                delete from bpmn2.v_token where id=?
+            </sql>
+        </destroy>
+        
+        <get>
+            <parameter type="string" name="id"/>
+            <sql> 
+                select  
+                id,
+                parent,
+                isactive,
+                process,
+                activity,
+                loopcounter,
+                (select processdefinition from bpmn2.v_process A where A.id = process) as processdefinition
+                from bpmn2.v_token
+                where id=?
+            </sql>
+        </get>
+        
+        <task>
+            <parameter type="string" name="id"/>
+            <sql> 
+                select  
+                id,
+                parent,
+                isactive,
+                process,
+                activity,
+                loopcounter,
+                (select processdefinition from bpmn2.v_process A where A.id = process) as processdefinition
+                from bpmn2.v_token
+                where id=(select token from bpmn2.task where id=?)
+            </sql>
+        </task>
+        
+        <process>
+            <parameter type="string" name="id"/>
+            <sql> 
+                select  
+                id,
+                parent,
+                isactive,
+                process,
+                activity,
+                loopcounter,
+                (select processdefinition from bpmn2.v_process A where A.id = process) as processdefinition
+                from bpmn2.v_token
+                where process=?
+            </sql>
+        </process>
+        
+        <childList>
+            <parameter type="string" name="id"/>
+            <sql>
+                select  
+                id,
+                parent,
+                isactive,
+                process,
+                activity,
+                loopcounter,
+                (select processdefinition from bpmn2.v_process A where A.id = process) as processdefinition
+                from bpmn2.v_token
+                where parent=?
+            </sql>
+        </childList>
+    
+  
+    </token>
+    
+    
+    
+    <startProcess>
+        <parameter type="string" name="processdefinition" />
+        <parameter type="string" name="id" value="PAGE.guid()"/>
+        <sql>
+            
+            insert into  bpmn2.v_process (processdefinition,id)
+            values                          (?,?)
+            returning  id as id
+        </sql>
+    </startProcess>
+    
+    <stopProcess>
+        <parameter type="string" name="id" />
+        <sql>    
+            delete FROM bpmn2.v_token
+            where process=?
+        </sql>      
+    </stopProcess>
+    
+    <setProcessContext>
+        <update>
+            <parameter type="json" name="value" />
+            <parameter type="string" name="id" />
+            <parameter type="string" name="name" />
+            <sql>
+                update bpmn2.v_process_context set
+                value=?
+                where id=? and name=? 
+            </sql>
+        </update>
+        <insert>
+            <parameter type="json" name="value" />
+            <parameter type="string" name="id" />
+            <parameter type="string" name="name" />
+            <sql>
+                insert into bpmn2.v_process_context
+                (value,id,name)
+                values
+                (?,?,?)
+            </sql>
+        </insert>
+    </setProcessContext>   
+    
+    <getProcessContext>
+        <parameter type="string" name="id" />
+        <sql>
+            select 
+            name,
+            value
+            from bpmn2.v_process_context
+            where id=?
+        </sql>
+    </getProcessContext>
+    
+    <waitstoken>
+        <insert>
+            <parameter type="string" name="message" />
+            <parameter type="string" name="token" />
+            <sql>
+                insert into bpmn2.v_waitingtoken
+                (mesage,token)
+                values
+                (?,?)
+            </sql>
+        </insert>
+        
+        <delete>
+            <parameter type="string" name="message" />
+            <parameter type="string" name="token" />
+            <sql>
+                delete from bpmn2.v_waitingtoken
+                where mesage=? and token=?
+            </sql>
+        </delete>
+        
+        <get>
+            <parameter type="string" name="message" />
+            <sql>
+                select 
+                B.id as id,
+                B.parent as parent,
+                B.isactive as isactive,
+                B.process  as process,
+                B.activity as activity,
+                B.loopcounter as loopcounter,
+                C.processdefinition as processdefinition,
+                D.value as value
+                from  bpmn2.v_waitingtoken A,
+                bpmn2.v_token        B,
+                bpmn2.v_process      C,
+                bpmn2.v_process_subscription D
+                where A.token =B.id      
+                and   C.id=B.process
+                and   D.message=A.mesage
+                and   D.processdefinition = C.processdefinition
+                and   A.mesage =?
+            </sql>    
+        </get>
+
+        
+    </waitstoken>
+    <getwaitingprocess>
+        <parameter type="string" name="message" />
+        <sql>
+            select
+            id,
+            activity,
+            mesage
+            from bpmn2.v_waitingprocess
+            where mesage=? 
+        </sql>
+    </getwaitingprocess>
+    
+    <datastore>
+        <get>
+            <parameter type="string" name="id" />
+            <sql>
+                SELECT  sql
+                FROM bpmn2.v_datastore
+                where id=?
+            </sql>
+        </get>
+    </datastore>    
+    
+    <createtimer>
+        <parameter type="string" name="token" />
+        <parameter type="TIMESTAMP" name="responsetime" />
+        <parameter type="string" name="targetactivity" />
+        <sql>
+            insert into bpmn2.v_boundarytimerevents
+            (token,responsetime,targetactivity)
+            values
+            (?,?,?)   
+        </sql>
+    </createtimer>
+
+    <gettimer>
+        <parameter type="string" name="id" />
+        <sql>
+            SELECT id, token, created, responsetime, targetactivity
+            FROM bpmn2.v_boundarytimerevents
+            where id=?
+        </sql>
+    </gettimer>
+    
+    <complitetask>
+        <parameter type="string" name="id"/>
+        <sql>
+            update bpmn2.v_task set
+            token=null,
+            finished=now()
+            where id=?
+        </sql>     
+    </complitetask>
+    
+    <gettaskbytoken>
+        <parameter type="string" name="token"/>
+        <sql>
+            select id,
+            process,
+            token,
+            name,
+            formkey
+            from bpmn2.v_task
+            where token=?
+        </sql>
+    </gettaskbytoken>
+    
+</root>

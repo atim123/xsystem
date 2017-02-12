@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    
+    <createtask>
+        <parameter type="string" name="process"/>
+        <parameter type="string" name="token"/>
+        <parameter type="string" name="name"/>
+        <parameter type="string" name="formkey"/>
+        <parameter type="string" name="id" value="PAGE.guid()"/>
+        <sql>
+            insert into bpmn2.v_task(process,token,name,formkey,id)
+            values  (?,?,?,?,?)  
+            returning  id as id
+        </sql>
+            
+    </createtask>
+
+    <gettaskbytoken>
+        <parameter type="string" name="token"/>
+        <sql>
+            select id,
+            process,
+            token,
+            name,
+            formkey
+            from bpmn2.v_task
+            where token=?
+        </sql>
+    </gettaskbytoken>        
+      
+    <complitetask>
+        <parameter type="string" name="id"/>
+        <sql>
+            update bpmn2.v_task set
+            token=null,
+            finished=now()
+            where id=?
+        </sql>     
+    </complitetask>            
+                                    
+    <creategroup>
+        <parameter type="string" name="name"/>
+        <parameter type="string" name="id"/>
+        <sql>
+            insert into bpmn2.v_task_group(name,id)
+            values  (?,?)  
+        </sql>
+    </creategroup>
+    <createuser>
+        <parameter type="string" name="name"/>
+        <parameter type="string" name="id"/>
+        <sql>
+            insert into bpmn2.v_task_user(name,id)
+            values  (?,?)  
+        </sql>
+    </createuser>
+    
+</root>

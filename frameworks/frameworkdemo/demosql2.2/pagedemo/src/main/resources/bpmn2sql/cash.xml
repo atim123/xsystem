@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <loadDefinitions>
+        <parameter type="string" name="id" />
+        <sql>
+            SELECT 
+            id,
+            content
+            FROM bpmn2.v_definitions
+            where id=? 
+        </sql>
+    </loadDefinitions>
+    
+    <getProcessDefinitionId>
+        <parameter type="string" name="id" />
+        <sql>
+            SELECT 
+            definitionid
+            FROM bpmn2.v_processdefinition
+            where id=? 
+        </sql>
+    </getProcessDefinitionId>
+    
+    <timerlist>
+        <sql>
+        <![CDATA[
+         SELECT id
+         FROM bpmn2.v_boundarytimerevents
+         where  responsetime<now()
+       ]]>
+       </sql>
+    </timerlist>
+</root>
