@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2017 Andrey Timofeev.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+
+<root>
+        <list>
+        <sql> 
+         select 
+            id             as "id",
+            email_address  as "email_address",
+            first_name     as "first_name",
+            last_name      as "last_name",
+            description    as "description"
+         from sql2demo.contacts 
+        </sql>
+    </list>
+    
+    <get>
+       <parameter type="string" name="id"/>
+       <sql>
+            select 
+            id             as "id",
+            email_address  as "email_address",
+            first_name     as "first_name",
+            last_name      as "last_name",
+            description    as "description"
+         from sql2demo.contacts
+         where id=?  
+       </sql> 
+    </get>
+    
+    <create>
+        <parameter type="string" name="email_address" />
+        <parameter type="string" name="first_name" />
+        <parameter type="string" name="last_name" />
+        <parameter type="string" name="description" />
+        <parameter type="string" name="id" value="PAGE.guid()"/>
+        
+        <sql> 
+         <![CDATA[  
+            insert into sql2demo.contacts
+            (email_address,first_name,last_name,description,id)
+            values
+            (?,?,?,?,?)
+            returning  id as id
+          
+         ]]>
+         
+        </sql>
+    </create>
+    
+    <update>
+        <parameter type="string" name="email_address" />
+        <parameter type="string" name="first_name" />
+        <parameter type="string" name="last_name" />
+        <parameter type="string" name="description" />
+        <parameter type="string" name="id"/>
+        
+        <sql>
+        <![CDATA[  
+            update sql2demo.contacts set
+               email_address =?,
+               first_name    =?,
+               last_name     =?,
+               description   =?
+            where id=?
+            returning  id into ?;
+          
+         ]]>    
+        </sql>
+    </update>
+    
+    <delete>
+        <parameter type="string" name="id"/>
+        <sql>
+            delete from sql2demo.contacts
+            where id=?
+        </sql>  
+    </delete>
+</root>

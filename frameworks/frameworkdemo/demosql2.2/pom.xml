@@ -11,5 +11,6 @@
   <modules>
     <module>sqlnotworkingdemo</module>
     <module>pagedemo</module>
+    <module>bb_contacts</module>
   </modules>
 </project>
