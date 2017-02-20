@@ -5,7 +5,6 @@
 <servlet>
         <servlet-name>PageServlet</servlet-name>
         <servlet-class>org.xsystem.sql2.http.PageServlet2</servlet-class>
-        <!--servlet-class>org.xsystem.sqlhttp.PageServlet</servlet-class-->
         <init-param>
             <param-name>repository</param-name>
             <param-value>/SQL/main.xml</param-value>
